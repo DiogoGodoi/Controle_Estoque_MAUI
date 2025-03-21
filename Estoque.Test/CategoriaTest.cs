@@ -32,7 +32,7 @@ namespace Estoque.Domain.Test
             try
             {
                 usuario = new Usuario(email, senha);
-                categoria = new Categoria(usuario, nomeCategoria);
+                categoria = new Categoria(usuario.id, nomeCategoria);
                 resultado = true;
 
             }

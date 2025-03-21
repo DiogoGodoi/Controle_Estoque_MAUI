@@ -5,7 +5,7 @@
         public Guid id { get; private set; }
         public string descricao { get; private set; }
         public string unidade { get; private set; }
-        public double quantidade { get; private set; }
+        public int quantidade { get; private set; }
         public decimal preco1 { get; private set; }
         public decimal preco2 { get; private set; }
         public decimal preco3 { get; private set; }
@@ -16,7 +16,7 @@
         {
 
         }
-        public Produto(string descricao, string unidade, double quantidade, decimal preco1, decimal preco2, decimal preco3)
+        public Produto(string descricao, string unidade, int quantidade, decimal preco1, decimal preco2, decimal preco3)
         {
             SetId();
             SetDescricao(descricao);
@@ -27,7 +27,7 @@
             SetPreco3(preco3);
             SetPrecoMedio();
         }
-        public Produto(Usuario usuario, Categoria categoria, string descricao, string unidade, double quantidade, decimal preco1, decimal preco2, decimal preco3)
+        public Produto(Usuario usuario, Categoria categoria, string descricao, string unidade, int quantidade, decimal preco1, decimal preco2, decimal preco3)
             : this(descricao, unidade, quantidade, preco1, preco2, preco3)
         {
             AssociarUsuario(usuario);
@@ -47,7 +47,7 @@
             {
                 throw new ArgumentException("A descrição é muito curta");
             }
-            else if (descricao.Length >= 40)
+            else if (descricao.Length > 100)
             {
                 throw new ArgumentException("A descrição é muito longa");
             }
@@ -62,7 +62,11 @@
             {
                 throw new ArgumentException("Por favor informe o tipo unitário");
             }
-            else if (unidade.Length >= 3)
+            else if (unidade.Length < 2)
+            {
+                throw new ArgumentException("A sigla do tipo unitário deve ter no minimo 2 caracteres");
+            }
+            else if (unidade.Length > 3)
             {
                 throw new ArgumentException("A sigla do tipo unitário não pode ser superior maior que 3 caracteres");
             }
@@ -71,7 +75,7 @@
                 this.unidade = unidade.ToUpper();
             }
         }
-        private void SetQuantidade(double quantidade)
+        private void SetQuantidade(int quantidade)
         {
             var hoje = DateTime.UtcNow;
 

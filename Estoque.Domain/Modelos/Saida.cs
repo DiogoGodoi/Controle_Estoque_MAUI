@@ -4,19 +4,19 @@
     {
         public Guid id { get; private set; }
         public DateTime dataSaida { get; private set; }
-        public double quantidade { get; private set; }
+        public int quantidade { get; private set; }
         public Guid fk_Usuario_id { get; private set; }
         public Saida()
         {
 
         }
-        public Saida(DateTime dataSaida, double quantidade)
+        public Saida(DateTime dataSaida, int quantidade)
         {
             SetId();
             SetDataSaida(dataSaida);
             SetQuantidade(quantidade);
         }
-        public Saida(DateTime dataSaida, double quantidade, Usuario usuario) : this(dataSaida, quantidade)
+        public Saida(DateTime dataSaida, int quantidade, Usuario usuario) : this(dataSaida, quantidade)
         {
             AssociarUsuario(usuario);
         }
@@ -37,7 +37,7 @@
                 this.dataSaida = dataSaida;
             }
         }
-        private void SetQuantidade(double quantidade)
+        private void SetQuantidade(int quantidade)
         {
             var hoje = DateTime.UtcNow;
 

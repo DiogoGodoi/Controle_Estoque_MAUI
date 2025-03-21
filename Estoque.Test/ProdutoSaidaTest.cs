@@ -23,8 +23,8 @@ namespace Estoque.Domain.Test
 
         [Test]
         [TestCase("diogo@localhost.com.br", "ashby@1234", "2025-03-19 10:00:00", 150, "Eletronico", "Iphone 13", "un", 5, 5000.00, 5500.00, 7000.00)]
-        public void TestarProdutoSaida(string email, string senha, DateTime dataEntrada, double quantidadeEntrada,
-            string nomeCategoria, string descricao, string unidade, double quantidadeProduto, decimal preco1, decimal preco2, decimal preco3)
+        public void TestarProdutoSaida(string email, string senha, DateTime dataEntrada, int quantidadeEntrada,
+            string nomeCategoria, string descricao, string unidade, int quantidadeProduto, decimal preco1, decimal preco2, decimal preco3)
         {
             //Arrange
             bool resultado;

@@ -7,18 +7,18 @@
         public Guid fk_Usuario_id { get; private set; }
         public Categoria()
         {
-            
+
         }
         public Categoria(string nome)
         {
             SetId();
             SetNome(nome);
         }
-        public Categoria(Usuario usuario, string nome): this(nome)
+        public Categoria(Guid fkUsuario, string nome) : this(nome)
         {
             SetId();
             SetNome(nome);
-            AssociarUsuario(usuario);
+            AssociarUsuario(fkUsuario);
         }
         private void SetId()
         {
@@ -34,6 +34,10 @@
             {
                 throw new ArgumentException("Nome da categoria muito curta");
             }
+            else if (nome.Length > 30)
+            {
+                throw new ArgumentException("Nome da categoria muito longa");
+            }
             else if (!nome.All(char.IsLetter))
             {
                 throw new ArgumentException("O nome da categoria não pode conter números");
@@ -43,19 +47,15 @@
                 this.nome = nome;
             }
         }
-        private void AssociarUsuario(Usuario usuario)
+        private void AssociarUsuario(Guid fkUsuario)
         {
-            if (usuario == null)
+            if (string.IsNullOrEmpty(fkUsuario.ToString()))
             {
                 throw new ArgumentNullException("Usuário não localizado");
             }
-            else if (string.IsNullOrEmpty(usuario.id.ToString()))
-            {
-                throw new ArgumentNullException("Usuário sem id");
-            }
             else
             {
-                fk_Usuario_id = usuario.id;
+                fk_Usuario_id = fkUsuario;
             }
         }
     }

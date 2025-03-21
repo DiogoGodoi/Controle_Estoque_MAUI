@@ -4,19 +4,23 @@
     {
         public Guid id { get; private set; }
         public DateTime dataEntrada { get; private set; }
-        public double quantidade { get; private set; }
+        public int quantidade { get; private set; }
         public Guid fk_Usuario_id { get; private set; }
         public Entrada()
         {
 
         }
-        public Entrada(DateTime dataEntrada, double quantidade)
+        public Entrada(Guid id)
+        {
+            this.id = id;
+        }
+        public Entrada(DateTime dataEntrada, int quantidade)
         {
             SetId();
             SetDataSaida(dataEntrada);
             SetQuantidade(quantidade);
         }
-        public Entrada(DateTime dataEntrada, double quantidade, Usuario usuario):this(dataEntrada, quantidade)
+        public Entrada(DateTime dataEntrada, int quantidade, Usuario usuario):this(dataEntrada, quantidade)
         {
             AssociarUsuario(usuario);
         }
@@ -37,7 +41,7 @@
                 this.dataEntrada = dataEntrada;
             }
         }
-        private void SetQuantidade(double quantidade)
+        private void SetQuantidade(int quantidade)
         {
             var hoje = DateTime.UtcNow;
 

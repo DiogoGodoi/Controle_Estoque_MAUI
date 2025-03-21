@@ -1,13 +1,12 @@
-﻿using Estoque.Domain.Modelos;
-using Estoque.Application.Repository.Abstraction;
-using Estoque.Data.Context;
-using Estoque.Application.Repository.RepositoryUsuario;
+﻿using AutoMapper;
 using Estoque.Application.Interfaces;
+using Estoque.Application.Repository.Abstraction;
+using Estoque.Application.Repository.RepositoryUsuario;
+using Estoque.Data.Context;
+using Estoque.Data.Mapper;
 using Estoque.Data.Repository;
+using Estoque.Domain.Modelos;
 using Microsoft.EntityFrameworkCore;
-using AutoMapper;
-using Estoque.Data.Mapping;
-using Estoque.Data.DTO;
 
 namespace Estoque.Application.Test.UsuarioTest
 {
@@ -46,12 +45,9 @@ namespace Estoque.Application.Test.UsuarioTest
         }
 
         [Test]
-        [TestCase("diogo@localhost.com.br", "ashby@123", "diogo@localhost.com.br", "ashby@123")]
-        [TestCase("diogo@localhost.com.br", "ashby@123", "rafael@localhost.com.br", "123@Ashby")]
-        [TestCase("diogo@localhost.com.br", "123", "rafael@localhost.com.br", "123")]
-        [TestCase("", "ashby@123", "", "123@Ashby")]
-        [TestCase("", "", "", "")]
-        public async Task CadastrarNaBase(string email, string senha, string email2, string senha2)
+        [TestCase("rafael@localhost.com.br", "123ashby")]
+        [TestCase("diogo@localhost.com.br", "ashby@123")]
+        public async Task CadastrarNaBase(string email, string senha)
         {
             //Arrange
             bool resultado;
@@ -60,10 +56,9 @@ namespace Estoque.Application.Test.UsuarioTest
             //Act
             try
             {
+                //Cadastrar
                 usuario = new Usuario(email, senha);
-                Usuario usuario2 = new Usuario(email2, senha2);
                 await cadastrarUsuario.ExecutarCadastro(usuario);
-                await cadastrarUsuario.ExecutarCadastro(usuario2);
                 resultado = true;
             }
             catch (Exception ex)
@@ -84,13 +79,10 @@ namespace Estoque.Application.Test.UsuarioTest
         }
 
         [Test]
-        [TestCase("diogo@localhost.com.br", "ashby@123", "diogo@localhost.com.br", "rafael@localhost.com.br", "123@Ashby")]
-        [TestCase("diogo@localhost.com.br", "ashby@123", "romualdo@localhost.com.br", "rafael@localhost.com.br", "123@Ashby")]
-        [TestCase("diogo@localhost.com.br", "123", "diogo@localhost.com.br", "rafael@localhost.com.br", "123")]
-        [TestCase("diogo@localhost.com.br", "ashby@123", "", "rafael@localhost.com.br", "ashby@123")]
-        [TestCase("", "ashby@123", "diogo@localhost.com.br", "", "123@Ashby")]
-        [TestCase("", "", "", "", "")]
-        public async Task AtualizarNaBase(string email, string senha, string chave, string email2, string senha2)
+        [TestCase("diogo@localhost.com.br", "rafael@localhost.com.br", "123Ashby")]
+        [TestCase("diogo@localhost.com.br", "moises@localhost.com.br", "123Ashby")]
+        [TestCase("rafael@localhost.com.br", "moises@localhost.com.br", "123Ashby")]
+        public async Task AtualizarNaBase(string email, string novoEmail, string novaSenha)
         {
             //Arrange
             bool resultado;
@@ -100,12 +92,10 @@ namespace Estoque.Application.Test.UsuarioTest
             try
             {
                 //Cadastrar
-                usuario = new Usuario(email, senha);
-                Usuario usuario2 = new Usuario(email2, senha2);
-                await cadastrarUsuario.ExecutarCadastro(usuario);
+                usuario = new Usuario(novoEmail, novaSenha);
 
                 //Atualizar
-                await atualizarUsuario.ExecutarAtualizacao(chave, usuario2);
+                await atualizarUsuario.ExecutarAtualizacao(email, usuario);
 
                 resultado = true;
             }
@@ -127,12 +117,10 @@ namespace Estoque.Application.Test.UsuarioTest
         }
 
         [Test]
-        [TestCase("diogo@localhost.com.br", "ashby@123")]
-        [TestCase("emailteste@gmail.com", "ashby@123")]
-        [TestCase("diogo@localhost.com.br", "1234")]
-        [TestCase("emailteste@gmail.com", "")]
-        [TestCase("", "")]
-        public async Task DeletarNaBase(string email, string senha)
+        [TestCase("diogo@localhost.com.br")]
+        [TestCase("moises@localhost.com.br")]
+        [TestCase("emailteste@gmail.com")]
+        public async Task DeletarNaBase(string email)
         {
             //Arrange
             bool resultado;
@@ -141,12 +129,8 @@ namespace Estoque.Application.Test.UsuarioTest
             //Act
             try
             {
-                //Cadastrar
-                usuario = new Usuario(email, senha);
-                await cadastrarUsuario.ExecutarCadastro(usuario);
-
                 //Deletar
-                await deletarUsuario.ExecutarDeletar("diogo@localhost.com.br");
+                await deletarUsuario.ExecutarDeletar(email);
 
                 resultado = true;
             }
@@ -177,15 +161,6 @@ namespace Estoque.Application.Test.UsuarioTest
             //Act
             try
             {
-                //Cadastrar
-                Usuario usuario1 = new Usuario("diogo@localhost.com.br", "ashby@123");
-                Usuario usuario2 = new Usuario("rafael@localhost.com.br", "ashby@123");
-                Usuario usuario3 = new Usuario("priscila@localhost.com.br", "ashby@123");
-
-                await cadastrarUsuario.ExecutarCadastro(usuario1);
-                await cadastrarUsuario.ExecutarCadastro(usuario2);
-                await cadastrarUsuario.ExecutarCadastro(usuario3);
-
                 //Listar
                 var dados = await listarUsuario.ExecutarListagem();
 
@@ -209,13 +184,9 @@ namespace Estoque.Application.Test.UsuarioTest
         }
 
         [Test]
-        [TestCase("diogo@localhost.com.br", "Ashby@123")]
-        [TestCase("rafael@localhost.com.br", "Ashby@123")]
-        [TestCase("diogo@localhost.com.br", "123")]
-        [TestCase("diogo@localhost.com.br", "")]
-        [TestCase("", "Ashby@123")]
-        [TestCase("", "")]
-        public async Task BuscarNaBase(string email, string senha)
+        [TestCase("diogo@localhost.com.br")]
+        [TestCase("rafael@localhost.com.br")]
+        public async Task BuscarNaBase(string email)
         {
             //Arrange
             bool resultado;
@@ -224,13 +195,8 @@ namespace Estoque.Application.Test.UsuarioTest
             //Act
             try
             {
-                //Cadastrar
-                usuario = new Usuario(email, senha);
-
-                await cadastrarUsuario.ExecutarCadastro(usuario);
-
                 //Buscar
-                var dado1 =  await buscarUsuario.ExecutarBusca("diogo@localhost.com.br");
+                var dado1 = await buscarUsuario.ExecutarBusca(email);
 
                 resultado = true;
             }

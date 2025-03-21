@@ -5,7 +5,7 @@ using Estoque.Data.Repository;
 using Estoque.Domain.Modelos;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Estoque.Dependencies.UsuarioDependencia
+namespace Estoque.Dependencies.Repositories.UsuarioDependencia
 {
     public static class UsuarioDep
     {

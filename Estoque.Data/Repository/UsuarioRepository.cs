@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Estoque.Application.Interfaces;
 using Estoque.Data.Context;
-using Estoque.Data.DTO;
+using Estoque.Data.ModelosEF;
 using Estoque.Domain.Modelos;
 using Microsoft.EntityFrameworkCore;
 
@@ -25,7 +25,7 @@ namespace Estoque.Data.Repository
 
                 var usuarioEf = await estoqueContext.usuarios.FirstOrDefaultAsync(x => x.email == email);
 
-                if(usuarioEf == null)
+                if (usuarioEf == null)
                     throw new Exception("Usuário não encontrado");
 
                 usuarioEf.email = usuariosMapping.email;
@@ -34,6 +34,10 @@ namespace Estoque.Data.Repository
                 estoqueContext.usuarios.Update(usuarioEf);
 
                 await estoqueContext.SaveChangesAsync();
+            }
+            catch (DbUpdateException ex)
+            {
+                throw new DbUpdateException("Já existe um usuário com esse e-mail");
             }
             catch (Exception ex)
             {
@@ -69,7 +73,7 @@ namespace Estoque.Data.Repository
                 if (usuariosEf != null)
                     throw new Exception("Usuário já cadastrado");
 
-                var usuario = mapper.Map<UsuarioEF>(objeto); 
+                var usuario = mapper.Map<UsuarioEF>(objeto);
 
                 estoqueContext.usuarios.Add(usuario);
 
@@ -93,6 +97,10 @@ namespace Estoque.Data.Repository
                 estoqueContext.usuarios.Remove(usuarioEf);
 
                 await estoqueContext.SaveChangesAsync();
+            }
+            catch (DbUpdateException ex)
+            {
+                throw new DbUpdateException("O registro possuí referências");
             }
             catch (Exception ex)
             {

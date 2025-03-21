@@ -4,7 +4,7 @@ using Estoque.Domain.Modelos;
 
 namespace Estoque.Application.Repository.RepositoryUsuario
 {
-    public class AtualizarUsuario: IAtualizar<Usuario>
+    public class AtualizarUsuario : IAtualizar<Usuario>
     {
         private readonly IRepository<Usuario> repository;
         public AtualizarUsuario(IRepository<Usuario> repository)

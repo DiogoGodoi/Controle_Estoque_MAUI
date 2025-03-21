@@ -2,6 +2,6 @@
 {
     public interface IDeletar<T>
     {
-        Task ExecutarDeletar(string chave);
+        Task ExecutarDeletar(string nome);
     }
 }

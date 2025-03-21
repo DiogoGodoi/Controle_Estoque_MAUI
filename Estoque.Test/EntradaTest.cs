@@ -21,7 +21,7 @@ namespace Estoque.Domain.Test
         [TestCase("diogo@localhost.com.br", "ashby@1234", "2025-03-19 10:00:00", 0)]
         [TestCase("diogo@localhost.com.br", "", "2025-03-19 10:00:00", 150)]
         [TestCase("", "ashby@1234", "2025-03-19 10:00:00", 150)]
-        public void TestarSaida(string email, string senha, DateTime dataEntrada, double quantidade)
+        public void TestarSaida(string email, string senha, DateTime dataEntrada, int quantidade)
         {
             //Arrange
             bool resultado;

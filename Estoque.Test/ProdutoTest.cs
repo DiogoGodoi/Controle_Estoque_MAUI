@@ -33,7 +33,7 @@ namespace Estoque.Domain.Test
         [TestCase("diogo@localhost.com.br", "ashby@1234", "Eletronico", "Iphone 13", "un", 5, 5000.00, -5500.00, 7000.00)]
         [TestCase("diogo@localhost.com.br", "ashby@1234", "Eletronico", "Iphone 13", "un", 5, 5000.00, 5500.00,-7000.00)]
         public void TestarProduto(string email, string senha, string nomeCategoria, string descricao, 
-            string unidade, double quantidade, decimal preco1, decimal preco2, decimal preco3)
+            string unidade, int quantidade, decimal preco1, decimal preco2, decimal preco3)
         {
             //Arrange
             bool resultado;
@@ -43,7 +43,7 @@ namespace Estoque.Domain.Test
             try
             {
                 usuario = new Usuario(email, senha);
-                categoria = new Categoria(usuario, nomeCategoria);
+                categoria = new Categoria(usuario.id, nomeCategoria);
                 produto = new Produto(usuario, categoria, descricao, unidade, quantidade, preco1, preco2, preco3);
                 resultado = true;
 
