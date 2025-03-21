@@ -17,139 +17,115 @@ namespace Estoque.Data.Repository
             this.mapper = mapper;
             this.estoqueContext = estoqueContext;
         }
-
-        public Task Atualizar(string chave, Produto objeto)
+        public async Task Atualizar(string id, Produto objeto)
         {
-            throw new NotImplementedException();
-        }
+            try
+            {
+                var ProdutoMapping = mapper.Map<ProdutoEF>(objeto);
 
-        public Task<Produto> Buscar(string chave)
+                var ProdutoEF = await estoqueContext.produtos.FirstOrDefaultAsync(x => x.id == Guid.Parse(id));
+
+                if (ProdutoEF == null)
+                    throw new Exception("Produto não encontrado");
+
+                ProdutoEF.descricao = ProdutoMapping.descricao;
+                ProdutoEF.unidade = ProdutoMapping.unidade;
+                ProdutoEF.quantidade = ProdutoMapping.quantidade;
+                ProdutoEF.preco1 = ProdutoMapping.preco1;
+                ProdutoEF.preco2 = ProdutoMapping.preco2;
+                ProdutoEF.preco3 = ProdutoMapping.preco3;
+                ProdutoEF.precoMedio = ProdutoMapping.precoMedio;
+                ProdutoEF.fk_Categoria_id = ProdutoMapping.fk_Categoria_id;
+                ProdutoEF.fk_Usuario_id = ProdutoMapping.fk_Usuario_id;
+
+                estoqueContext.produtos.Update(ProdutoEF);
+
+                await estoqueContext.SaveChangesAsync();
+
+            }
+            catch (DbUpdateException ex)
+            {
+                throw new Exception("Já existe uma Produto com esse nome");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+        public async Task<Produto> Buscar(string descricao)
         {
-            throw new NotImplementedException();
-        }
+            try
+            {
+                var Produto = await estoqueContext.produtos.FirstOrDefaultAsync(x => x.descricao == descricao);
 
-        public Task Cadastrar(Produto objeto)
+                if (Produto == null)
+                    throw new Exception("Produto não localizado");
+
+                var usuarioMappingDomain = mapper.Map<Produto>(Produto);
+
+                return usuarioMappingDomain;
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+        public async Task Cadastrar(Produto objeto)
         {
-            throw new NotImplementedException();
-        }
+            try
+            {
+                var ProdutoEf = await estoqueContext.produtos.FirstOrDefaultAsync(x => x.descricao == objeto.descricao);
 
-        public Task Deletar(string chave)
+                if (ProdutoEf != null)
+                    throw new Exception("Produto já cadastrado");
+
+                var Produto = mapper.Map<ProdutoEF>(objeto);
+
+                Produto.usuario = new UsuarioEF { id = Guid.Empty, email = "", senha = "" };
+
+                estoqueContext.produtos.Add(Produto);
+
+                await estoqueContext.SaveChangesAsync();
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+        public async Task Deletar(string id)
         {
-            throw new NotImplementedException();
-        }
+            try
+            {
+                var ProdutoEF = await estoqueContext.produtos.FirstOrDefaultAsync(x => x.id == Guid.Parse(id));
 
-        public Task<IEnumerable<Produto>> Listar()
+                if (ProdutoEF == null)
+                    throw new Exception("Produto não encontrado");
+
+                estoqueContext.produtos.Remove(ProdutoEF);
+
+                await estoqueContext.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+        public async Task<IEnumerable<Produto>> Listar()
         {
-            throw new NotImplementedException();
+            try
+            {
+                var usuarios = await estoqueContext.produtos.ToListAsync();
+
+                var usuarioMappingDomain = mapper.Map<IEnumerable<Produto>>(usuarios);
+
+                return usuarioMappingDomain.ToList();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
-        //public async Task Atualizar(string id, Produto objeto)
-        //{
-        //    try
-        //    {
-        //        var ProdutoMapping = mapper.Map<ProdutoEF>(objeto);
-
-        //        var ProdutoEF = await estoqueContext.produtos.FirstOrDefaultAsync(x => x.id == Guid.Parse(id));
-
-        //        if (ProdutoEF == null)
-        //            throw new Exception("Produto não encontrado");
-
-        //        ProdutoEF.descricao = ProdutoMapping.descricao;
-        //        ProdutoEF.unidade = ProdutoMapping.unidade;
-        //        ProdutoEF.quantidade = ProdutoMapping.quantidade;
-        //        ProdutoEF.preco1 = ProdutoMapping.preco1;
-        //        ProdutoEF.preco2 = ProdutoMapping.preco2;
-        //        ProdutoEF.preco3 = ProdutoMapping.preco3;
-        //        ProdutoEF.precoMedio = ProdutoMapping.precoMedio;
-        //        ProdutoEF.fk_Categoria_id = ProdutoMapping.fk_Categoria_id;
-        //        ProdutoEF.fk_Usuario_id = ProdutoMapping.fk_Usuario_id;
-
-        //        estoqueContext.produtos.Update(ProdutoEF);
-
-        //        await estoqueContext.SaveChangesAsync();
-
-        //    }catch(DbUpdateException ex)
-        //    {
-        //        throw new Exception("Já existe uma Produto com esse nome");
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception(ex.Message);
-        //    }
-        //}
-        //public async Task<Produto> Buscar(string descricao)
-        //{
-        //    try
-        //    {
-        //        var Produto = await estoqueContext.produtos.FirstOrDefaultAsync(x => x.descricao == descricao);
-
-        //        if (Produto == null)
-        //            throw new Exception("Produto não localizado");
-
-        //        var usuarioMappingDomain = mapper.Map<Produto>(Produto);
-
-        //        return usuarioMappingDomain;
-
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception(ex.Message);
-        //    }
-        //}
-        //public async Task Cadastrar(Produto objeto)
-        //{
-        //    try
-        //    {
-        //        var ProdutoEf = await estoqueContext.produtos.FirstOrDefaultAsync(x => x.descricao == objeto.descricao);
-
-        //        if (ProdutoEf != null)
-        //            throw new Exception("Produto já cadastrado");
-
-        //        var Produto = mapper.Map<ProdutoEF>(objeto);
-
-        //        Produto.usuario = new UsuarioEF { id = Guid.Empty, email = "", senha = "" };
-
-        //        estoqueContext.produtos.Add(Produto);
-
-        //        await estoqueContext.SaveChangesAsync();
-
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception(ex.Message);
-        //    }
-        //}
-        //public async Task Deletar(string id)
-        //{
-        //    try
-        //    {
-        //        var ProdutoEF = await estoqueContext.produtos.FirstOrDefaultAsync(x => x.id == Guid.Parse(id));
-
-        //        if (ProdutoEF == null)
-        //            throw new Exception("Produto não encontrado");
-
-        //        estoqueContext.produtos.Remove(ProdutoEF);
-
-        //        await estoqueContext.SaveChangesAsync();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception(ex.Message);
-        //    }
-        //}
-        //public async Task<IEnumerable<Produto>> Listar()
-        //{
-        //    try
-        //    {
-        //        var usuarios = await estoqueContext.produtos.ToListAsync();
-
-        //        var usuarioMappingDomain = mapper.Map<IEnumerable<Produto>>(usuarios);
-
-        //        return usuarioMappingDomain.ToList();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception(ex.Message);
-        //    }
-        //}
     }
 }

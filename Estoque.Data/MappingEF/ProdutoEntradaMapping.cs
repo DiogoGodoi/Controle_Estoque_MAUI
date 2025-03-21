@@ -8,7 +8,7 @@ namespace Estoque.Data.MappingEF
     {
         public void Configure(EntityTypeBuilder<ProdutoEntradaEF> builder)
         {
-            builder.ToTable("ProdutoEntrada");
+            builder.ToTable("ProdutoSaida");
 
             //chave primária
             builder.HasKey(x => new { x.fk_Entrada_id, x.fk_Produto_id });

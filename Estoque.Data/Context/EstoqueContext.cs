@@ -15,19 +15,23 @@ namespace Estoque.Data.Context
             optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Initial Catalog=DbEstoque;Integrated Security=true; MultipleActiveResultSets=true")
                 .LogTo(Console.WriteLine, LogLevel.Information); 
         }
-        public DbSet<UsuarioEF> usuarios { get; set; }
-        public DbSet<CategoriaEF> categorias { get; set; }
-        public DbSet<EntradaEF> entradas { get; set; }
-        public DbSet<ProdutoEntradaEF> produtoEntrada { get; set; }
-        public DbSet<ProdutoEF> produtos { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new UsuarioMapping());
             modelBuilder.ApplyConfiguration(new CategoriaMapping());
             modelBuilder.ApplyConfiguration(new EntradaMapping());
+            modelBuilder.ApplyConfiguration(new SaidaMapping());
             modelBuilder.ApplyConfiguration(new ProdutoEntradaMapping());
+            modelBuilder.ApplyConfiguration(new ProdutoSaidaMapping());
             modelBuilder.ApplyConfiguration(new ProdutoMapping());
         }
+        public DbSet<UsuarioEF> usuarios { get; set; }
+        public DbSet<CategoriaEF> categorias { get; set; }
+        public DbSet<EntradaEF> entradas { get; set; }
+        public DbSet<SaidaEF> saidas { get; set; }
+        public DbSet<ProdutoEntradaEF> produtoEntrada { get; set; }
+        public DbSet<ProdutoSaidaEF> produtoSaida { get; set; }
+        public DbSet<ProdutoEF> produtos { get; set; }
         public void GerarBaseTeste()
         {
             try

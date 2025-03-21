@@ -10,6 +10,10 @@
         {
 
         }
+        public Saida(Guid id)
+        {
+            this.id = id;
+        }
         public Saida(DateTime dataSaida, int quantidade)
         {
             SetId();

@@ -15,5 +15,6 @@
         public CategoriaEF categoria { get; set; }
         public Guid fk_Categoria_id { get; set; }
         public ICollection<ProdutoEntradaEF> produtoEntrada { get; set; }
+        public ICollection<ProdutoSaidaEF> produtoSaida { get; set; }
     }
 }

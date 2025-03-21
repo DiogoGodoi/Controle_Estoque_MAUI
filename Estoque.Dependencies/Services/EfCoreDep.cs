@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Estoque.Dependencies.Services
 {
-    public static class EfCoreDep
+    public static class EFCoreDep
     {
         public static IServiceCollection addEFCore(this IServiceCollection services)
         {

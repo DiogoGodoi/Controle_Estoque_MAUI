@@ -1,6 +1,4 @@
-﻿using Estoque.Domain.Modelos;
-
-namespace Estoque.Data.ModelosEF
+﻿namespace Estoque.Data.ModelosEF
 {
     public class UsuarioEF
     {
@@ -10,5 +8,6 @@ namespace Estoque.Data.ModelosEF
         public ICollection<CategoriaEF> categoria { get; set; }
         public ICollection<EntradaEF> entrada { get; set; }
         public ICollection<ProdutoEF> produto { get; set; }
+        public ICollection<SaidaEF> saida { get; set; }
     }
 }
