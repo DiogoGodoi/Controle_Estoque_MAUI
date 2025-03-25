@@ -38,7 +38,6 @@ namespace Estoque.Application.Test.SaidaTest
 
 
         public IMapper mapper;
-        public Entrada Entrada;
         public Saida Saida;
         public Usuario usuario;
         public ProdutoSaida produtoSaida;
@@ -132,7 +131,7 @@ namespace Estoque.Application.Test.SaidaTest
         }
 
         [Test]
-        [TestCase("Bomba d'água", "2025-03-25 00:00:00", 15, "b3e1c5d2-7f4b-4a8e-8d6f-9a5f8e7b0c2a", "b3e1c5d2-7f4b-4b8a-8d6f-9a5f8e7b0c2a")]
+        [TestCase("Bomba d'água", "2025-03-25 00:00:00", 2, "b3e1c5d2-7f4b-4a8e-8d6f-9a5f8e7b0c2a", "b3e1c5d2-7f5c-4a8e-8d6f-9a5f8e7b0c2a")]
         public async Task AtualizarNaBase(string descricao, DateTime dataSaida, int quantidade, string fk_Usuario_id, string idSaidaAtual)
         {
             //Arrange
@@ -181,7 +180,7 @@ namespace Estoque.Application.Test.SaidaTest
         }
 
         [Test]
-        [TestCase("b3e1c5d2-7f4b-4b8a-8d6f-9a5f8e7b0c2a", "Bomba d'água")]
+        [TestCase("b3e1c5d2-7f5c-4a8e-8d6f-9a5f8e7b0c2a", "Bomba d'água")]
         public async Task DeletarNaBase(string idSaida, string descricao)
         {
             //Arrange
