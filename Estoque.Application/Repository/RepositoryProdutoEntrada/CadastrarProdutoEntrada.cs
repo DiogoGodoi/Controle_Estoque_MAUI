@@ -4,10 +4,10 @@ using Estoque.Domain.Modelos;
 
 namespace Estoque.Application.Repository.RepositoryProdutoEntrada
 {
-    public class CadastrarProdutoSaida : ICadastrar<ProdutoEntrada>
+    public class CadastrarProdutoEntrada : ICadastrar<ProdutoEntrada>
     {
         private readonly IRepository<ProdutoEntrada> repository;
-        public CadastrarProdutoSaida(IRepository<ProdutoEntrada> repository)
+        public CadastrarProdutoEntrada(IRepository<ProdutoEntrada> repository)
         {
             this.repository = repository;
         }

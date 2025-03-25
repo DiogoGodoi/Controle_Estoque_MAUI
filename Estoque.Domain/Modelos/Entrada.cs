@@ -1,10 +1,9 @@
 ﻿namespace Estoque.Domain.Modelos
 {
-    public class Entrada
+    public class Entrada: Transacao
     {
         public Guid id { get; private set; }
         public DateTime dataEntrada { get; private set; }
-        public int quantidade { get; private set; }
         public Guid fk_Usuario_id { get; private set; }
         public Entrada()
         {
@@ -20,9 +19,9 @@
             SetDataSaida(dataEntrada);
             SetQuantidade(quantidade);
         }
-        public Entrada(DateTime dataEntrada, int quantidade, Usuario usuario):this(dataEntrada, quantidade)
+        public Entrada(DateTime dataEntrada, int quantidade, Guid fk_Usuario_id) :this(dataEntrada, quantidade)
         {
-            AssociarUsuario(usuario);
+            AssociarUsuario(fk_Usuario_id);
         }
         private void SetId()
         {
@@ -41,35 +40,31 @@
                 this.dataEntrada = dataEntrada;
             }
         }
-        private void SetQuantidade(int quantidade)
+        public override void SetQuantidade(int quantidade)
         {
             var hoje = DateTime.UtcNow;
 
             if (quantidade == 0)
             {
-                throw new ArgumentException("A quantidade de entrada não pode ser igual a zero");
+                throw new ArgumentException("A quantidade de saída não pode ser igual a zero");
             }
             else if (!quantidade.ToString().All(char.IsNumber))
             {
                 throw new ArgumentException("O valor precisa ser númerico");
             }
             {
-                this.dataEntrada = dataEntrada;
+                base.quantidade = quantidade;
             }
         }
-        private void AssociarUsuario(Usuario usuario)
+        private void AssociarUsuario(Guid fk_Usuario_id)
         {
-            if (usuario == null)
+            if (fk_Usuario_id == Guid.Empty)
             {
                 throw new ArgumentNullException("Usuário não localizado");
             }
-            else if (string.IsNullOrEmpty(usuario.id.ToString()))
-            {
-                throw new ArgumentNullException("Usuário sem id");
-            }
             else
             {
-                fk_Usuario_id = usuario.id;
+                this.fk_Usuario_id = fk_Usuario_id;
             }
         }
 

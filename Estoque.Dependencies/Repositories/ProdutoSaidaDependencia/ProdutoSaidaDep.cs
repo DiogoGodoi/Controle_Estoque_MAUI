@@ -11,7 +11,7 @@ namespace Estoque.Dependencies.Repositories.ProdutoSaidaDependencia
     {
         public static IServiceCollection AddRepositoryProdutoSaidaa(this IServiceCollection services)
         {
-            services.AddScoped<IRepository<ProdutoSaida>, ProdutoSaidaSaidaRepository>();
+            services.AddScoped<IRepository<ProdutoSaida>, ProdutoSaidaRepository>();
             services.AddScoped<ICadastrar<ProdutoSaida>, CadastrarProdutoSaida>();
             services.AddScoped<IAtualizar<ProdutoSaida>, AtualizarProdutoSaida>();
             services.AddScoped<IBuscar<ProdutoSaida>, BuscarProdutoSaida>();

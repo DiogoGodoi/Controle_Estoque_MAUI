@@ -4,13 +4,15 @@ using Estoque.Domain.Modelos;
 
 namespace Estoque.Application.Repository.RepositoryProdutoEntrada
 {
-    public class AtualizarProdutoSaida: IAtualizar<ProdutoEntrada>
+    public class AtualizarProdutoEntrada: IAtualizar<ProdutoEntrada>
     {
         private readonly IRepository<ProdutoEntrada> repository;
-        public AtualizarProdutoSaida(IRepository<ProdutoEntrada> repository)
+
+        public AtualizarProdutoEntrada(IRepository<ProdutoEntrada> repository)
         {
             this.repository = repository;
         }
+
         public Task ExecutarAtualizacao(string email, ProdutoEntrada objeto)
         {
             return repository.Atualizar(email, objeto);

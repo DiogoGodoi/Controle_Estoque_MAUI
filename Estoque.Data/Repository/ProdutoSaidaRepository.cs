@@ -7,12 +7,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Estoque.Data.Repository
 {
-    public class ProdutoSaidaSaidaRepository : IRepository<ProdutoSaida>
+    public class ProdutoSaidaRepository : IRepository<ProdutoSaida>
     {
         private readonly IMapper mapper;
 
         private readonly EstoqueContext estoqueContext;
-        public ProdutoSaidaSaidaRepository(IMapper mapper, EstoqueContext estoqueContext)
+        public ProdutoSaidaRepository(IMapper mapper, EstoqueContext estoqueContext)
         {
             this.mapper = mapper;
             this.estoqueContext = estoqueContext;
@@ -41,7 +41,7 @@ namespace Estoque.Data.Repository
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw;
             }
         }
         public async Task<ProdutoSaida> Buscar(string idSaida)
@@ -60,7 +60,7 @@ namespace Estoque.Data.Repository
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw;
             }
         }
         public async Task Cadastrar(ProdutoSaida objeto)
@@ -68,20 +68,30 @@ namespace Estoque.Data.Repository
             try
             {
                 var ProdutoSaidaEf = await estoqueContext.produtoSaida.FirstOrDefaultAsync(x => x.fk_Saida_id == objeto.fk_Saida_id);
-
                 if (ProdutoSaidaEf != null)
                     throw new Exception("Saida já cadastrada");
 
-                var ProdutoSaida = mapper.Map<ProdutoSaidaEF>(objeto);
+                var produtoEf = await estoqueContext.produtos.FirstOrDefaultAsync(x => x.id == objeto.fk_Produto_id);
+                if (produtoEf == null)
+                    throw new Exception("Produto não localizado");
 
-                estoqueContext.produtoSaida.Add(ProdutoSaida);
+                var SaidaEf = await estoqueContext.saidas.FirstOrDefaultAsync(x => x.id == objeto.fk_Saida_id);
+                if (SaidaEf == null)
+                    throw new Exception("Saida não localizada");
+
+                var produtoSaida = mapper.Map<ProdutoSaidaEF>(objeto);
+
+                produtoSaida.produto = produtoEf;
+                produtoSaida.saida = SaidaEf;
+
+                estoqueContext.produtoSaida.Add(produtoSaida);
 
                 await estoqueContext.SaveChangesAsync();
 
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw;
             }
         }
         public async Task Deletar(string id)
@@ -91,7 +101,7 @@ namespace Estoque.Data.Repository
                 var ProdutoSaidaEF = await estoqueContext.produtoSaida.FirstOrDefaultAsync(x => x.fk_Saida_id == Guid.Parse(id));
 
                 if (ProdutoSaidaEF == null)
-                    throw new Exception("Saida não encontrado");
+                    throw new Exception("ProdutoSaida não encontrado");
 
                 estoqueContext.produtoSaida.Remove(ProdutoSaidaEF);
 
@@ -99,7 +109,7 @@ namespace Estoque.Data.Repository
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw;
             }
         }
         public async Task<IEnumerable<ProdutoSaida>> Listar()
@@ -114,7 +124,7 @@ namespace Estoque.Data.Repository
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw;
             }
         }
     }

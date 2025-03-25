@@ -22,7 +22,7 @@ namespace Estoque.Data.Mapper
                .ForMember(dest => dest.usuario, map => map.MapFrom(src =>
                     new Usuario(src.fk_Usuario_id)))
                .ForMember(dest => dest.categoria, map => map.MapFrom(src =>
-                    new Usuario(src.fk_Categoria_id)))
+                    new Categoria(src.fk_Categoria_id)))
                .ReverseMap();
         }
     }

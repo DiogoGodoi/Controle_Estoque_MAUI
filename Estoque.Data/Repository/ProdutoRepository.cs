@@ -49,7 +49,7 @@ namespace Estoque.Data.Repository
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw;
             }
         }
         public async Task<Produto> Buscar(string descricao)
@@ -68,7 +68,7 @@ namespace Estoque.Data.Repository
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw;
             }
         }
         public async Task Cadastrar(Produto objeto)
@@ -76,22 +76,25 @@ namespace Estoque.Data.Repository
             try
             {
                 var ProdutoEf = await estoqueContext.produtos.FirstOrDefaultAsync(x => x.descricao == objeto.descricao);
+                if (ProdutoEf != null) throw new Exception("Produto já cadastrado");
 
-                if (ProdutoEf != null)
-                    throw new Exception("Produto já cadastrado");
+                var usuarioEf = await estoqueContext.usuarios.FindAsync(objeto.fk_Usuario_id);
+                if (usuarioEf == null) throw new Exception("Usuário não encontrado");
+
+                var categoriaEf = await estoqueContext.categorias.FindAsync(objeto.fk_Categoria_id);
+                if (categoriaEf == null) throw new Exception("Categoria não encontrada");
 
                 var Produto = mapper.Map<ProdutoEF>(objeto);
 
-                Produto.usuario = new UsuarioEF { id = Guid.Empty, email = "", senha = "" };
+                Produto.usuario = usuarioEf;
+                Produto.categoria = categoriaEf;
 
                 estoqueContext.produtos.Add(Produto);
-
                 await estoqueContext.SaveChangesAsync();
-
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw;
             }
         }
         public async Task Deletar(string id)
@@ -109,7 +112,7 @@ namespace Estoque.Data.Repository
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw;
             }
         }
         public async Task<IEnumerable<Produto>> Listar()
@@ -124,7 +127,7 @@ namespace Estoque.Data.Repository
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw;
             }
         }
     }

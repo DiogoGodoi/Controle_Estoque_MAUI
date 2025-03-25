@@ -34,13 +34,14 @@ namespace Estoque.Data.Repository
                 estoqueContext.categorias.Update(CategoriaEF);
 
                 await estoqueContext.SaveChangesAsync();
-            }catch(DbUpdateException ex)
+            }
+            catch (DbUpdateException ex)
             {
                 throw new Exception("Já existe uma categoria com esse nome");
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw;
             }
         }
         public async Task<Categoria> Buscar(string nome)
@@ -60,7 +61,7 @@ namespace Estoque.Data.Repository
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw;
             }
         }
         public async Task Cadastrar(Categoria objeto)
@@ -68,13 +69,14 @@ namespace Estoque.Data.Repository
             try
             {
                 var categoriaEf = await estoqueContext.categorias.FirstOrDefaultAsync(x => x.nome == objeto.nome);
+                if (categoriaEf != null) throw new Exception("Categoria já cadastrada");
 
-                if (categoriaEf != null)
-                    throw new Exception("Categoria já cadastrada");
+                var usuarioEF = await estoqueContext.usuarios.FirstOrDefaultAsync(x => x.id == objeto.fk_Usuario_id);
+                if (usuarioEF == null) throw new Exception("Usuário não encontrado");
 
+                
                 var categoria = mapper.Map<CategoriaEF>(objeto);
-
-                categoria.usuario = new UsuarioEF { id = Guid.Empty, email = "", senha = "" };
+                categoria.usuario = usuarioEF;
 
                 estoqueContext.categorias.Add(categoria);
 
@@ -83,7 +85,7 @@ namespace Estoque.Data.Repository
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw;
             }
         }
         public async Task Deletar(string nome)
@@ -101,7 +103,7 @@ namespace Estoque.Data.Repository
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw;
             }
         }
         public async Task<IEnumerable<Categoria>> Listar()
@@ -116,7 +118,7 @@ namespace Estoque.Data.Repository
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw;
             }
         }
     }

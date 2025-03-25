@@ -4,10 +4,10 @@ using Estoque.Domain.Modelos;
 
 namespace Estoque.Application.Repository.RepositoryProdutoEntrada
 {
-    public class BuscarProdutoSaida: IBuscar<ProdutoEntrada>
+    public class BuscarProdutoEntrada: IBuscar<ProdutoEntrada>
     {
         private readonly IRepository<ProdutoEntrada> repository;
-        public BuscarProdutoSaida(IRepository<ProdutoEntrada> repository)
+        public BuscarProdutoEntrada(IRepository<ProdutoEntrada> repository)
         {
             this.repository = repository;
         }

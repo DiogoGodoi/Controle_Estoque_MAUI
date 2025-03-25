@@ -22,9 +22,9 @@ namespace Estoque.Domain.Test
         }
 
         [Test]
-        [TestCase("diogo@localhost.com.br", "ashby@1234", "2025-03-19 10:00:00", 150, "Eletronico", "Iphone 13", "un", 5, 5000.00, 5500.00, 7000.00)]
-        public void TestarProdutoSaida(string email, string senha, DateTime dataEntrada, int quantidadeEntrada,
-            string nomeCategoria, string descricao, string unidade, int quantidadeProduto, decimal preco1, decimal preco2, decimal preco3)
+        [TestCase("2025-03-19 10:00:00", 150, "b3e1c5d2-7f4b-4a8e-8d6f-9a5f8e7b0c2a", "520d8ea5-17d0-4c80-be68-6ef17d907534", "Iphone 13", "un", 5, 5000.00, 5500.00, 7000.00)]
+        public void TestarProdutoSaida(DateTime dataEntrada, int quantidadeEntrada,
+            string idUsuario, string idCategoria, string descricao, string unidade, int quantidadeProduto, decimal preco1, decimal preco2, decimal preco3)
         {
             //Arrange
             bool resultado;
@@ -33,11 +33,9 @@ namespace Estoque.Domain.Test
             //Act
             try
             {
-                usuario = new Usuario(email, senha);
-                categoria = new Categoria(nomeCategoria);
-                produto = new Produto(usuario, categoria, descricao, unidade, quantidadeProduto, preco1, preco2, preco3);
-                saida = new Saida(dataEntrada, quantidadeEntrada, usuario);
-                produtoSaida = new ProdutoSaida(produto, saida);
+                produto = new Produto(Guid.Parse(idUsuario), Guid.Parse(idCategoria), descricao, unidade, quantidadeProduto, preco1, preco2, preco3);
+                saida = new Saida(dataEntrada, quantidadeEntrada, Guid.Parse(idUsuario));
+                produtoSaida = new ProdutoSaida(produto.id, saida.id);
                 resultado = true;
             }
             catch (Exception ex)

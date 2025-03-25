@@ -16,7 +16,31 @@
         {
 
         }
-        public Produto(string descricao, string unidade, int quantidade, decimal preco1, decimal preco2, decimal preco3)
+
+        public Produto(Guid id)
+        {
+            this.id = id;
+        }
+
+        //public Produto(string descricao, string unidade, int quantidade, decimal preco1, decimal preco2, decimal preco3)
+        //{
+        //    SetId();
+        //    SetDescricao(descricao);
+        //    SetUnidade(unidade);
+        //    SetQuantidade(quantidade);
+        //    SetPreco1(preco1);
+        //    SetPreco2(preco2);
+        //    SetPreco3(preco3);
+        //    SetPrecoMedio();
+        //}
+        public Produto(Guid fk_Usuario_id, Guid fk_Categoria_id)
+        {
+            AssociarUsuario(fk_Usuario_id);
+            AssociarCategoria(fk_Categoria_id);
+        }
+        public Produto(Guid fk_Usuario_id, Guid fk_Categoria_id, string descricao, string unidade,
+                       int quantidade, decimal preco1, decimal preco2, decimal preco3)
+            : this(fk_Usuario_id, fk_Categoria_id)
         {
             SetId();
             SetDescricao(descricao);
@@ -27,12 +51,13 @@
             SetPreco3(preco3);
             SetPrecoMedio();
         }
-        public Produto(Usuario usuario, Categoria categoria, string descricao, string unidade, int quantidade, decimal preco1, decimal preco2, decimal preco3)
-            : this(descricao, unidade, quantidade, preco1, preco2, preco3)
-        {
-            AssociarUsuario(usuario);
-            AssociarCategoria(categoria);
-        }
+
+        //public Produto(Usuario usuario, Categoria categoria, string descricao, string unidade, int quantidade, decimal preco1, decimal preco2, decimal preco3)
+        //    : this(descricao, unidade, quantidade, preco1, preco2, preco3)
+        //{
+        //    AssociarUsuario(usuario);
+        //    AssociarCategoria(categoria);
+        //}
         private void SetId()
         {
             id = Guid.NewGuid();
@@ -83,7 +108,7 @@
             {
                 throw new ArgumentException("A quantidade não pode ser igual a zero");
             }
-            else if (!quantidade.ToString().All(char.IsNumber))
+            else if (!quantidade.ToString().All(c => char.IsDigit(c) || c == '.' || c == ','))
             {
                 throw new ArgumentException("O valor precisa ser númerico");
             }
@@ -97,7 +122,7 @@
             {
                 throw new ArgumentException("O preço 1 não pode ser negativo");
             }
-            else if (!preco1.ToString().All(char.IsNumber))
+            else if (!preco1.ToString().All(c => char.IsDigit(c) || c == '.' || c == ','))
             {
                 throw new ArgumentException("O preço precisa ser númerico");
             }
@@ -111,7 +136,7 @@
             {
                 throw new ArgumentException("O preço 2 não pode ser negativo");
             }
-            else if (!preco2.ToString().All(char.IsNumber))
+            else if (!preco2.ToString().All(c => char.IsDigit(c) || c == '.' || c == ','))
             {
                 throw new ArgumentException("O preço precisa ser númerico");
             }
@@ -125,7 +150,7 @@
             {
                 throw new ArgumentException("O preço 3 não pode ser negativo");
             }
-            else if (!preco3.ToString().All(char.IsNumber))
+            else if (!preco3.ToString().All(c => char.IsDigit(c) || c == '.' || c == ','))
             {
                 throw new ArgumentException("O preço precisa ser númerico");
             }
@@ -135,7 +160,7 @@
         }
         private void SetPrecoMedio()
         {
-            if (!precoMedio.ToString().All(char.IsNumber))
+            if (!precoMedio.ToString().All(c => char.IsDigit(c) || c == '.' || c == ','))
             {
                 throw new ArgumentException("O preço precisa ser númerico");
             }
@@ -147,35 +172,46 @@
                 precoMedio = Convert.ToDecimal(mediaString);
             }
         }
-        private void AssociarUsuario(Usuario usuario)
+        private void AssociarUsuario(Guid fk_Usuario_id)
         {
-            if (usuario == null)
+            if (fk_Usuario_id == Guid.Empty)
             {
                 throw new ArgumentNullException("Usuário não localizado");
             }
-            else if (string.IsNullOrEmpty(usuario.id.ToString()))
-            {
-                throw new ArgumentNullException("Usuário sem id");
-            }
             else
             {
-                fk_Usuario_id = usuario.id;
+                this.fk_Usuario_id = fk_Usuario_id;
             }
         }
-        private void AssociarCategoria(Categoria categoria)
+        private void AssociarCategoria(Guid fk_Categoria_id)
         {
-            if (categoria == null)
+            if (fk_Categoria_id == Guid.Empty)
             {
                 throw new ArgumentNullException("Usuário não localizado");
             }
-            else if (string.IsNullOrEmpty(categoria.id.ToString()))
+            else
             {
-                throw new ArgumentNullException("Usuário sem id");
+                this.fk_Categoria_id = fk_Categoria_id;
+            }
+        }
+        public void AtualizarQuantidade(Transacao transacao)
+        {
+            if (transacao is Entrada)
+            {
+                quantidade += transacao.quantidade;
             }
             else
             {
-                fk_Categoria_id = categoria.id;
+                if (transacao.quantidade < 0)
+                {
+                    throw new ArgumentException("A Saída não pode ser um valor negativo");
+                }
+                else
+                {
+                    quantidade -= transacao.quantidade;
+                }
             }
         }
+
     }
 }

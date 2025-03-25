@@ -14,7 +14,7 @@ namespace Estoque.Data.Mapper
                .ForMember(dest => dest.saida, map => map.MapFrom(src => 
                     new Saida(src.fk_Saida_id)))
                .ForMember(dest => dest.produto, map => map.MapFrom(src =>
-                    new Entrada(src.fk_Produto_id)))
+                    new Produto(src.fk_Produto_id)))
                .ReverseMap();
         }
     }

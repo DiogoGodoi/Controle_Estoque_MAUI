@@ -38,6 +38,9 @@ namespace Estoque.Data.MappingEF
                    .WithOne(x => x.saida)
                    .HasForeignKey(x => x.fk_Saida_id);
 
+            builder.HasData(new SaidaEF { id = Guid.Parse("b3e1c5d2-7f5c-4a8e-8d6f-9a5f8e7b0c2a"), dataSaida = DateTime.UtcNow, quantidade = 1, 
+                fk_Usuario_id = Guid.Parse("b3e1c5d2-7f4b-4a8e-8d6f-9a5f8e7b0c2a") });
+
         }
     }
 }

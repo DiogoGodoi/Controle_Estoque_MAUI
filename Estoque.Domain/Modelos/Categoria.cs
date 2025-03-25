@@ -9,6 +9,10 @@
         {
 
         }
+        public Categoria(Guid id)
+        {
+            this.id = id;
+        }
         public Categoria(string nome)
         {
             SetId();
@@ -17,8 +21,8 @@
         public Categoria(Guid fkUsuario, string nome) : this(nome)
         {
             SetId();
-            SetNome(nome);
             AssociarUsuario(fkUsuario);
+            SetNome(nome);
         }
         private void SetId()
         {

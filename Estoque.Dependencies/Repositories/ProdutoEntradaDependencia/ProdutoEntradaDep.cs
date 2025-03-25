@@ -7,16 +7,16 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Estoque.Dependencies.Repositories.ProdutoEntradaDependencia
 {
-    public static class ProdutoSaidaDep
+    public static class ProdutoEntradaDep
     {
         public static IServiceCollection AddRepositoryProdutoEntrada(this IServiceCollection services)
         {
-            services.AddScoped<IRepository<ProdutoEntrada>, ProdutoEntradaEntradaRepository>();
-            services.AddScoped<ICadastrar<ProdutoEntrada>, CadastrarProdutoSaida>();
-            services.AddScoped<IAtualizar<ProdutoEntrada>, AtualizarProdutoSaida>();
-            services.AddScoped<IBuscar<ProdutoEntrada>, BuscarProdutoSaida>();
-            services.AddScoped<IDeletar<ProdutoEntrada>, DeletarProdutoSaida>();
-            services.AddScoped<IListar<ProdutoEntrada>, ListarProdutoSaida>();
+            services.AddScoped<IRepository<ProdutoEntrada>, ProdutoEntradaRepository>();
+            services.AddScoped<ICadastrar<ProdutoEntrada>, CadastrarProdutoEntrada>();
+            services.AddScoped<IAtualizar<ProdutoEntrada>, AtualizarProdutoEntrada>();
+            services.AddScoped<IBuscar<ProdutoEntrada>, BuscarProdutoEntrada>();
+            services.AddScoped<IDeletar<ProdutoEntrada>, DeletarProdutoEntrada>();
+            services.AddScoped<IListar<ProdutoEntrada>, ListarProdutoEntrada>();
 
             return services;
         }

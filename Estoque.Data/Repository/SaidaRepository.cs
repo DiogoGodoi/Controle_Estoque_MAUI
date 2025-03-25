@@ -39,7 +39,7 @@ namespace Estoque.Data.Repository
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw;
             }
         }
         public async Task<Saida> Buscar(string id)
@@ -59,7 +59,7 @@ namespace Estoque.Data.Repository
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw;
             }
         }
         public async Task Cadastrar(Saida objeto)
@@ -67,14 +67,20 @@ namespace Estoque.Data.Repository
             try
             {
                 var SaidaEF = await estoqueContext.saidas.FirstOrDefaultAsync(x => x.id == objeto.id);
-
                 if (SaidaEF != null)
                     throw new Exception("Saida já cadastrada");
 
+                var usuarioEf = await estoqueContext.usuarios.FirstOrDefaultAsync(x => x.id == objeto.fk_Usuario_id);
+                if (usuarioEf == null)
+                    throw new Exception("Usuário não encontrado");
+
+                var SaidaProdutoEf = estoqueContext.produtoSaida.Where(x => x.fk_Saida_id == objeto.id).ToList();
+
                 var Saida = mapper.Map<SaidaEF>(objeto);
 
-                Saida.usuario = new UsuarioEF { id = Guid.Empty, email = "", senha = "" };
-
+                Saida.produtoSaida = SaidaProdutoEf;
+                Saida.usuario = usuarioEf;
+                
                 estoqueContext.saidas.Add(Saida);
 
                 await estoqueContext.SaveChangesAsync();
@@ -82,7 +88,7 @@ namespace Estoque.Data.Repository
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw;
             }
         }
         public async Task Deletar(string id)
@@ -100,22 +106,22 @@ namespace Estoque.Data.Repository
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw;
             }
         }
         public async Task<IEnumerable<Saida>> Listar()
         {
             try
             {
-                var Saidas = await estoqueContext.saidas.ToListAsync();
+                var saidas = await estoqueContext.saidas.ToListAsync();
 
-                var SaidaMappingDomain = mapper.Map<IEnumerable<Saida>>(Saidas);
+                var SaidaMappingDomain = mapper.Map<IEnumerable<Saida>>(saidas);
 
                 return SaidaMappingDomain.ToList();
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw;
             }
         }
     }

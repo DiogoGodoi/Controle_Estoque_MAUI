@@ -8,20 +8,20 @@
         {
             
         }
-        public ProdutoEntrada(Produto produto, Entrada entrada)
+        public ProdutoEntrada(Guid fk_Produto_id, Guid fk_Entrada_id)
         {
-            AssociarEntidades(produto, entrada);
+            AssociarEntidades(fk_Produto_id, fk_Entrada_id);
         }
-        private void AssociarEntidades(Produto produto, Entrada entrada)
+        private void AssociarEntidades(Guid fk_Produto_id, Guid fk_Entrada_id)
         {
-            if (produto == null && entrada == null)
+            if (fk_Produto_id == Guid.Empty && fk_Entrada_id == Guid.Empty)
             {
                 throw new ArgumentNullException("Dados inconsistentes");
             }
             else
             {
-                fk_Produto_id = produto.id;
-                fk_Entrada_id = entrada.id;
+                this.fk_Produto_id = fk_Produto_id;
+                this.fk_Entrada_id = fk_Entrada_id;
             }
         }
     }

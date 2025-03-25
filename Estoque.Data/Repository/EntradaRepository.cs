@@ -39,7 +39,7 @@ namespace Estoque.Data.Repository
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw;
             }
         }
         public async Task<Entrada> Buscar(string id)
@@ -59,22 +59,28 @@ namespace Estoque.Data.Repository
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw;
             }
         }
         public async Task Cadastrar(Entrada objeto)
         {
             try
             {
-                var EntradaEF = await estoqueContext.entradas.FirstOrDefaultAsync(x => x.id == objeto.id);
-
-                if (EntradaEF != null)
+                var entradaEF = await estoqueContext.entradas.FirstOrDefaultAsync(x => x.id == objeto.id);
+                if (entradaEF != null)
                     throw new Exception("Entrada já cadastrada");
+
+                var usuarioEf = await estoqueContext.usuarios.FirstOrDefaultAsync(x => x.id == objeto.fk_Usuario_id);
+                if (usuarioEf == null)
+                    throw new Exception("Usuário não encontrado");
+
+                var entradaProdutoEf = estoqueContext.produtoEntrada.Where(x => x.fk_Entrada_id == objeto.id).ToList();
 
                 var entrada = mapper.Map<EntradaEF>(objeto);
 
-                entrada.usuario = new UsuarioEF { id = Guid.Empty, email = "", senha = "" };
-
+                entrada.produtoEntrada = entradaProdutoEf;
+                entrada.usuario = usuarioEf;
+                
                 estoqueContext.entradas.Add(entrada);
 
                 await estoqueContext.SaveChangesAsync();
@@ -82,7 +88,7 @@ namespace Estoque.Data.Repository
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw;
             }
         }
         public async Task Deletar(string id)
@@ -100,7 +106,7 @@ namespace Estoque.Data.Repository
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw;
             }
         }
         public async Task<IEnumerable<Entrada>> Listar()
@@ -115,7 +121,7 @@ namespace Estoque.Data.Repository
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw;
             }
         }
     }

@@ -49,7 +49,7 @@ namespace Estoque.Data.MappingEF
 
             //Dados
 
-            builder.HasData(new UsuarioEF { id = Guid.Parse("b3e1c5d2-7f4b-4a8e-8d6f-9a3f8e7b1c2a"), email = "diogo@localhost.com.br", senha = "Ashby123" },
+            builder.HasData(new UsuarioEF { id = Guid.Parse("b3e1c5d2-7f4b-4a8e-8d6f-9a5f8e7b0c2a"), email = "diogo@localhost.com.br", senha = "Ashby123" },
                             new UsuarioEF { id = Guid.Parse("b3e1a5d2-7f4b-4a8e-8d6f-9a3f8e7b1c2a"), email = "moises@localhost.com.br", senha = "Ash123by" });
         }
     }

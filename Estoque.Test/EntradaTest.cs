@@ -31,7 +31,7 @@ namespace Estoque.Domain.Test
             try
             {
                 usuario = new Usuario(email, senha);
-                entrada = new Entrada(dataEntrada, quantidade, usuario);
+                entrada = new Entrada(dataEntrada, quantidade, usuario.id);
                 resultado = true;
             }
             catch (Exception ex)

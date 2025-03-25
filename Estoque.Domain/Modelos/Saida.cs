@@ -1,10 +1,9 @@
 ﻿namespace Estoque.Domain.Modelos
 {
-    public class Saida
+    public class Saida: Transacao
     {
         public Guid id { get; private set; }
         public DateTime dataSaida { get; private set; }
-        public int quantidade { get; private set; }
         public Guid fk_Usuario_id { get; private set; }
         public Saida()
         {
@@ -20,9 +19,9 @@
             SetDataSaida(dataSaida);
             SetQuantidade(quantidade);
         }
-        public Saida(DateTime dataSaida, int quantidade, Usuario usuario) : this(dataSaida, quantidade)
+        public Saida(DateTime dataSaida, int quantidade, Guid fk_Usuario_id) : this(dataSaida, quantidade)
         {
-            AssociarUsuario(usuario);
+            AssociarUsuario(fk_Usuario_id);
         }
         private void SetId()
         {
@@ -41,7 +40,7 @@
                 this.dataSaida = dataSaida;
             }
         }
-        private void SetQuantidade(int quantidade)
+        public override void SetQuantidade(int quantidade)
         {
             var hoje = DateTime.UtcNow;
 
@@ -54,22 +53,18 @@
                 throw new ArgumentException("O valor precisa ser númerico");
             }
             {
-                this.quantidade = quantidade;
+                base.quantidade = quantidade;
             }
         }
-        private void AssociarUsuario(Usuario usuario)
+        private void AssociarUsuario(Guid fk_Usuario_id)
         {
-            if (usuario == null)
+            if (fk_Usuario_id == Guid.Empty)
             {
                 throw new ArgumentNullException("Usuário não localizado");
             }
-            else if (string.IsNullOrEmpty(usuario.id.ToString()))
-            {
-                throw new ArgumentNullException("Usuário sem id");
-            }
             else
             {
-                fk_Usuario_id = usuario.id;
+                this.fk_Usuario_id = fk_Usuario_id;
             }
         }
 

@@ -44,7 +44,7 @@ namespace Estoque.Domain.Test
             {
                 usuario = new Usuario(email, senha);
                 categoria = new Categoria(usuario.id, nomeCategoria);
-                produto = new Produto(usuario, categoria, descricao, unidade, quantidade, preco1, preco2, preco3);
+                produto = new Produto(usuario.id, categoria.id, descricao, unidade, quantidade, preco1, preco2, preco3);
                 resultado = true;
 
             }

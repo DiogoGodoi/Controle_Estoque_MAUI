@@ -4,10 +4,10 @@ using Estoque.Domain.Modelos;
 
 namespace Estoque.Application.Repository.RepositoryProdutoEntrada
 {
-    public class DeletarProdutoSaida: IDeletar<ProdutoEntrada>
+    public class DeletarProdutoEntrada: IDeletar<ProdutoEntrada>
     {
         private readonly IRepository<ProdutoEntrada> repository;
-        public DeletarProdutoSaida(IRepository<ProdutoEntrada> repository)
+        public DeletarProdutoEntrada(IRepository<ProdutoEntrada> repository)
         {
             this.repository = repository;
         }
