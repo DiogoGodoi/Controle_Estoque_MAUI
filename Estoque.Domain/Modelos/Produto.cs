@@ -10,37 +10,27 @@
         public decimal preco2 { get; private set; }
         public decimal preco3 { get; private set; }
         public decimal precoMedio { get; private set; }
+        public int estoqueMin { get; private set; }
         public Guid fk_Usuario_id { get; private set; }
         public Guid fk_Categoria_id { get; private set; }
+        public Guid fk_LocalEstoque_id { get; private set; }
         public Produto()
         {
 
         }
-
         public Produto(Guid id)
         {
             this.id = id;
         }
-
-        //public Produto(string descricao, string unidade, int quantidade, decimal preco1, decimal preco2, decimal preco3)
-        //{
-        //    SetId();
-        //    SetDescricao(descricao);
-        //    SetUnidade(unidade);
-        //    SetQuantidade(quantidade);
-        //    SetPreco1(preco1);
-        //    SetPreco2(preco2);
-        //    SetPreco3(preco3);
-        //    SetPrecoMedio();
-        //}
-        public Produto(Guid fk_Usuario_id, Guid fk_Categoria_id)
+        public Produto(Guid fk_Usuario_id, Guid fk_Categoria_id, Guid fk_LocalEstoque_id)
         {
             AssociarUsuario(fk_Usuario_id);
             AssociarCategoria(fk_Categoria_id);
+            AssociarLocalEstoque(fk_LocalEstoque_id);
         }
-        public Produto(Guid fk_Usuario_id, Guid fk_Categoria_id, string descricao, string unidade,
-                       int quantidade, decimal preco1, decimal preco2, decimal preco3)
-            : this(fk_Usuario_id, fk_Categoria_id)
+        public Produto(Guid fk_Usuario_id, Guid fk_Categoria_id, Guid fk_LocalEstoque_id, string descricao, string unidade,
+                       int quantidade, decimal preco1, decimal preco2, decimal preco3, int estoqueMin)
+            : this(fk_Usuario_id, fk_Categoria_id, fk_LocalEstoque_id)
         {
             SetId();
             SetDescricao(descricao);
@@ -49,15 +39,9 @@
             SetPreco1(preco1);
             SetPreco2(preco2);
             SetPreco3(preco3);
+            SetEstoqueMin(estoqueMin);
             SetPrecoMedio();
         }
-
-        //public Produto(Usuario usuario, Categoria categoria, string descricao, string unidade, int quantidade, decimal preco1, decimal preco2, decimal preco3)
-        //    : this(descricao, unidade, quantidade, preco1, preco2, preco3)
-        //{
-        //    AssociarUsuario(usuario);
-        //    AssociarCategoria(categoria);
-        //}
         private void SetId()
         {
             id = Guid.NewGuid();
@@ -158,6 +142,16 @@
                 this.preco3 = preco3;
             }
         }
+        private void SetEstoqueMin(int estoqueMin)
+        {
+            if (!preco3.ToString().All(c => char.IsDigit(c) || c == '.' || c == ',' ))
+            {
+                throw new ArgumentException("O preço precisa ser númerico");
+            }
+            {
+                this.preco3 = preco3;
+            }
+        }
         private void SetPrecoMedio()
         {
             if (!precoMedio.ToString().All(c => char.IsDigit(c) || c == '.' || c == ','))
@@ -194,6 +188,17 @@
                 this.fk_Categoria_id = fk_Categoria_id;
             }
         }
+        private void AssociarLocalEstoque(Guid fk_LocalEstoque_id)
+        {
+            if (fk_LocalEstoque_id == Guid.Empty)
+            {
+                throw new ArgumentNullException("Local de estoque não localizado");
+            }
+            else
+            {
+                this.fk_LocalEstoque_id = fk_LocalEstoque_id;
+            }
+        }
         public void AtualizarQuantidade(Transacao transacao)
         {
             if (transacao is Entrada)
@@ -212,6 +217,5 @@
                 }
             }
         }
-
     }
 }
