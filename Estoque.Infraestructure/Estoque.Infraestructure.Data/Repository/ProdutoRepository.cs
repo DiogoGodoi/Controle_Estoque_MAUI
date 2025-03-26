@@ -28,6 +28,9 @@ namespace Estoque.Infraestructure.Data.Repository
                 if (ProdutoEF == null)
                     throw new Exception("Produto não encontrado");
 
+                if(ProdutoEF.descricao == objeto.descricao)
+                    throw new Exception("Já existe uma Produto com esse nome");
+
                 ProdutoEF.descricao = ProdutoMapping.descricao;
                 ProdutoEF.unidade = ProdutoMapping.unidade;
                 ProdutoEF.quantidade = ProdutoMapping.quantidade;
@@ -43,11 +46,11 @@ namespace Estoque.Infraestructure.Data.Repository
                 await estoqueContext.SaveChangesAsync();
 
             }
-            catch (DbUpdateException ex)
+            catch (DbUpdateException)
             {
-                throw new Exception("Já existe uma Produto com esse nome");
+                throw;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }

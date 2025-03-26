@@ -2,12 +2,12 @@
 using Estoque.Application.Repository.Abstraction;
 using Estoque.Domain.Modelos;
 
-namespace Estoque.Application.Repository.RepositoryEntrada
+namespace Estoque.Application.Repository.RepositoryPerfil
 {
-    public class DeletarEntrada: IDeletar<Entrada>
+    public class DeletarPerfil: IDeletar<Perfil>
     {
-        private readonly IRepository<Entrada> repository;
-        public DeletarEntrada(IRepository<Entrada> repository)
+        private readonly IRepository<Perfil> repository;
+        public DeletarPerfil(IRepository<Perfil> repository)
         {
             this.repository = repository;
         }

@@ -2,6 +2,6 @@
 {
     public interface IBuscar<T>
     {
-        Task<T> ExecutarBusca(string chave);
+        Task<T> ExecutarBusca(string id);
     }
 }

@@ -122,8 +122,8 @@ namespace Estoque.Application.Test.LocalEstoqueTest
         }
 
         [Test]
-        [TestCase("Produtos")]
-        public async Task DeletarNaBase(string nomeLocalEstoque)
+        [TestCase("537d8ba5-17d0-4c80-be68-6ef17d907534")]
+        public async Task DeletarNaBase(string id)
         {
             //Arrange
             bool resultado;
@@ -133,7 +133,7 @@ namespace Estoque.Application.Test.LocalEstoqueTest
             try
             {
                 //Deletar
-                await deletarLocalEstoque.ExecutarDeletar(nomeLocalEstoque);
+                await deletarLocalEstoque.ExecutarDeletar(id);
 
                 resultado = true;
             }

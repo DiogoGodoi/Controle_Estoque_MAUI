@@ -11,9 +11,9 @@ namespace Estoque.Application.Repository.RepositoryProduto
         {
             this.repository = repository;
         }
-        public Task<Produto> ExecutarBusca(string chave)
+        public Task<Produto> ExecutarBusca(string id)
         {
-            return repository.Buscar(chave);
+            return repository.Buscar(id);
         }
     }
 }

@@ -17,16 +17,19 @@ namespace Estoque.Infraestructure.Data.Repository
             this.mapper = mapper;
             this.estoqueContext = estoqueContext;
         }
-        public async Task Atualizar(string email, Usuario objeto)
+        public async Task Atualizar(string id, Usuario objeto)
         {
             try
             {
                 var usuariosMapping = mapper.Map<UsuarioEF>(objeto);
 
-                var usuarioEf = await estoqueContext.usuarios.FirstOrDefaultAsync(x => x.email == email);
+                var usuarioEf = await estoqueContext.usuarios.FirstOrDefaultAsync(x => x.id == Guid.Parse(id));
 
                 if (usuarioEf == null)
                     throw new Exception("Usuário não encontrado");
+
+                if(usuarioEf.email == objeto.email)
+                    throw new DbUpdateException("Já existe um usuário com esse e-mail");
 
                 usuarioEf.email = usuariosMapping.email;
                 usuarioEf.senha = usuariosMapping.senha;
@@ -35,21 +38,21 @@ namespace Estoque.Infraestructure.Data.Repository
 
                 await estoqueContext.SaveChangesAsync();
             }
-            catch (DbUpdateException ex)
+            catch (DbUpdateException)
             {
-                throw new DbUpdateException("Já existe um usuário com esse e-mail");
+                throw;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }
         }
-        public async Task<Usuario> Buscar(string email)
+        public async Task<Usuario> Buscar(string id)
         {
 
             try
             {
-                var usuario = await estoqueContext.usuarios.FirstOrDefaultAsync(x => x.email == email);
+                var usuario = await estoqueContext.usuarios.FirstOrDefaultAsync(x => x.id == Guid.Parse(id));
 
                 if (usuario == null)
                     throw new Exception("Usuário não localizado");
@@ -73,23 +76,34 @@ namespace Estoque.Infraestructure.Data.Repository
                 if (usuariosEf != null)
                     throw new Exception("Usuário já cadastrado");
 
+                var perfilEf = await estoqueContext.perfis.FirstOrDefaultAsync(x => x.id == objeto.fk_Perfil_id);
+
+                if (perfilEf == null)
+                    throw new Exception("Perfil inexistente");
+
                 var usuario = mapper.Map<UsuarioEF>(objeto);
+
+                usuario.perfil = perfilEf;
 
                 estoqueContext.usuarios.Add(usuario);
 
                 await estoqueContext.SaveChangesAsync();
 
             }
+            catch (AutoMapperMappingException ex)
+            {
+                throw new AutoMapperMappingException($"{ex.Message}");
+            }
             catch (Exception ex)
             {
                 throw;
             }
         }
-        public async Task Deletar(string email)
+        public async Task Deletar(string id)
         {
             try
             {
-                var usuarioEf = await estoqueContext.usuarios.FirstOrDefaultAsync(x => x.email == email);
+                var usuarioEf = await estoqueContext.usuarios.FirstOrDefaultAsync(x => x.id == Guid.Parse(id));
 
                 if (usuarioEf == null)
                     throw new Exception("Usuário não encontrado");

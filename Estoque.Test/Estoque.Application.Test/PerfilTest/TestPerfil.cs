@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Estoque.Application.Interfaces;
 using Estoque.Application.Repository.Abstraction;
+using Estoque.Application.Repository.RepositoryPerfil;
 using Estoque.Application.Repository.RepositoryUsuario;
 using Estoque.Infraestructure.Data.Context;
 using Estoque.Infraestructure.Data.Mapper;
@@ -8,18 +9,22 @@ using Estoque.Infraestructure.Data.Repository;
 using Estoque.Domain.Modelos;
 using Microsoft.EntityFrameworkCore;
 
-namespace Estoque.Application.Test.UsuarioTest
+namespace Estoque.Application.Test.PerfilTest
 {
-    public class TestUsuario
+    public class TestPerfil
     {
+        public ICadastrar<Perfil> cadastrarPerfil;
+        public IAtualizar<Perfil> atualizarPerfil;
+        public IDeletar<Perfil> deletarPerfil;
+        public IListar<Perfil> listarPerfil;
+        public IBuscar<Perfil> buscarPerfil;
+        public IRepository<Perfil> repository;
+
+        public IRepository<Usuario> repositoryUsuario;
         public ICadastrar<Usuario> cadastrarUsuario;
-        public IAtualizar<Usuario> atualizarUsuario;
-        public IDeletar<Usuario> deletarUsuario;
-        public IListar<Usuario> listarUsuario;
-        public IBuscar<Usuario> buscarUsuario;
-        public IRepository<Usuario> repository;
 
         public IMapper mapper;
+        public Perfil Perfil;
         public Usuario usuario;
         public EstoqueContext context;
 
@@ -30,23 +35,27 @@ namespace Estoque.Application.Test.UsuarioTest
                 .UseSqlServer("Server=(localdb)MSSQLLocalDB;Initial Catalog=DbEstoque;Integrated Security=true; MultipleActiveResultSets=true").Options;
             context = new EstoqueContext(options);
 
-            var config = new MapperConfiguration(cfg => { cfg.AddProfile(new UsuarioProfile()); });
-            mapper = config.CreateMapper();
+            var configPerfil = new MapperConfiguration(cfg => { cfg.AddProfile(new PerfilProfile()); cfg.AddProfile(new UsuarioProfile()); });
+            mapper = configPerfil.CreateMapper();
 
-            repository = new UsuarioRepository(mapper, context);
-            cadastrarUsuario = new CadastrarUsuario(repository);
-            atualizarUsuario = new AtualizarUsuario(repository);
-            deletarUsuario = new DeletarUsuario(repository);
-            listarUsuario = new ListarUsuario(repository);
-            buscarUsuario = new BuscarUsuario(repository);
+            repository = new PerfilRepository(mapper, context);
+            repositoryUsuario = new UsuarioRepository(mapper, context);
+
+            cadastrarPerfil = new CadastrarPerfil(repository);
+            atualizarPerfil = new AtualizarPerfil(repository);
+            deletarPerfil = new DeletarPerfil(repository);
+            listarPerfil = new ListarPerfil(repository);
+            buscarPerfil = new BuscarPerfil(repository);
+            cadastrarUsuario = new CadastrarUsuario(repositoryUsuario);
 
             usuario = new Usuario();
+            Perfil = new Perfil();
             context.GerarBaseTeste();
         }
 
         [Test]
-        [TestCase("joao@localhost.com.br", "ashby123", "520d8ea5-17d0-4c80-be68-aef17d016534")]
-        public async Task CadastrarNaBase(string email, string senha, string idPerfil)
+        [TestCase("Analista")]
+        public async Task CadastrarNaBase(string nomePerfil)
         {
             //Arrange
             bool resultado;
@@ -56,8 +65,9 @@ namespace Estoque.Application.Test.UsuarioTest
             try
             {
                 //Cadastrar
-                usuario = new Usuario(email, senha, Guid.Parse(idPerfil));
-                await cadastrarUsuario.ExecutarCadastro(usuario);
+                Perfil = new Perfil(nomePerfil);
+                await cadastrarPerfil.ExecutarCadastro(Perfil);
+
                 resultado = true;
             }
             catch (Exception ex)
@@ -78,8 +88,8 @@ namespace Estoque.Application.Test.UsuarioTest
         }
 
         [Test]
-        [TestCase("b3e1c5d2-7f4b-4a8e-8d6f-9a5f8e7b0c2a", "520d8ea5-17d0-4c80-be68-aef17d016534", "rafael@localhost.com.br", "123Ashby")]
-        public async Task AtualizarNaBase(string idUsuario, string idPerfil, string novoEmail, string novaSenha)
+        [TestCase("520d8ea5-17d0-4c80-be68-aef17d016534", "Assistente")]
+        public async Task AtualizarNaBase(string idPerfil, string novoPerfil)
         {
             //Arrange
             bool resultado;
@@ -88,11 +98,9 @@ namespace Estoque.Application.Test.UsuarioTest
             //Act
             try
             {
-                //Cadastrar
-                usuario = new Usuario(novoEmail, novaSenha, Guid.Parse(idPerfil));
-
                 //Atualizar
-                await atualizarUsuario.ExecutarAtualizacao(idUsuario, usuario);
+                Perfil = new Perfil(novoPerfil);
+                await atualizarPerfil.ExecutarAtualizacao(idPerfil, Perfil);
 
                 resultado = true;
             }
@@ -114,8 +122,8 @@ namespace Estoque.Application.Test.UsuarioTest
         }
 
         [Test]
-        [TestCase("b3e1c5d2-7f4b-4a8e-8d6f-9a5f8e7b0c2a")]
-        public async Task DeletarNaBase(string id)
+        [TestCase("520d8ea5-17d0-4c80-be68-aef17d016534")]
+        public async Task DeletarNaBase(string idPerfil)
         {
             //Arrange
             bool resultado;
@@ -125,7 +133,7 @@ namespace Estoque.Application.Test.UsuarioTest
             try
             {
                 //Deletar
-                await deletarUsuario.ExecutarDeletar(id);
+                await deletarPerfil.ExecutarDeletar(idPerfil);
 
                 resultado = true;
             }
@@ -157,7 +165,7 @@ namespace Estoque.Application.Test.UsuarioTest
             try
             {
                 //Listar
-                var dados = await listarUsuario.ExecutarListagem();
+                var dados = await listarPerfil.ExecutarListagem();
 
                 resultado = true;
             }
@@ -179,8 +187,8 @@ namespace Estoque.Application.Test.UsuarioTest
         }
 
         [Test]
-        [TestCase("b3e1c5d2-7f4b-4a8e-8d6f-9a5f8e7b0c2a")]
-        public async Task BuscarNaBase(string id)
+        [TestCase("520d8ea5-17d0-4c80-be68-aef17d016534")]
+        public async Task BuscarNaBase(string idPerfil)
         {
             //Arrange
             bool resultado;
@@ -190,7 +198,7 @@ namespace Estoque.Application.Test.UsuarioTest
             try
             {
                 //Buscar
-                var dado1 = await buscarUsuario.ExecutarBusca(id);
+                var dado = await buscarPerfil.ExecutarBusca(idPerfil);
 
                 resultado = true;
             }
@@ -214,13 +222,15 @@ namespace Estoque.Application.Test.UsuarioTest
         [TearDown]
         public void SetDown()
         {
+            Perfil = null;
             usuario = null;
             repository = null;
-            cadastrarUsuario = null;
-            atualizarUsuario = null;
-            deletarUsuario = null;
-            listarUsuario = null;
-            buscarUsuario = null;
+            repositoryUsuario = null;
+            cadastrarPerfil = null;
+            atualizarPerfil = null;
+            deletarPerfil = null;
+            listarPerfil = null;
+            buscarPerfil = null;
             context.DeletarBaseTeste();
             context.DisposeAsync();
         }

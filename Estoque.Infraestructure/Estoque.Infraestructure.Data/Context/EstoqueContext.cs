@@ -25,6 +25,7 @@ namespace Estoque.Infraestructure.Data.Context
             modelBuilder.ApplyConfiguration(new ProdutoSaidaMapping());
             modelBuilder.ApplyConfiguration(new ProdutoMapping());
             modelBuilder.ApplyConfiguration(new LocalEstoqueMapping());
+            modelBuilder.ApplyConfiguration(new PerfilMapping());
         }
         public DbSet<UsuarioEF> usuarios { get; set; }
         public DbSet<CategoriaEF> categorias { get; set; }
@@ -34,6 +35,7 @@ namespace Estoque.Infraestructure.Data.Context
         public DbSet<ProdutoSaidaEF> produtoSaida { get; set; }
         public DbSet<ProdutoEF> produtos { get; set; }
         public DbSet<LocalEstoqueEF> locaisEstoque { get; set; }
+        public DbSet<PerfilEF> perfis { get; set; }
         public void GerarBaseTeste()
         {
             try

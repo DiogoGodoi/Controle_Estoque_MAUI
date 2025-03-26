@@ -4,18 +4,18 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Estoque.Infraestructure.Data.MappingEF
 {
-    public class LocalEstoqueMapping : IEntityTypeConfiguration<LocalEstoqueEF>
+    public class PerfilMapping : IEntityTypeConfiguration<PerfilEF>
     {
-        public void Configure(EntityTypeBuilder<LocalEstoqueEF> builder)
+        public void Configure(EntityTypeBuilder<PerfilEF> builder)
         {
-            builder.ToTable("LocalEstoque");
+            builder.ToTable("Perfil");
 
             builder.Property(x => x.id)
                    .HasColumnType("uniqueidentifier")
                    .HasColumnName("id");
 
             builder.Property(x => x.nome)
-                   .HasColumnType("varchar(30)")
+                   .HasColumnType("varchar(20)")
                    .HasColumnName("nome")
                    .IsRequired();
 
@@ -25,16 +25,17 @@ namespace Estoque.Infraestructure.Data.MappingEF
             //chave primária
             builder.HasKey("id");
 
-            //logação produto
-            builder.HasMany(x => x.produtos)
-                   .WithOne(x => x.localEstoque)
-                   .HasForeignKey(x => x.fk_LocalEstoque_id)
+            //chave ligação
+            builder.HasMany(x => x.usuario)
+                   .WithOne(x => x.perfil)
+                   .HasForeignKey(x => x.fk_Perfil_id)
                    .OnDelete(DeleteBehavior.Restrict);
 
             //dados
             builder.HasData(
-                new LocalEstoqueEF { id = Guid.Parse("510d4ea5-17d0-4c80-be68-6ef17d907534"), nome = "Epi" },
-                new LocalEstoqueEF { id = Guid.Parse("537d8ba5-17d0-4c80-be68-6ef17d907534"), nome = "Produtos" });
+                new PerfilEF { id = Guid.Parse("520d8ea5-17d0-4c80-be68-aef17d016534"), nome = "Administrador"},
+                new PerfilEF { id = Guid.Parse("527d8ea5-17d0-4c80-be68-bef68c90513a"), nome = "Operador"});
+
         }
     }
 }

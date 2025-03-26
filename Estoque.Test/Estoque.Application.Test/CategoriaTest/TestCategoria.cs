@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Estoque.Application.Test.CategoriaTest
 {
-    public class TestLocalEntrada
+    public class TestCategoria
     {
         public ICadastrar<Categoria> cadastrarCategoria;
         public IAtualizar<Categoria> atualizarCategoria;
@@ -54,8 +54,7 @@ namespace Estoque.Application.Test.CategoriaTest
         }
 
         [Test]
-        [TestCase("b3e1c5d2-7f4b-4a8e-8d6f-9a3f8e7b1c2a", "Mecânicos")]
-        [TestCase("b3e1c5d2-7f4b-4a8e-8d6f-9a3f8e7b1c2a", "Eletrônicos")]
+        [TestCase("b3e1a5d2-7f4b-4a8e-8d6f-9a3f8e7b1c2a", "Mecânicos")]
         public async Task CadastrarNaBase(string idUsuario, string nomeCategoria)
         {
             //Arrange
@@ -89,10 +88,8 @@ namespace Estoque.Application.Test.CategoriaTest
         }
 
         [Test]
-        [TestCase("b3e1c5d2-7f4b-4a8e-8d6f-9a3f8e7b1c2a", "Eletrônicos", "Elétricos")]
-        [TestCase("b3e1c5d2-7f4b-4a8e-8d6f-9a3f8e7b1c2a", "Mecânicos", "Elétricos")]
-        [TestCase("b3e1c5d2-7f4b-4a8e-8d6f-9a3f8e7b1c2a", "Eletrônicos", "Hidráulicos")]
-        public async Task AtualizarNaBase(string idUsuario, string categoriaAtual, string novaCategoria)
+        [TestCase("b3e1a5d2-7f4b-4a8e-8d6f-9a3f8e7b1c2a", "520d8ea5-17d0-4c80-be68-6ef17d907534", "Elétricos")]
+        public async Task AtualizarNaBase(string idUsuario, string idCategoriaAtual, string novaCategoria)
         {
             //Arrange
             bool resultado;
@@ -103,7 +100,7 @@ namespace Estoque.Application.Test.CategoriaTest
             {
                 //Atualizar
                 categoria = new Categoria(Guid.Parse(idUsuario), novaCategoria);
-                await atualizarCategoria.ExecutarAtualizacao(categoriaAtual, categoria);
+                await atualizarCategoria.ExecutarAtualizacao(idCategoriaAtual, categoria);
 
                 resultado = true;
             }
@@ -125,9 +122,8 @@ namespace Estoque.Application.Test.CategoriaTest
         }
 
         [Test]
-        [TestCase("Eletrônicos")]
-        [TestCase("Elétricos")]
-        public async Task DeletarNaBase(string nomeCategoria)
+        [TestCase("520d8ea5-17d0-4c80-be68-6ef17d907534")]
+        public async Task DeletarNaBase(string idCategoria)
         {
             //Arrange
             bool resultado;
@@ -137,7 +133,7 @@ namespace Estoque.Application.Test.CategoriaTest
             try
             {
                 //Deletar
-                await deletarCategoria.ExecutarDeletar(nomeCategoria);
+                await deletarCategoria.ExecutarDeletar(idCategoria);
 
                 resultado = true;
             }
@@ -191,9 +187,8 @@ namespace Estoque.Application.Test.CategoriaTest
         }
 
         [Test]
-        [TestCase("Eletrônicos")]
-        [TestCase("Elétricos")]
-        public async Task BuscarNaBase(string nomeCategoria)
+        [TestCase("520d8ea5-17d0-4c80-be68-6ef17d907534")]
+        public async Task BuscarNaBase(string idCategoria)
         {
             //Arrange
             bool resultado;
@@ -203,7 +198,7 @@ namespace Estoque.Application.Test.CategoriaTest
             try
             {
                 //Buscar
-                var dado = await buscarCategoria.ExecutarBusca(nomeCategoria);
+                var dado = await buscarCategoria.ExecutarBusca(idCategoria);
 
                 resultado = true;
             }

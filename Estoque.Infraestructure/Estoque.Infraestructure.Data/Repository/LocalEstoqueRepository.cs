@@ -28,6 +28,9 @@ namespace Estoque.Infraestructure.Data.Repository
                 if (LocalEstoqueEF == null)
                     throw new Exception("Local de estoque não encontrada");
 
+                if (LocalEstoqueEF.nome == objeto.nome)
+                    throw new Exception("Já existe um local de estoque com esse nome");
+
                 LocalEstoqueEF.nome = LocalEstoqueMapping.nome;
 
                 estoqueContext.locaisEstoque.Update(LocalEstoqueEF);
@@ -36,7 +39,7 @@ namespace Estoque.Infraestructure.Data.Repository
             }
             catch (DbUpdateException ex)
             {
-                throw new Exception("Já existe uma Local estoque com esse nome");
+                throw;
             }
             catch (Exception ex)
             {
@@ -81,13 +84,13 @@ namespace Estoque.Infraestructure.Data.Repository
                 throw;
             }
         }
-        public async Task Deletar(string nome)
+        public async Task Deletar(string id)
         {
             try
             {
-                var LocalEstoqueEF = await estoqueContext.locaisEstoque.FirstOrDefaultAsync(x => x.nome == nome);
+                var LocalEstoqueEF = await estoqueContext.locaisEstoque.FirstOrDefaultAsync(x => x.id == Guid.Parse(id));
                 if (LocalEstoqueEF == null)
-                    throw new Exception("LocalEstoque não encontrada");
+                    throw new Exception("Local de estoque não encontrado");
 
                 estoqueContext.locaisEstoque.Remove(LocalEstoqueEF);
 

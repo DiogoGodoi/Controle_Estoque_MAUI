@@ -17,16 +17,19 @@ namespace Estoque.Infraestructure.Data.Repository
             this.mapper = mapper;
             this.estoqueContext = estoqueContext;
         }
-        public async Task Atualizar(string nome, Categoria objeto)
+        public async Task Atualizar(string id, Categoria objeto)
         {
             try
             {
                 var CategoriaMapping = mapper.Map<CategoriaEF>(objeto);
 
-                var CategoriaEF = await estoqueContext.categorias.FirstOrDefaultAsync(x => x.nome == nome);
+                var CategoriaEF = await estoqueContext.categorias.FirstOrDefaultAsync(x => x.id == Guid.Parse(id));
 
                 if (CategoriaEF == null)
                     throw new Exception("Categoria não encontrada");
+
+                if (CategoriaEF.nome == objeto.nome)
+                    throw new Exception("Já existe uma categoria com esse nome");
 
                 CategoriaEF.fk_Usuario_id = CategoriaMapping.fk_Usuario_id;
                 CategoriaEF.nome = CategoriaMapping.nome;
@@ -37,19 +40,19 @@ namespace Estoque.Infraestructure.Data.Repository
             }
             catch (DbUpdateException ex)
             {
-                throw new Exception("Já existe uma categoria com esse nome");
+                throw;
             }
             catch (Exception ex)
             {
                 throw;
             }
         }
-        public async Task<Categoria> Buscar(string nome)
+        public async Task<Categoria> Buscar(string id)
         {
 
             try
             {
-                var categoria = await estoqueContext.categorias.FirstOrDefaultAsync(x => x.nome == nome);
+                var categoria = await estoqueContext.categorias.FirstOrDefaultAsync(x => x.id == Guid.Parse(id));
 
                 if (categoria == null)
                     throw new Exception("Categoria não localizada");
@@ -74,7 +77,6 @@ namespace Estoque.Infraestructure.Data.Repository
                 var usuarioEF = await estoqueContext.usuarios.FirstOrDefaultAsync(x => x.id == objeto.fk_Usuario_id);
                 if (usuarioEF == null) throw new Exception("Usuário não encontrado");
 
-                
                 var categoria = mapper.Map<CategoriaEF>(objeto);
                 categoria.usuario = usuarioEF;
 
@@ -88,11 +90,11 @@ namespace Estoque.Infraestructure.Data.Repository
                 throw;
             }
         }
-        public async Task Deletar(string nome)
+        public async Task Deletar(string id)
         {
             try
             {
-                var CategoriaEF = await estoqueContext.categorias.FirstOrDefaultAsync(x => x.nome == nome);
+                var CategoriaEF = await estoqueContext.categorias.FirstOrDefaultAsync(x => x.id == Guid.Parse(id));
 
                 if (CategoriaEF == null)
                     throw new Exception("Categoria não encontrada");
@@ -100,6 +102,10 @@ namespace Estoque.Infraestructure.Data.Repository
                 estoqueContext.categorias.Remove(CategoriaEF);
 
                 await estoqueContext.SaveChangesAsync();
+            }
+            catch (DbUpdateException)
+            {
+                throw new DbUpdateException("Existem produtos referenciados com esta categoria");
             }
             catch (Exception ex)
             {

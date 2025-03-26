@@ -2,6 +2,6 @@
 {
     public interface IAtualizar<T>
     {
-        Task ExecutarAtualizacao(string chave, T objeto);
+        Task ExecutarAtualizacao(string id, T objeto);
     }
 }

@@ -11,9 +11,9 @@ namespace Estoque.Application.Repository.RepositoryLocalEstoque
         {
             this.repository = repository;
         }
-        public Task ExecutarDeletar(string chave)
+        public Task ExecutarDeletar(string id)
         {
-            return repository.Deletar(chave);
+            return repository.Deletar(id);
         }
     }
 }

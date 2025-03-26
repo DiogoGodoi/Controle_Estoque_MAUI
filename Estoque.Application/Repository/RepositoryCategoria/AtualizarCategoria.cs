@@ -11,9 +11,9 @@ namespace Estoque.Application.Repository.RepositoryCategoria
         {
             this.repository = repository;
         }
-        public Task ExecutarAtualizacao(string email, Categoria objeto)
+        public Task ExecutarAtualizacao(string id, Categoria objeto)
         {
-            return repository.Atualizar(email, objeto);
+            return repository.Atualizar(id, objeto);
         }
     }
 }
