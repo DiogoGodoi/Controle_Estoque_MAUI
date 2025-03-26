@@ -1,4 +1,4 @@
-﻿using Estoque.Data.Context;
+﻿using Estoque.Infraestructure.Data.Context;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Estoque.Dependencies.Services

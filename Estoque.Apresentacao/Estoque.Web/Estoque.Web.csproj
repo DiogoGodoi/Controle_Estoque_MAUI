@@ -10,7 +10,7 @@
     <ProjectReference Include="..\..\Estoque.Application\Estoque.Application.csproj" />
     <ProjectReference Include="..\..\Estoque.Dependencies\Estoque.Dependencies.csproj" />
     <ProjectReference Include="..\..\Estoque.Domain\Estoque.Domain.csproj" />
-    <ProjectReference Include="..\..\Estoque.Infraestructure\Estoque.Data\Estoque.Data.csproj" />
+    <ProjectReference Include="..\..\Estoque.Infraestructure\Estoque.Infraestructure.Data\Estoque.Infraestructure.Data.csproj" />
     <ProjectReference Include="..\Estoque.Shared.Hybrid\Estoque.Shared.Hybrid.csproj" />
   </ItemGroup>
 

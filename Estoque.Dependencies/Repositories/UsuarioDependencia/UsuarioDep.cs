@@ -1,7 +1,7 @@
 ﻿using Estoque.Application.Interfaces;
 using Estoque.Application.Repository.Abstraction;
 using Estoque.Application.Repository.RepositoryUsuario;
-using Estoque.Data.Repository;
+using Estoque.Infraestructure.Data.Repository;
 using Estoque.Domain.Modelos;
 using Microsoft.Extensions.DependencyInjection;
 

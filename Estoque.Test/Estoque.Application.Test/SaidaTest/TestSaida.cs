@@ -5,9 +5,9 @@ using Estoque.Application.Repository.RepositorySaida;
 using Estoque.Application.Repository.RepositoryProduto;
 using Estoque.Application.Repository.RepositoryProdutoSaida;
 using Estoque.Application.Repository.RepositoryUsuario;
-using Estoque.Data.Context;
-using Estoque.Data.Mapper;
-using Estoque.Data.Repository;
+using Estoque.Infraestructure.Data.Context;
+using Estoque.Infraestructure.Data.Mapper;
+using Estoque.Infraestructure.Data.Repository;
 using Estoque.Domain.Modelos;
 using Microsoft.EntityFrameworkCore;
 

@@ -2,7 +2,7 @@
 using Estoque.Application.Repository.Abstraction;
 using Estoque.Application.Repository.RepositorySaida;
 using Estoque.Domain.Modelos;
-using Estoque.Data.Repository;
+using Estoque.Infraestructure.Data.Repository;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Estoque.Dependencies.Repositories.SaidaDependencia
