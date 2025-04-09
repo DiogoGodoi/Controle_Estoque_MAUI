@@ -1,4 +1,5 @@
-﻿using Estoque.Domain.Modelos;
+﻿using Estoque.Application.Repository.RepositoryCategoria;
+using Estoque.Domain.Modelos;
 using Estoque.Infraestructure.Api.Service.Abstraction;
 using Microsoft.AspNetCore.Mvc;
 
@@ -85,10 +86,9 @@ namespace Estoque.Infraestructure.Api.Controllers
         {
             try
             {
-                //Atualizar Entrada
                 await serviceAPI.Atualizar(idProduto, Entrada);
 
-                return Ok("Entrada atualizado");
+                return CreatedAtAction(nameof(BuscarEntradas), new { id = Entrada.id }, Entrada);
 
             }
             catch (Exception ex)

@@ -22,11 +22,11 @@ namespace Estoque.Infraestructure.Api.Service
                 throw;
             }
         }
-        public async Task<Produto> Buscar(string id)
+        public async Task<Produto> Buscar(string descricao)
         {
             try
             {
-                var produto = await _produtoRepository.Buscar(id);
+                var produto = await _produtoRepository.Buscar(descricao);
 
                 return produto;
             }

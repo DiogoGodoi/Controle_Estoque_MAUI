@@ -1,4 +1,5 @@
-﻿using Estoque.Domain.Modelos;
+﻿using Estoque.Application.Repository.RepositoryCategoria;
+using Estoque.Domain.Modelos;
 using Estoque.Infraestructure.Api.Service.Abstraction;
 using Microsoft.AspNetCore.Mvc;
 
@@ -80,14 +81,14 @@ namespace Estoque.Infraestructure.Api.Controllers
         }
 
         [HttpPut]
-        [Route("Atualizar")]
-        public async Task<IActionResult> AtualizarLocalEstoque([FromBody] LocalEstoque LocalEstoque)
+        [Route("Atualizar/{idLocalEstoque}")]
+        public async Task<IActionResult> AtualizarLocalEstoque(string idLocalEstoque, [FromBody] LocalEstoque LocalEstoque)
         {
             try
             {
-                await _serviceLocalEstoque.Atualizar(LocalEstoque.id.ToString(), LocalEstoque);
+                await _serviceLocalEstoque.Atualizar(idLocalEstoque, LocalEstoque);
 
-                return Ok("Local de estoque atualizado");
+                return CreatedAtAction(nameof(BuscarLocalEstoques), new { id = LocalEstoque.id }, LocalEstoque);
 
             }
             catch (Exception ex)

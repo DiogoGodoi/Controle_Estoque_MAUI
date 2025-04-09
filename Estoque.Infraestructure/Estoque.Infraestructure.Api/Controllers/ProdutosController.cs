@@ -80,14 +80,14 @@ namespace Estoque.Infraestructure.Api.Controllers
         }
 
         [HttpPut]
-        [Route("Atualizar")]
-        public async Task<IActionResult> AtualizarProduto([FromBody] Produto produto)
+        [Route("Atualizar/{idProduto}")]
+        public async Task<IActionResult> AtualizarProduto(string idProduto, [FromBody] Produto produto)
         {
             try
             {
-                await _produtoService.Atualizar(produto.id.ToString(), produto);
+                await _produtoService.Atualizar(idProduto, produto);
 
-                return Ok("Produto atualizado");
+                return CreatedAtAction(nameof(BuscarProdutos), new { descricao = produto.descricao }, produto);
 
             }
             catch (Exception ex)

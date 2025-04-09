@@ -80,14 +80,14 @@ namespace Estoque.Infraestructure.Api.Controllers
         }
 
         [HttpPut]
-        [Route("Atualizar")]
-        public async Task<IActionResult> AtualizarUsuario([FromBody] Usuario Usuario)
+        [Route("Atualizar/{idUsuario}")]
+        public async Task<IActionResult> AtualizarUsuario(string idUsuario, [FromBody] Usuario Usuario)
         {
             try
             {
-                await serviceUsuario.Atualizar(Usuario.id.ToString(), Usuario);
+                await serviceUsuario.Atualizar(idUsuario, Usuario);
 
-                return Ok("Usuario atualizado");
+                return CreatedAtAction(nameof(BuscarUsuarios), new {id = Usuario.id}, Usuario);
 
             }
             catch (Exception ex)

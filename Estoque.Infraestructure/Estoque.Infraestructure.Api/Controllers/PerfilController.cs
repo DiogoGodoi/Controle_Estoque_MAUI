@@ -1,4 +1,5 @@
-﻿using Estoque.Domain.Modelos;
+﻿using Estoque.Application.Repository.RepositoryLocalEstoque;
+using Estoque.Domain.Modelos;
 using Estoque.Infraestructure.Api.Service.Abstraction;
 using Microsoft.AspNetCore.Mvc;
 
@@ -80,14 +81,14 @@ namespace Estoque.Infraestructure.Api.Controllers
         }
 
         [HttpPut]
-        [Route("Atualizar")]
-        public async Task<IActionResult> AtualizarPerfil([FromBody] Perfil Perfil)
+        [Route("Atualizar/{idPerfil}")]
+        public async Task<IActionResult> AtualizarPerfil(string idPerfil, [FromBody] Perfil Perfil)
         {
             try
             {
-                await _servicePerfil.Atualizar(Perfil.id.ToString(), Perfil);
+                await _servicePerfil.Atualizar(idPerfil, Perfil);
 
-                return Ok("Perfil atualizado");
+                return CreatedAtAction(nameof(BuscarPerfils), new { id = Perfil.id }, Perfil);
 
             }
             catch (Exception ex)

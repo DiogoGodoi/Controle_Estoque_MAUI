@@ -1,5 +1,7 @@
-﻿using Estoque.Domain.Modelos;
+﻿using Estoque.Application.Repository.RepositoryProduto;
+using Estoque.Domain.Modelos;
 using Estoque.Infraestructure.Api.Service.Abstraction;
+using Estoque.Infraestructure.Data.ModelosEF;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Estoque.Infraestructure.Api.Controllers
@@ -70,7 +72,7 @@ namespace Estoque.Infraestructure.Api.Controllers
             {
                 await _ServiceSaidas.Cadastrar(idProduto, Saida);
 
-                return Ok();
+                return CreatedAtAction(nameof(BuscarSaidas), new { id = Saida.id }, Saida);
             }
             catch (Exception ex)
             {
@@ -85,10 +87,9 @@ namespace Estoque.Infraestructure.Api.Controllers
         {
             try
             {
-                //Atualizar saida
                 await _ServiceSaidas.Atualizar(idProduto, Saida);
 
-                return Ok("Saida atualizada");
+                return CreatedAtAction(nameof(BuscarSaidas), new { id = Saida.id }, Saida);
 
             }
             catch (Exception ex)

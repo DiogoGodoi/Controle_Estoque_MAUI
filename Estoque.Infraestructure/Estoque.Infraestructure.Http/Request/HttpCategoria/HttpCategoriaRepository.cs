@@ -1,0 +1,120 @@
+﻿using Estoque.Domain.Modelos;
+using Estoque.Infraestructure.Http.Interface;
+using System.Net.Http.Json;
+
+namespace Estoque.Infraestructure.Http.Request.HttpCategoria
+{
+    public class HttpCategoriaRepository : IHttpRepository<Categoria>
+    {
+        private readonly HttpClient _httpClient;
+        public HttpCategoriaRepository(HttpClient httpClient)
+        {
+            _httpClient = httpClient;
+        }
+        public async Task<Categoria> Atualizar(string id, Categoria objeto)
+        {
+            try
+            {
+                var url = $"{id}";
+
+                HttpResponseMessage response = await _httpClient.PutAsJsonAsync<Categoria>(url, objeto);
+
+                var categoria = await response.Content.ReadFromJsonAsync<Categoria>();
+
+                return categoria;
+
+            }
+            catch (HttpRequestException ex)
+            {
+                throw new HttpRequestException($"Erro de servidor: {ex.Message}");
+            }
+            catch
+            {
+                throw;
+            }
+        }
+        public async Task<Categoria> Buscar(string id)
+        {
+            try
+            {
+                var url = $"";
+
+                var categoria = await _httpClient.GetFromJsonAsync<Categoria>(url);
+
+                return categoria;
+
+            }
+            catch (HttpRequestException ex)
+            {
+                throw new HttpRequestException($"Erro de servidor: {ex.Message}");
+            }
+            catch
+            {
+                throw;
+            }
+        }
+        public async Task<Categoria> Cadastrar(Categoria objeto)
+        {
+            try
+            {
+                var url = $"";
+
+                HttpResponseMessage response = await _httpClient.PostAsJsonAsync<Categoria>(url, objeto);
+
+                var categoria = await response.Content.ReadFromJsonAsync<Categoria>();
+
+                return categoria;
+            }
+            catch (HttpRequestException ex)
+            {
+                throw new HttpRequestException($"Erro de servidor: {ex.Message}");
+            }
+            catch
+            {
+                throw;
+            }
+        }
+        public async Task<string> Deletar(string id)
+        {
+            try
+            {
+                var url = $"";
+
+                HttpResponseMessage response = await _httpClient.DeleteAsync(url);
+
+                var content = await response.Content.ReadAsStringAsync();
+
+                return content;
+
+            }
+            catch (HttpRequestException ex)
+            {
+                throw new HttpRequestException($"Erro de servidor: {ex.Message}");
+            }
+            catch
+            {
+                throw;
+            }
+        }
+        public async Task<IEnumerable<Categoria>> Listar()
+        {
+            try
+            {
+                var url = $"";
+
+                var categorias = await _httpClient.GetFromJsonAsync<IEnumerable<Categoria>>(url);
+
+                return categorias;
+
+            }
+            catch (HttpRequestException ex)
+            {
+                throw new HttpRequestException($"Erro de servidor: {ex.Message}");
+            }
+            catch
+            {
+                throw;
+            }
+        }
+    }
+}
