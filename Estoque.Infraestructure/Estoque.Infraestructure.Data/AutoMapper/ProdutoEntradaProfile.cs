@@ -2,7 +2,7 @@
 using Estoque.Infraestructure.Data.ModelosEF;
 using Estoque.Domain.Modelos;
 
-namespace Estoque.Infraestructure.Data.Mapper
+namespace Estoque.Infraestructure.Data.AutoMapper
 {
     public class ProdutoEntradaProfile : Profile
     {

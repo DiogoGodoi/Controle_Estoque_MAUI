@@ -12,8 +12,8 @@ namespace Estoque.Infraestructure.Data.Context
         public EstoqueContext(DbContextOptions<EstoqueContext> options) : base(options) { }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Initial Catalog=DbEstoque;Integrated Security=true; MultipleActiveResultSets=true")
-                .LogTo(Console.WriteLine, LogLevel.Information); 
+            optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Initial Catalog=DbEstoque; Integrated Security=true");
+                //.LogTo(Console.WriteLine, LogLevel.Information); 
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

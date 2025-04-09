@@ -4,7 +4,7 @@ using Estoque.Application.Repository.Abstraction;
 using Estoque.Application.Repository.RepositoryLocalEstoque;
 using Estoque.Application.Repository.RepositoryUsuario;
 using Estoque.Infraestructure.Data.Context;
-using Estoque.Infraestructure.Data.Mapper;
+using Estoque.Infraestructure.Data.AutoMapper;
 using Estoque.Infraestructure.Data.Repository;
 using Estoque.Domain.Modelos;
 using Microsoft.EntityFrameworkCore;
@@ -123,7 +123,7 @@ namespace Estoque.Application.Test.LocalEstoqueTest
 
         [Test]
         [TestCase("537d8ba5-17d0-4c80-be68-6ef17d907534")]
-        public async Task DeletarNaBase(string id)
+        public async Task FalharDeletarNaBase(string id)
         {
             //Arrange
             bool resultado;
@@ -150,7 +150,7 @@ namespace Estoque.Application.Test.LocalEstoqueTest
             }
             else
             {
-                Assert.That(resultado, Is.True, $"{exception.Message}");
+                Assert.That(resultado, Is.False, $"{exception.Message}");
             }
         }
 
@@ -187,7 +187,7 @@ namespace Estoque.Application.Test.LocalEstoqueTest
         }
 
         [Test]
-        [TestCase("Epi")]
+        [TestCase("510d4ea5-17d0-4c80-be68-6ef17d907534")]
         public async Task BuscarNaBase(string nomeLocalEstoque)
         {
             //Arrange

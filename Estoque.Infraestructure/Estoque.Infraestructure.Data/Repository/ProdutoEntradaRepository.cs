@@ -86,6 +86,8 @@ namespace Estoque.Infraestructure.Data.Repository
 
                 estoqueContext.produtoEntrada.Add(produtoEntrada);
 
+
+
                 await estoqueContext.SaveChangesAsync();
 
             }

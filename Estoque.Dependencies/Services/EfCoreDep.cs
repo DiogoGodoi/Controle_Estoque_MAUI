@@ -5,12 +5,11 @@ namespace Estoque.Dependencies.Services
 {
     public static class EFCoreDep
     {
-        public static IServiceCollection addEFCore(this IServiceCollection services)
+        public static IServiceCollection AddEFCore(this IServiceCollection services)
         {
             services.AddDbContext<EstoqueContext>();
 
             return services;
         }
-
     }
 }

@@ -2,7 +2,7 @@
 using Estoque.Infraestructure.Data.ModelosEF;
 using Estoque.Domain.Modelos;
 
-namespace Estoque.Infraestructure.Data.Mapper
+namespace Estoque.Infraestructure.Data.AutoMapper
 {
     public class ProdutoProfile : Profile
     {
@@ -21,7 +21,7 @@ namespace Estoque.Infraestructure.Data.Mapper
                .ForMember(dest => dest.fk_Usuario_id, map => map.MapFrom(src => src.fk_Usuario_id))
                .ForMember(dest => dest.fk_Categoria_id, map => map.MapFrom(src => src.fk_Categoria_id))
                .ForMember(dest => dest.localEstoque, map => map.MapFrom(src =>
-                    new LocalEstoque(src.fk_LocalEstoque_id)))
+                    new LocalEstoqueEF { id = src.fk_LocalEstoque_id }))
                .ForMember(dest => dest.usuario, map => map.MapFrom(src =>
                     new Usuario(src.fk_Usuario_id)))
                .ForMember(dest => dest.categoria, map => map.MapFrom(src =>

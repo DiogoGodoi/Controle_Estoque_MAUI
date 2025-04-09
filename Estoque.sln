@@ -33,6 +33,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Estoque.Desktop", "Estoque.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Estoque.Infraestructure.Data", "Estoque.Infraestructure\Estoque.Infraestructure.Data\Estoque.Infraestructure.Data.csproj", "{7A95CABF-2CC7-46C4-960D-32DAC2854320}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Estoque.Infraestructure.Api", "Estoque.Infraestructure\Estoque.Infraestructure.Api\Estoque.Infraestructure.Api.csproj", "{C3E8CD88-05F9-4B87-A66F-3ED405CC3C87}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,6 +77,10 @@ Global
 		{7A95CABF-2CC7-46C4-960D-32DAC2854320}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7A95CABF-2CC7-46C4-960D-32DAC2854320}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7A95CABF-2CC7-46C4-960D-32DAC2854320}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3E8CD88-05F9-4B87-A66F-3ED405CC3C87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3E8CD88-05F9-4B87-A66F-3ED405CC3C87}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3E8CD88-05F9-4B87-A66F-3ED405CC3C87}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3E8CD88-05F9-4B87-A66F-3ED405CC3C87}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -89,6 +95,7 @@ Global
 		{EC3BE93E-8D03-4116-B855-A431F8081EB3} = {60325579-B2CF-4B6E-A1DD-3DA40E85BC15}
 		{DA1D6168-15B8-416F-9E30-FE077C54ECB4} = {60325579-B2CF-4B6E-A1DD-3DA40E85BC15}
 		{7A95CABF-2CC7-46C4-960D-32DAC2854320} = {9FBA2317-17C4-418D-AD52-0EC6F22AC9A7}
+		{C3E8CD88-05F9-4B87-A66F-3ED405CC3C87} = {9FBA2317-17C4-418D-AD52-0EC6F22AC9A7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3D9D452C-6C91-423B-9356-0D298112CC59}

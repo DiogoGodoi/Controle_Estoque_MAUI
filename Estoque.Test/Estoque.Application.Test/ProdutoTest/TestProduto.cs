@@ -3,16 +3,15 @@ using Estoque.Application.Interfaces;
 using Estoque.Application.Repository.Abstraction;
 using Estoque.Application.Repository.RepositoryProduto;
 using Estoque.Application.Repository.RepositoryUsuario;
-using Estoque.Infraestructure.Data.Context;
-using Estoque.Infraestructure.Data.Mapper;
-using Estoque.Infraestructure.Data.ModelosEF;
-using Estoque.Infraestructure.Data.Repository;
 using Estoque.Domain.Modelos;
+using Estoque.Infraestructure.Data.Context;
+using Estoque.Infraestructure.Data.AutoMapper;
+using Estoque.Infraestructure.Data.Repository;
 using Microsoft.EntityFrameworkCore;
 
 namespace Estoque.Application.Test.ProdutoTest
 {
-    public class TestEntradaProduto
+    public class TestProduto
     {
         public ICadastrar<Produto> cadastrarProduto;
         public IAtualizar<Produto> atualizarProduto;
@@ -55,11 +54,9 @@ namespace Estoque.Application.Test.ProdutoTest
         }
 
         [Test]
-        [TestCase("b3e1c5d2-7f4b-4a8e-8d6f-9a5f8e7b0c2a", "520d8ea5-17d0-4c80-be68-6ef17d907534", 
-            "Notebook Asus", "UN", 3, 3000.00, 3500.00, 3200.00, 5, "537d8ba5-17d0-4c80-be68-6ef17d907534")]
-        [TestCase("b3e1c5d2-7f4b-4a8e-8d6f-9a5f8e7b0c2a", "520d8ea5-17d0-4c80-be68-6ef17d907534", 
-            "Samsung S24", "UN", 3, 3000.00, 3500.00, 3200.00, 10, "537d8ba5-17d0-4c80-be68-6ef17d907534")]
-        public async Task CadastrarNaBase(string idUsuario, string idCategoria, string descricao, 
+        [TestCase("b3e1c5d2-7f4b-4a8e-8d6f-9a5f8e7b0c2a", "520d8ea5-17d0-4c80-be68-6ef17d907534",
+            "Notebook Asus", "UN", 3, 3000.00, 3500.00, 3200.00, 10, "537d8ba5-17d0-4c80-be68-6ef17d907534")]
+        public async Task CadastrarNaBase(string idUsuario, string idCategoria, string descricao,
             string unidade, int quantidade, decimal preco1, decimal preco2, decimal preco3, int estoqueMin, string idLocalEstoque)
         {
             //Arrange
@@ -94,7 +91,7 @@ namespace Estoque.Application.Test.ProdutoTest
         }
 
         [Test]
-        [TestCase("b3e1c5d2-7f4b-4a8e-8d6f-9a5f8e7b0c2a", "520d8ea5-17d0-4c80-be68-6ef17d907534", "Samsung S90", "UN", 
+        [TestCase("b3e1c5d2-7f4b-4a8e-8d6f-9a5f8e7b0c2a", "520d8ea5-17d0-4c80-be68-6ef17d907534", "Samsung S90", "UN",
             10, 7000.00, 7500.00, 7200.00, "f4c9e2b7-8d3a-4e6f-9b2d-7a1c5e0f3b8d", 2, "537d8ba5-17d0-4c80-be68-6ef17d907534")]
         public async Task AtualizarNaBase(string idUsuario, string idCategoria, string descricao,
             string unidade, int quantidade, decimal preco1, decimal preco2, decimal preco3, string idProdutoAtual, int estoqueMin, string idLocalEstoque)
@@ -197,8 +194,8 @@ namespace Estoque.Application.Test.ProdutoTest
         }
 
         [Test]
-        [TestCase("Bomba d'água")]
-        public async Task BuscarNaBase(string descricao)
+        [TestCase("d2f1a3b9-6c4e-4d7a-9e3b-8f2c7d1e0b5f")]
+        public async Task BuscarNaBase(string id)
         {
             //Arrange
             bool resultado;
@@ -208,7 +205,7 @@ namespace Estoque.Application.Test.ProdutoTest
             try
             {
                 //Buscar
-                var dado = await buscarProduto.ExecutarBusca(descricao);
+                var dado = await buscarProduto.ExecutarBusca(id);
 
                 resultado = true;
             }

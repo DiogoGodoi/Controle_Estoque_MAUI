@@ -9,7 +9,7 @@ namespace Estoque.Dependencies.Repositories.ProdutoSaidaDependencia
 {
     public static class ProdutoSaidaDep
     {
-        public static IServiceCollection AddRepositoryProdutoSaidaa(this IServiceCollection services)
+        public static IServiceCollection AddRepositoryProdutoSaida(this IServiceCollection services)
         {
             services.AddScoped<IRepository<ProdutoSaida>, ProdutoSaidaRepository>();
             services.AddScoped<ICadastrar<ProdutoSaida>, CadastrarProdutoSaida>();

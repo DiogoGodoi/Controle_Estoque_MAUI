@@ -6,7 +6,7 @@ using Estoque.Application.Repository.RepositoryProduto;
 using Estoque.Application.Repository.RepositoryUsuario;
 using Estoque.Application.Repository.RepositoryProdutoEntrada;
 using Estoque.Infraestructure.Data.Context;
-using Estoque.Infraestructure.Data.Mapper;
+using Estoque.Infraestructure.Data.AutoMapper;
 using Estoque.Infraestructure.Data.Repository;
 using Estoque.Domain.Modelos;
 using Microsoft.EntityFrameworkCore;
@@ -83,7 +83,7 @@ namespace Estoque.Application.Test.EntradaTest
         }
 
         [Test]
-        [TestCase("Bomba d'água", "2025-03-25 00:00:00", 10, "b3e1c5d2-7f4b-4a8e-8d6f-9a5f8e7b0c2a")]
+        [TestCase("d2f1a3b9-6c4e-4d7a-9e3b-8f2c7d1e0b5f", "2025-03-25 00:00:00", 10, "b3e1c5d2-7f4b-4a8e-8d6f-9a5f8e7b0c2a")]
         public async Task CadastrarNaBase(string descricao, DateTime dataEntrada, int quantidade, string fk_Usuario_id)
         {
             //Arrange
@@ -132,7 +132,7 @@ namespace Estoque.Application.Test.EntradaTest
         }
 
         [Test]
-        [TestCase("Bomba d'água", "2025-03-25 00:00:00", 15, "b3e1c5d2-7f4b-4a8e-8d6f-9a5f8e7b0c2a", "b3e1c5d2-7f4b-4b8a-8d6f-9a5f8e7b0c2a")]
+        [TestCase("d2f1a3b9-6c4e-4d7a-9e3b-8f2c7d1e0b5f", "2025-03-25 00:00:00", 15, "b3e1c5d2-7f4b-4a8e-8d6f-9a5f8e7b0c2a", "b3e1c5d2-7f4b-4b8a-8d6f-9a5f8e7b0c2a")]
         public async Task AtualizarNaBase(string descricao, DateTime dataEntrada, int quantidade, string fk_Usuario_id, string idEntradaAtual)
         {
             //Arrange
@@ -181,7 +181,7 @@ namespace Estoque.Application.Test.EntradaTest
         }
 
         [Test]
-        [TestCase("b3e1c5d2-7f4b-4b8a-8d6f-9a5f8e7b0c2a", "Bomba d'água")]
+        [TestCase("b3e1c5d2-7f4b-4b8a-8d6f-9a5f8e7b0c2a", "d2f1a3b9-6c4e-4d7a-9e3b-8f2c7d1e0b5f")]
         public async Task DeletarNaBase(string idEntrada, string descricao)
         {
             //Arrange

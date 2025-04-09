@@ -28,8 +28,11 @@ namespace Estoque.Infraestructure.Data.Repository
                 if (ProdutoEF == null)
                     throw new Exception("Produto não encontrado");
 
-                if(ProdutoEF.descricao == objeto.descricao)
-                    throw new Exception("Já existe uma Produto com esse nome");
+                if (ProdutoEF.quantidade == objeto.quantidade)
+                {
+                    if (ProdutoEF.descricao == objeto.descricao)
+                        throw new Exception("Já existe uma Produto com esse nome");
+                }
 
                 ProdutoEF.descricao = ProdutoMapping.descricao;
                 ProdutoEF.unidade = ProdutoMapping.unidade;
@@ -55,11 +58,11 @@ namespace Estoque.Infraestructure.Data.Repository
                 throw;
             }
         }
-        public async Task<Produto> Buscar(string descricao)
+        public async Task<Produto> Buscar(string id)
         {
             try
             {
-                var Produto = await estoqueContext.produtos.FirstOrDefaultAsync(x => x.descricao == descricao);
+                var Produto = await estoqueContext.produtos.FirstOrDefaultAsync(x => x.id == Guid.Parse(id));
 
                 if (Produto == null)
                     throw new Exception("Produto não localizado");
@@ -81,16 +84,20 @@ namespace Estoque.Infraestructure.Data.Repository
                 var ProdutoEf = await estoqueContext.produtos.FirstOrDefaultAsync(x => x.descricao == objeto.descricao);
                 if (ProdutoEf != null) throw new Exception("Produto já cadastrado");
 
-                var usuarioEf = await estoqueContext.usuarios.FindAsync(objeto.fk_Usuario_id);
+                var usuarioEf = await estoqueContext.usuarios.FirstOrDefaultAsync(x => x.id == objeto.fk_Usuario_id);
                 if (usuarioEf == null) throw new Exception("Usuário não encontrado");
 
-                var categoriaEf = await estoqueContext.categorias.FindAsync(objeto.fk_Categoria_id);
+                var categoriaEf = await estoqueContext.categorias.FirstOrDefaultAsync(x => x.id == objeto.fk_Categoria_id);
                 if (categoriaEf == null) throw new Exception("Categoria não encontrada");
+
+                var localEstoqueEf = await estoqueContext.locaisEstoque.FirstOrDefaultAsync(x => x.id == objeto.fk_LocalEstoque_id);
+                if (localEstoqueEf == null) throw new Exception("Local de estoque encontrads");
 
                 var Produto = mapper.Map<ProdutoEF>(objeto);
 
                 Produto.usuario = usuarioEf;
                 Produto.categoria = categoriaEf;
+                Produto.localEstoque = localEstoqueEf;
 
                 estoqueContext.produtos.Add(Produto);
                 await estoqueContext.SaveChangesAsync();

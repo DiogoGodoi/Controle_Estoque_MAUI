@@ -2,13 +2,13 @@
 using Estoque.Infraestructure.Data.ModelosEF;
 using Estoque.Domain.Modelos;
 
-namespace Estoque.Infraestructure.Data.Mapper
+namespace Estoque.Infraestructure.Data.AutoMapper
 {
-    public class LocalEstoqueProfile : Profile
+    public class PerfilProfile : Profile
     {
-        public LocalEstoqueProfile()
+        public PerfilProfile()
         {
-            CreateMap<LocalEstoque, LocalEstoqueEF>()
+            CreateMap<Perfil, PerfilEF>()
                .ForMember(dest => dest.id, map => map.MapFrom(src => src.id))
                .ForMember(dest => dest.nome, map => map.MapFrom(src => src.nome))
                .ReverseMap();

@@ -46,11 +46,11 @@ namespace Estoque.Infraestructure.Data.Repository
                 throw;
             }
         }
-        public async Task<LocalEstoque> Buscar(string nome)
+        public async Task<LocalEstoque> Buscar(string id)
         {
             try
             {
-                var LocalEstoque = await estoqueContext.locaisEstoque.FirstOrDefaultAsync(x => x.nome == nome);
+                var LocalEstoque = await estoqueContext.locaisEstoque.FirstOrDefaultAsync(x => x.id == Guid.Parse(id));
 
                 if (LocalEstoque == null)
                     throw new Exception("Local estoque não localizada");

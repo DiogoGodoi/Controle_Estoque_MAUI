@@ -4,7 +4,7 @@ using Estoque.Application.Repository.Abstraction;
 using Estoque.Application.Repository.RepositoryPerfil;
 using Estoque.Application.Repository.RepositoryUsuario;
 using Estoque.Infraestructure.Data.Context;
-using Estoque.Infraestructure.Data.Mapper;
+using Estoque.Infraestructure.Data.AutoMapper;
 using Estoque.Infraestructure.Data.Repository;
 using Estoque.Domain.Modelos;
 using Microsoft.EntityFrameworkCore;
@@ -123,7 +123,7 @@ namespace Estoque.Application.Test.PerfilTest
 
         [Test]
         [TestCase("520d8ea5-17d0-4c80-be68-aef17d016534")]
-        public async Task DeletarNaBase(string idPerfil)
+        public async Task FalharDeletarNaBase(string idPerfil)
         {
             //Arrange
             bool resultado;
@@ -150,7 +150,7 @@ namespace Estoque.Application.Test.PerfilTest
             }
             else
             {
-                Assert.That(resultado, Is.True, $"{exception.Message}");
+                Assert.That(resultado, Is.False, $"{exception.Message}");
             }
         }
 

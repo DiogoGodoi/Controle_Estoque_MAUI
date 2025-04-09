@@ -5,6 +5,7 @@
         public Guid id { get; private set; }
         public DateTime dataEntrada { get; private set; }
         public Guid fk_Usuario_id { get; private set; }
+
         public Entrada()
         {
 
@@ -67,6 +68,5 @@
                 this.fk_Usuario_id = fk_Usuario_id;
             }
         }
-
     }
 }

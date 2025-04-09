@@ -2,15 +2,15 @@
 using Estoque.Infraestructure.Data.ModelosEF;
 using Estoque.Domain.Modelos;
 
-namespace Estoque.Infraestructure.Data.Mapper
+namespace Estoque.Infraestructure.Data.AutoMapper
 {
-    public class EntradaProfile : Profile
+    public class SaidaProfile : Profile
     {
-        public EntradaProfile()
+        public SaidaProfile()
         {
-            CreateMap<Entrada, EntradaEF>()
+            CreateMap<Saida, SaidaEF>()
                .ForMember(dest => dest.id, map => map.MapFrom(src => src.id))
-               .ForMember(dest => dest.dataEntrada, map => map.MapFrom(src => src.dataEntrada))
+               .ForMember(dest => dest.dataSaida, map => map.MapFrom(src => src.dataSaida))
                .ForMember(dest => dest.fk_Usuario_id, map => map.MapFrom(src => src.fk_Usuario_id))
                .ForMember(dest => dest.quantidade, map => map.MapFrom(src => src.quantidade))
                .ForMember(dest => dest.usuario, map => map.MapFrom(src =>
