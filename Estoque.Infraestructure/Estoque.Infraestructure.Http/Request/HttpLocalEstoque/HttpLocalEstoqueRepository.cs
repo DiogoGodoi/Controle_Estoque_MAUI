@@ -1,10 +1,11 @@
-﻿using Estoque.Domain.Modelos;
+﻿using Estoque.Application.Comand.Modelos;
+using Estoque.Domain.Modelos;
 using Estoque.Infraestructure.Http.Interface;
 using System.Net.Http.Json;
 
 namespace Estoque.Infraestructure.Http.Request.HttpLocalEstoque
 {
-    public class HttpLocalEstoqueRepository : IHttpRepository<LocalEstoque>
+    public class HttpLocalEstoqueRepository : IHttpRepository<LocalEstoque>, IHttpRepositoryDTO<LocalEstoqueDTO>
     {
         private readonly HttpClient _httpClient;
         public HttpLocalEstoqueRepository(HttpClient httpClient)
@@ -33,13 +34,13 @@ namespace Estoque.Infraestructure.Http.Request.HttpLocalEstoque
                 throw;
             }
         }
-        public async Task<LocalEstoque> Buscar(string id)
+        public async Task<LocalEstoqueDTO> Buscar(string id)
         {
             try
             {
                 var url = $"";
 
-                var LocalEstoque = await _httpClient.GetFromJsonAsync<LocalEstoque>(url);
+                var LocalEstoque = await _httpClient.GetFromJsonAsync<LocalEstoqueDTO>(url);
 
                 return LocalEstoque;
 
@@ -96,13 +97,13 @@ namespace Estoque.Infraestructure.Http.Request.HttpLocalEstoque
                 throw;
             }
         }
-        public async Task<IEnumerable<LocalEstoque>> Listar()
+        public async Task<IEnumerable<LocalEstoqueDTO>> Listar()
         {
             try
             {
                 var url = $"";
 
-                var LocalEstoques = await _httpClient.GetFromJsonAsync<IEnumerable<LocalEstoque>>(url);
+                var LocalEstoques = await _httpClient.GetFromJsonAsync<IEnumerable<LocalEstoqueDTO>>(url);
 
                 return LocalEstoques;
 

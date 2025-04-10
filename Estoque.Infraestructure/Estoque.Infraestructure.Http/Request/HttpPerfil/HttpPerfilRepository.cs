@@ -1,10 +1,11 @@
-﻿using Estoque.Domain.Modelos;
+﻿using Estoque.Application.Comand.Modelos;
+using Estoque.Domain.Modelos;
 using Estoque.Infraestructure.Http.Interface;
 using System.Net.Http.Json;
 
 namespace Estoque.Infraestructure.Http.Request.HttpPerfil
 {
-    public class HttpPerfilRepository : IHttpRepository<Perfil>
+    public class HttpPerfilRepository : IHttpRepository<Perfil>, IHttpRepositoryDTO<PerfilDTO>
     {
         private readonly HttpClient _httpClient;
         public HttpPerfilRepository(HttpClient httpClient)
@@ -33,13 +34,13 @@ namespace Estoque.Infraestructure.Http.Request.HttpPerfil
                 throw;
             }
         }
-        public async Task<Perfil> Buscar(string id)
+        public async Task<PerfilDTO> Buscar(string id)
         {
             try
             {
                 var url = $"";
 
-                var Perfil = await _httpClient.GetFromJsonAsync<Perfil>(url);
+                var Perfil = await _httpClient.GetFromJsonAsync<PerfilDTO>(url);
 
                 return Perfil;
 
@@ -96,13 +97,13 @@ namespace Estoque.Infraestructure.Http.Request.HttpPerfil
                 throw;
             }
         }
-        public async Task<IEnumerable<Perfil>> Listar()
+        public async Task<IEnumerable<PerfilDTO>> Listar()
         {
             try
             {
                 var url = $"";
 
-                var Perfils = await _httpClient.GetFromJsonAsync<IEnumerable<Perfil>>(url);
+                var Perfils = await _httpClient.GetFromJsonAsync<IEnumerable<PerfilDTO>>(url);
 
                 return Perfils;
 

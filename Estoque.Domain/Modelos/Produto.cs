@@ -2,18 +2,18 @@
 {
     public class Produto
     {
-        public Guid id { get; set; }
-        public string descricao { get; set; }
-        public string unidade { get; set; }
-        public int quantidade { get; set; }
-        public decimal preco1 { get; set; }
-        public decimal preco2 { get; set; }
-        public decimal preco3 { get; set; }
-        public decimal precoMedio { get; set; }
-        public int estoqueMin { get; set; }
-        public Usuario usuario { get; set; }
-        public Categoria categoria { get; set; }
-        public LocalEstoque localEstoque { get; set; }
+        public Guid id { get; private set; }
+        public string descricao { get; private set; }
+        public string unidade { get; private set; }
+        public int quantidade { get; private set; }
+        public decimal preco1 { get; private set; }
+        public decimal preco2 { get; private set; }
+        public decimal preco3 { get; private set; }
+        public decimal precoMedio { get; private set; }
+        public int estoqueMin { get; private set; }
+        public Usuario usuario { get; private set; }
+        public Categoria categoria { get; private set; }
+        public LocalEstoque localEstoque { get; private set; }
         public Produto()
         {
 

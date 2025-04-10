@@ -1,10 +1,11 @@
-﻿using Estoque.Domain.Modelos;
+﻿using Estoque.Application.Comand.Modelos;
+using Estoque.Domain.Modelos;
 using Estoque.Infraestructure.Http.Interface;
 using System.Net.Http.Json;
 
 namespace Estoque.Infraestructure.Http.Request.HttpUsuario
 {
-    public class HttpUsuarioRepository : IHttpRepository<Usuario>
+    public class HttpUsuarioRepository : IHttpRepository<Usuario>, IHttpRepositoryDTO<UsuarioDTO>
     {
         private readonly HttpClient _httpClient;
         public HttpUsuarioRepository(HttpClient httpClient)
@@ -33,13 +34,13 @@ namespace Estoque.Infraestructure.Http.Request.HttpUsuario
                 throw;
             }
         }
-        public async Task<Usuario> Buscar(string id)
+        public async Task<UsuarioDTO> Buscar(string id)
         {
             try
             {
                 var url = $"";
 
-                var Usuario = await _httpClient.GetFromJsonAsync<Usuario>(url);
+                var Usuario = await _httpClient.GetFromJsonAsync<UsuarioDTO>(url);
 
                 return Usuario;
 
@@ -96,13 +97,13 @@ namespace Estoque.Infraestructure.Http.Request.HttpUsuario
                 throw;
             }
         }
-        public async Task<IEnumerable<Usuario>> Listar()
+        public async Task<IEnumerable<UsuarioDTO>> Listar()
         {
             try
             {
                 var url = $"";
 
-                var Usuarios = await _httpClient.GetFromJsonAsync<IEnumerable<Usuario>>(url);
+                var Usuarios = await _httpClient.GetFromJsonAsync<IEnumerable<UsuarioDTO>>(url);
 
                 return Usuarios;
 

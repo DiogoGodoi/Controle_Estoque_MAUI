@@ -1,10 +1,11 @@
-﻿using Estoque.Domain.Modelos;
+﻿using Estoque.Application.Comand.Modelos;
+using Estoque.Domain.Modelos;
 using Estoque.Infraestructure.Http.Interface;
 using System.Net.Http.Json;
 
 namespace Estoque.Infraestructure.Http.Request.HttpCategoria
 {
-    public class HttpCategoriaRepository : IHttpRepository<Categoria>
+    public class HttpCategoriaRepository : IHttpRepository<Categoria>, IHttpRepositoryDTO<CategoriaDTO>
     {
         private readonly HttpClient _httpClient;
         public HttpCategoriaRepository(HttpClient httpClient)
@@ -33,13 +34,13 @@ namespace Estoque.Infraestructure.Http.Request.HttpCategoria
                 throw;
             }
         }
-        public async Task<Categoria> Buscar(string id)
+        public async Task<CategoriaDTO> Buscar(string id)
         {
             try
             {
                 var url = $"";
 
-                var categoria = await _httpClient.GetFromJsonAsync<Categoria>(url);
+                var categoria = await _httpClient.GetFromJsonAsync<CategoriaDTO>(url);
 
                 return categoria;
 
@@ -96,13 +97,13 @@ namespace Estoque.Infraestructure.Http.Request.HttpCategoria
                 throw;
             }
         }
-        public async Task<IEnumerable<Categoria>> Listar()
+        public async Task<IEnumerable<CategoriaDTO>> Listar()
         {
             try
             {
                 var url = $"";
 
-                var categorias = await _httpClient.GetFromJsonAsync<IEnumerable<Categoria>>(url);
+                var categorias = await _httpClient.GetFromJsonAsync<IEnumerable<CategoriaDTO>>(url);
 
                 return categorias;
 

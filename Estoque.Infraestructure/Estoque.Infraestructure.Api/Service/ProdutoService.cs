@@ -1,15 +1,19 @@
-﻿using Estoque.Application.Interfaces;
+﻿using AutoMapper;
+using Estoque.Application.Comand.Modelos;
+using Estoque.Application.Interfaces;
 using Estoque.Domain.Modelos;
-using Estoque.Infraestructure.Api.Service.Abstraction;
+using Estoque.Infraestructure.Api.Service.Interface;
 
 namespace Estoque.Infraestructure.Api.Service
 {
-    public class ProdutoService : IService<Produto>
+    public class ProdutoService : IService<Produto>, IServiceDTO<ProdutoDTO>
     {
         private readonly IRepository<Produto> _produtoRepository;
-        public ProdutoService(IRepository<Produto> produtoRepository)
+        private readonly IMapper _mapper;
+        public ProdutoService(IRepository<Produto> produtoRepository, IMapper mapper)
         {
             _produtoRepository = produtoRepository;
+            _mapper = mapper;
         }
         public async Task Atualizar(string id, Produto objeto)
         {
@@ -22,13 +26,15 @@ namespace Estoque.Infraestructure.Api.Service
                 throw;
             }
         }
-        public async Task<Produto> Buscar(string descricao)
+        public async Task<ProdutoDTO> Buscar(string descricao)
         {
             try
             {
                 var produto = await _produtoRepository.Buscar(descricao);
 
-                return produto;
+                var produtosMap = _mapper.Map<ProdutoDTO>(produto);
+
+                return produtosMap;
             }
             catch
             {
@@ -57,13 +63,15 @@ namespace Estoque.Infraestructure.Api.Service
                 throw;
             }
         }
-        public async Task<IEnumerable<Produto>> Listar()
+        public async Task<IEnumerable<ProdutoDTO>> Listar()
         {
             try
             {
                 var produtos = await _produtoRepository.Listar();
 
-                return produtos;
+                var produtosMap = _mapper.Map<IEnumerable<ProdutoDTO>>(produtos);
+
+                return produtosMap;
             }
             catch
             {

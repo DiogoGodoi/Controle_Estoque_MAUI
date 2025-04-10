@@ -1,15 +1,20 @@
-﻿using Estoque.Application.Interfaces;
+﻿using AutoMapper;
+using Estoque.Application.Comand.Modelos;
+using Estoque.Application.Interfaces;
 using Estoque.Domain.Modelos;
-using Estoque.Infraestructure.Api.Service.Abstraction;
+using Estoque.Infraestructure.Api.Service.Interface;
 
 namespace Estoque.Infraestructure.Api.Service
 {
-    public class CategoriaService : IService<Categoria>
+    public class CategoriaService : IService<Categoria>, IServiceDTO<CategoriaDTO>
     {
         private readonly IRepository<Categoria> _categoriaRepository;
-        public CategoriaService(IRepository<Categoria> _categoriaRepository)
+
+        private readonly IMapper mapper;
+        public CategoriaService(IRepository<Categoria> _categoriaRepository, IMapper mapper)
         {
             this._categoriaRepository = _categoriaRepository;
+            this.mapper = mapper;
         }
         public async Task Atualizar(string id, Categoria objeto)
         {
@@ -22,13 +27,15 @@ namespace Estoque.Infraestructure.Api.Service
                 throw;
             }
         }
-        public async Task<Categoria> Buscar(string id)
+        public async Task<CategoriaDTO> Buscar(string id)
         {
             try
             {
                 var categoria = await _categoriaRepository.Buscar(id);
 
-                return categoria;   
+                var categoriaMap = mapper.Map<CategoriaDTO>(categoria);
+
+                return categoriaMap;
             }
             catch
             {
@@ -57,13 +64,15 @@ namespace Estoque.Infraestructure.Api.Service
                 throw;
             }
         }
-        public async Task<IEnumerable<Categoria>> Listar()
+        public async Task<IEnumerable<CategoriaDTO>> Listar()
         {
             try
             {
                 var categorias = await _categoriaRepository.Listar();
 
-                return categorias;
+                var categoriasMap = mapper.Map<IEnumerable<CategoriaDTO>>(categorias);
+
+                return categoriasMap;
             }
             catch
             {

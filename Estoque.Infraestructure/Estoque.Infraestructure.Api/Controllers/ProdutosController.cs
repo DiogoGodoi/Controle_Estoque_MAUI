@@ -1,5 +1,6 @@
-﻿using Estoque.Domain.Modelos;
-using Estoque.Infraestructure.Api.Service.Abstraction;
+﻿using Estoque.Application.Comand.Modelos;
+using Estoque.Domain.Modelos;
+using Estoque.Infraestructure.Api.Service.Interface;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Estoque.Infraestructure.Api.Controllers
@@ -9,9 +10,11 @@ namespace Estoque.Infraestructure.Api.Controllers
     public class ProdutosController : ControllerBase
     {
         private readonly IService<Produto> _produtoService;
-        public ProdutosController(IService<Produto> produtoService)
+        private readonly IServiceDTO<ProdutoDTO> _produtoServiceDTO;
+        public ProdutosController(IService<Produto> produtoService, IServiceDTO<ProdutoDTO> produtoServiceDTO)
         {
             _produtoService = produtoService;
+            _produtoServiceDTO = produtoServiceDTO;
         }
 
         [HttpGet]
@@ -20,7 +23,7 @@ namespace Estoque.Infraestructure.Api.Controllers
         {
             try
             {
-                var produtos = await _produtoService.Listar();
+                var produtos = await _produtoServiceDTO.Listar();
 
                 if (produtos == null)
                 {
@@ -44,7 +47,7 @@ namespace Estoque.Infraestructure.Api.Controllers
         {
             try
             {
-                var produto = await _produtoService.Buscar(id);
+                var produto = await _produtoServiceDTO.Buscar(id);
 
                 if (produto == null)
                 {
