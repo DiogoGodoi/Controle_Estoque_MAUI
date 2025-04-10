@@ -1,11 +1,10 @@
-﻿using Estoque.Application.Comand.Modelos;
-using Estoque.Domain.Modelos;
+﻿using Estoque.Domain.Modelos;
 using Estoque.Infraestructure.Http.Interface;
 using System.Net.Http.Json;
 
 namespace Estoque.Infraestructure.Http.Request.HttpEntrada
 {
-    public class HttpEntradaRepository : IHttpRepository<Entrada>, IHttpRepositoryDTO<EntradaDTO>
+    public class HttpEntradaRepository : IHttpRepository<Entrada>
     {
         private readonly HttpClient _httpClient;
         public HttpEntradaRepository(HttpClient httpClient)
@@ -34,13 +33,13 @@ namespace Estoque.Infraestructure.Http.Request.HttpEntrada
                 throw;
             }
         }
-        public async Task<EntradaDTO> Buscar(string id)
+        public async Task<Entrada> Buscar(string id)
         {
             try
             {
                 var url = $"";
 
-                var Entrada = await _httpClient.GetFromJsonAsync<EntradaDTO>(url);
+                var Entrada = await _httpClient.GetFromJsonAsync<Entrada>(url);
 
                 return Entrada;
 
@@ -97,13 +96,13 @@ namespace Estoque.Infraestructure.Http.Request.HttpEntrada
                 throw;
             }
         }
-        public async Task<IEnumerable<EntradaDTO>> Listar()
+        public async Task<IEnumerable<Entrada>> Listar()
         {
             try
             {
                 var url = $"";
 
-                var Entradas = await _httpClient.GetFromJsonAsync<IEnumerable<EntradaDTO>>(url);
+                var Entradas = await _httpClient.GetFromJsonAsync<IEnumerable<Entrada>>(url);
 
                 return Entradas;
 

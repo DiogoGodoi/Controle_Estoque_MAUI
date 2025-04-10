@@ -1,5 +1,7 @@
 ﻿@page "/ListarProdutos"
 
+<h3>Estoque de produtos</h3>
+
 <QuickGrid Items="produtos.AsQueryable()" Pagination="paginacao" class="table table-striped">
     <PropertyColumn Property="@(p => p.descricao)" Title="Descrição" />
     <PropertyColumn Property="@(p => p.categoria.nome)" Title="Tipo" />

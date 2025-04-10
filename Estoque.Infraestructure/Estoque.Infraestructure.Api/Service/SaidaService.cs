@@ -1,25 +1,21 @@
-﻿using AutoMapper;
-using Estoque.Application.Comand.Modelos;
-using Estoque.Application.Interfaces;
+﻿using Estoque.Application.Interfaces;
 using Estoque.Domain.Modelos;
-using Estoque.Infraestructure.Api.Service.Interface;
+using Estoque.Infraestructure.Api.Service.Abstraction;
 
 namespace Estoque.Infraestructure.Api.Service
 {
-    public class SaidaService : IService<Saida>, IServiceDTO<SaidaDTO>
+    public class SaidaService : IService<Saida>
     {
         private readonly IRepository<Saida> _SaidaRepository;
         private readonly IRepository<Produto> _produtoRepository;
         private readonly IRepository<ProdutoSaida> _produtoSaidaRepository;
-        private readonly IMapper _mapper;
 
         public SaidaService(IRepository<Saida> SaidaRepository, IRepository<Produto> produtoRepository,
-            IRepository<ProdutoSaida> produtoSaidaRepository, IMapper mapper)
+            IRepository<ProdutoSaida> produtoSaidaRepository)
         {
             _SaidaRepository = SaidaRepository;
             _produtoRepository = produtoRepository;
             _produtoSaidaRepository = produtoSaidaRepository;
-            _mapper = mapper;
         }
 
         public async Task Atualizar(string idProduto, Saida objeto)
@@ -44,15 +40,13 @@ namespace Estoque.Infraestructure.Api.Service
                 throw;
             }
         }
-        public async Task<SaidaDTO> Buscar(string id)
+        public async Task<Saida> Buscar(string id)
         {
             try
             {
                 var Saida = await _SaidaRepository.Buscar(id);
 
-                var SaidaMap = _mapper.Map<SaidaDTO>(Saida);
-
-                return SaidaMap;
+                return Saida;
             }
             catch (Exception)
             {
@@ -91,15 +85,13 @@ namespace Estoque.Infraestructure.Api.Service
                 throw;
             }
         }
-        public async Task<IEnumerable<SaidaDTO>> Listar()
+        public async Task<IEnumerable<Saida>> Listar()
         {
             try
             {
                 var Saidas = await _SaidaRepository.Listar();
 
-                var SaidasMap = _mapper.Map<IEnumerable<SaidaDTO>>(Saidas);  
-
-                return SaidasMap;
+                return Saidas;
             }
             catch (Exception)
             {
