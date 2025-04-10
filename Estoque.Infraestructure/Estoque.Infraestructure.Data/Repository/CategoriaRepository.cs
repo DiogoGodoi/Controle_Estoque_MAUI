@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using Estoque.Application.Interfaces;
 using Estoque.Infraestructure.Data.Context;
-using Estoque.Infraestructure.Data.ModelosEF;
 using Estoque.Domain.Modelos;
 using Microsoft.EntityFrameworkCore;
+using Estoque.Application.Comand.Modelos;
 
 namespace Estoque.Infraestructure.Data.Repository
 {
@@ -21,7 +21,7 @@ namespace Estoque.Infraestructure.Data.Repository
         {
             try
             {
-                var CategoriaMapping = mapper.Map<CategoriaEF>(objeto);
+                var CategoriaMapping = mapper.Map<CategoriaDTO>(objeto);
 
                 var CategoriaEF = await estoqueContext.categorias.FirstOrDefaultAsync(x => x.id == Guid.Parse(id));
 
@@ -52,7 +52,10 @@ namespace Estoque.Infraestructure.Data.Repository
 
             try
             {
-                var categoria = await estoqueContext.categorias.FirstOrDefaultAsync(x => x.id == Guid.Parse(id));
+                var categoria = await estoqueContext.categorias
+                                     .Include(x => x.produto)
+                                     .Include(x => x.usuario)
+                                     .FirstOrDefaultAsync(x => x.id == Guid.Parse(id));
 
                 if (categoria == null)
                     throw new Exception("Categoria não localizada");
@@ -74,10 +77,10 @@ namespace Estoque.Infraestructure.Data.Repository
                 var categoriaEf = await estoqueContext.categorias.FirstOrDefaultAsync(x => x.nome == objeto.nome);
                 if (categoriaEf != null) throw new Exception("Categoria já cadastrada");
 
-                var usuarioEF = await estoqueContext.usuarios.FirstOrDefaultAsync(x => x.id == objeto.fk_Usuario_id);
+                var usuarioEF = await estoqueContext.usuarios.FirstOrDefaultAsync(x => x.id == objeto.usuario.id);
                 if (usuarioEF == null) throw new Exception("Usuário não encontrado");
 
-                var categoria = mapper.Map<CategoriaEF>(objeto);
+                var categoria = mapper.Map<CategoriaDTO>(objeto);
                 categoria.usuario = usuarioEF;
 
                 estoqueContext.categorias.Add(categoria);
@@ -116,7 +119,9 @@ namespace Estoque.Infraestructure.Data.Repository
         {
             try
             {
-                var usuarios = await estoqueContext.categorias.ToListAsync();
+                var usuarios = await estoqueContext.categorias
+                                     .Include(x => x.produto)
+                                     .Include(x => x.usuario).ToListAsync();
 
                 var usuarioMappingDomain = mapper.Map<IEnumerable<Categoria>>(usuarios);
 

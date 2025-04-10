@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using Estoque.Application.Interfaces;
 using Estoque.Infraestructure.Data.Context;
-using Estoque.Infraestructure.Data.ModelosEF;
 using Estoque.Domain.Modelos;
 using Microsoft.EntityFrameworkCore;
+using Estoque.Application.Comand.Modelos;
 
 namespace Estoque.Infraestructure.Data.Repository
 {
@@ -21,7 +21,7 @@ namespace Estoque.Infraestructure.Data.Repository
         {
             try
             {
-                var ProdutoSaidaMapping = mapper.Map<ProdutoSaidaEF>(objeto);
+                var ProdutoSaidaMapping = mapper.Map<ProdutoSaidaDTO>(objeto);
 
                 var ProdutoSaidaEF = await estoqueContext.produtoSaida.FirstOrDefaultAsync(x => x.fk_Saida_id == Guid.Parse(id));
 
@@ -48,7 +48,10 @@ namespace Estoque.Infraestructure.Data.Repository
         {
             try
             {
-                var ProdutoSaida = await estoqueContext.produtoSaida.FirstOrDefaultAsync(x => x.fk_Saida_id == Guid.Parse(idSaida));
+                var ProdutoSaida = await estoqueContext.produtoSaida
+                                        .Include(x => x.saida)
+                                        .Include(x => x.produto)
+                                        .FirstOrDefaultAsync(x => x.fk_Saida_id == Guid.Parse(idSaida));
 
                 if (ProdutoSaida == null)
                     throw new Exception("Saida não localizada");
@@ -67,19 +70,19 @@ namespace Estoque.Infraestructure.Data.Repository
         {
             try
             {
-                var ProdutoSaidaEf = await estoqueContext.produtoSaida.FirstOrDefaultAsync(x => x.fk_Saida_id == objeto.fk_Saida_id);
+                var ProdutoSaidaEf = await estoqueContext.produtoSaida.FirstOrDefaultAsync(x => x.fk_Saida_id == objeto.saida.id);
                 if (ProdutoSaidaEf != null)
                     throw new Exception("Saida já cadastrada");
 
-                var produtoEf = await estoqueContext.produtos.FirstOrDefaultAsync(x => x.id == objeto.fk_Produto_id);
+                var produtoEf = await estoqueContext.produtos.FirstOrDefaultAsync(x => x.id == objeto.produto.id);
                 if (produtoEf == null)
                     throw new Exception("Produto não localizado");
 
-                var SaidaEf = await estoqueContext.saidas.FirstOrDefaultAsync(x => x.id == objeto.fk_Saida_id);
+                var SaidaEf = await estoqueContext.saidas.FirstOrDefaultAsync(x => x.id == objeto.saida.id);
                 if (SaidaEf == null)
                     throw new Exception("Saida não localizada");
 
-                var produtoSaida = mapper.Map<ProdutoSaidaEF>(objeto);
+                var produtoSaida = mapper.Map<ProdutoSaidaDTO>(objeto);
 
                 produtoSaida.produto = produtoEf;
                 produtoSaida.saida = SaidaEf;
@@ -116,7 +119,10 @@ namespace Estoque.Infraestructure.Data.Repository
         {
             try
             {
-                var usuarios = await estoqueContext.produtoSaida.ToListAsync();
+                var usuarios = await estoqueContext.produtoSaida
+                                    .Include(x => x.saida)
+                                    .Include(x => x.produto)
+                                    .ToListAsync();
 
                 var usuarioMappingDomain = mapper.Map<IEnumerable<ProdutoSaida>>(usuarios);
 

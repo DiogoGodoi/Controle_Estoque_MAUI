@@ -1,10 +1,10 @@
 ﻿namespace Estoque.Domain.Modelos
 {
-    public class Entrada: Transacao
+    public class Entrada : Transacao
     {
         public Guid id { get; private set; }
         public DateTime dataEntrada { get; private set; }
-        public Guid fk_Usuario_id { get; private set; }
+        public Usuario usuario { get; private set; }
 
         public Entrada()
         {
@@ -20,7 +20,7 @@
             SetDataSaida(dataEntrada);
             SetQuantidade(quantidade);
         }
-        public Entrada(DateTime dataEntrada, int quantidade, Guid fk_Usuario_id) :this(dataEntrada, quantidade)
+        public Entrada(DateTime dataEntrada, int quantidade, Guid fk_Usuario_id) : this(dataEntrada, quantidade)
         {
             AssociarUsuario(fk_Usuario_id);
         }
@@ -65,7 +65,7 @@
             }
             else
             {
-                this.fk_Usuario_id = fk_Usuario_id;
+                usuario = new Usuario(fk_Usuario_id);
             }
         }
     }

@@ -11,9 +11,9 @@
         public decimal preco3 { get; set; }
         public decimal precoMedio { get; set; }
         public int estoqueMin { get; set; }
-        public Guid fk_Usuario_id { get; set; }
-        public Guid fk_Categoria_id { get; set; }
-        public Guid fk_LocalEstoque_id { get; set; }
+        public Usuario usuario { get; set; }
+        public Categoria categoria { get; set; }
+        public LocalEstoque localEstoque { get; set; }
         public Produto()
         {
 
@@ -144,12 +144,12 @@
         }
         private void SetEstoqueMin(int estoqueMin)
         {
-            if (!preco3.ToString().All(c => char.IsDigit(c) || c == '.' || c == ',' ))
+            if (estoqueMin.ToString().All(c => char.IsLetter(c)))
             {
-                throw new ArgumentException("O preço precisa ser númerico");
+                throw new ArgumentException("O estoque precisa ser númerico");
             }
             {
-                this.preco3 = preco3;
+                this.estoqueMin = estoqueMin;
             }
         }
         private void SetPrecoMedio()
@@ -174,7 +174,7 @@
             }
             else
             {
-                this.fk_Usuario_id = fk_Usuario_id;
+                usuario = new Usuario(fk_Usuario_id);
             }
         }
         private void AssociarCategoria(Guid fk_Categoria_id)
@@ -185,7 +185,7 @@
             }
             else
             {
-                this.fk_Categoria_id = fk_Categoria_id;
+                categoria = new Categoria(fk_Categoria_id);
             }
         }
         private void AssociarLocalEstoque(Guid fk_LocalEstoque_id)
@@ -196,7 +196,7 @@
             }
             else
             {
-                this.fk_LocalEstoque_id = fk_LocalEstoque_id;
+                localEstoque = new LocalEstoque(fk_LocalEstoque_id);
             }
         }
         public void AtualizarQuantidade(Transacao transacao)

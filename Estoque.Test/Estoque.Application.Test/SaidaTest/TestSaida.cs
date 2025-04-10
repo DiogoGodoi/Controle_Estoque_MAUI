@@ -6,7 +6,8 @@ using Estoque.Application.Repository.RepositoryProduto;
 using Estoque.Application.Repository.RepositoryProdutoSaida;
 using Estoque.Application.Repository.RepositoryUsuario;
 using Estoque.Infraestructure.Data.Context;
-using Estoque.Infraestructure.Data.AutoMapper;
+using Estoque.Application.Comand.Request;
+using Estoque.Application.Comand.Response;
 using Estoque.Infraestructure.Data.Repository;
 using Estoque.Domain.Modelos;
 using Microsoft.EntityFrameworkCore;
@@ -51,8 +52,18 @@ namespace Estoque.Application.Test.SaidaTest
             context = new EstoqueContext(options);
 
             var configSaida = new MapperConfiguration(cfg => {
-                cfg.AddProfile(new SaidaProfile()); cfg.AddProfile(new UsuarioProfile()); cfg.AddProfile(new CategoriaProfile());
-                cfg.AddProfile(new ProdutoProfile()); cfg.AddProfile(new ProdutoSaidaProfile()); });
+                cfg.AddProfile(new SaidaRequestProfile()); 
+                cfg.AddProfile(new UsuarioRequestProfile()); 
+                cfg.AddProfile(new CategoriaRequestProfile());
+                cfg.AddProfile(new ProdutoRequestProfile()); 
+                cfg.AddProfile(new ProdutoRequestSaidaProfile());
+
+                cfg.AddProfile(new SaidaResponseProfile());
+                cfg.AddProfile(new UsuarioResponseProfile());
+                cfg.AddProfile(new CategoriaResponseProfile());
+                cfg.AddProfile(new ProdutoResponseProfile());
+                cfg.AddProfile(new ProdutoResponseSaidaProfile());
+            });
             mapper = configSaida.CreateMapper();
 
             repository = new SaidaRepository(mapper, context);
@@ -109,6 +120,7 @@ namespace Estoque.Application.Test.SaidaTest
                 Transacao transacao = new Saida();
                 transacao.SetQuantidade(quantidade);
                 produto.AtualizarQuantidade(transacao);
+
                 await atualizarProduto.ExecutarAtualizacao(produto.id.ToString(), produto);
 
                 resultado = true;

@@ -5,7 +5,7 @@
         public Guid id { get; private set; }
         public string email { get; private set; }
         public string senha { get; private set; }
-        public Guid fk_Perfil_id { get; private set; }
+        public Perfil perfil { get; private set; }
         public Usuario()
         {
 
@@ -21,7 +21,7 @@
             SetSenha(senha);
         }
         public Usuario(string email, string senha, Guid fk_Perfil_id)
-            :this(email, senha)
+            : this(email, senha)
         {
             AssociarPerfil(fk_Perfil_id);
         }
@@ -61,13 +61,13 @@
         }
         private void AssociarPerfil(Guid fk_Perfil_id)
         {
-            if(fk_Perfil_id == Guid.Empty)
+            if (fk_Perfil_id == Guid.Empty)
             {
                 throw new ArgumentException("Perfil não encontrado");
             }
             else
             {
-                this.fk_Perfil_id = fk_Perfil_id;   
+                perfil = new Perfil(fk_Perfil_id);
             }
         }
     }

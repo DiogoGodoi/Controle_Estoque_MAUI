@@ -5,7 +5,8 @@ using Estoque.Application.Repository.RepositoryProduto;
 using Estoque.Application.Repository.RepositoryUsuario;
 using Estoque.Domain.Modelos;
 using Estoque.Infraestructure.Data.Context;
-using Estoque.Infraestructure.Data.AutoMapper;
+using Estoque.Application.Comand.Request;
+using Estoque.Application.Comand.Response;
 using Estoque.Infraestructure.Data.Repository;
 using Microsoft.EntityFrameworkCore;
 
@@ -35,7 +36,17 @@ namespace Estoque.Application.Test.ProdutoTest
                 .UseSqlServer("Server=(localdb)MSSQLLocalDB;Initial Catalog=DbEstoque;Integrated Security=true; MultipleActiveResultSets=true").Options;
             context = new EstoqueContext(options);
 
-            var configProduto = new MapperConfiguration(cfg => { cfg.AddProfile(new ProdutoProfile()); cfg.AddProfile(new UsuarioProfile()); cfg.AddProfile(new CategoriaProfile()); });
+            var configProduto = new MapperConfiguration(cfg => { 
+
+                cfg.AddProfile(new ProdutoRequestProfile()); 
+                cfg.AddProfile(new UsuarioRequestProfile()); 
+                cfg.AddProfile(new CategoriaRequestProfile());
+
+                cfg.AddProfile(new ProdutoResponseProfile());
+                cfg.AddProfile(new UsuarioResponseProfile());
+                cfg.AddProfile(new CategoriaResponseProfile());
+
+            });
             mapper = configProduto.CreateMapper();
 
             repository = new ProdutoRepository(mapper, context);

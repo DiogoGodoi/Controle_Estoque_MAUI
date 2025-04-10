@@ -6,7 +6,8 @@ using Estoque.Application.Repository.RepositoryProduto;
 using Estoque.Application.Repository.RepositoryUsuario;
 using Estoque.Application.Repository.RepositoryProdutoEntrada;
 using Estoque.Infraestructure.Data.Context;
-using Estoque.Infraestructure.Data.AutoMapper;
+using Estoque.Application.Comand.Request;
+using Estoque.Application.Comand.Response;
 using Estoque.Infraestructure.Data.Repository;
 using Estoque.Domain.Modelos;
 using Microsoft.EntityFrameworkCore;
@@ -51,8 +52,19 @@ namespace Estoque.Application.Test.EntradaTest
 
             var configEntrada = new MapperConfiguration(cfg =>
             {
-                cfg.AddProfile(new EntradaProfile()); cfg.AddProfile(new UsuarioProfile()); cfg.AddProfile(new CategoriaProfile());
-                cfg.AddProfile(new ProdutoProfile()); cfg.AddProfile(new ProdutoEntradaProfile());
+                cfg.AddProfile(new EntradaRequestProfile()); 
+                cfg.AddProfile(new UsuarioRequestProfile()); 
+                cfg.AddProfile(new CategoriaRequestProfile());
+                cfg.AddProfile(new ProdutoRequestProfile()); 
+                cfg.AddProfile(new ProdutoRequestEntradaProfile());
+
+                cfg.AddProfile(new EntradaResponseProfile());
+                cfg.AddProfile(new UsuarioResponseProfile());
+                cfg.AddProfile(new CategoriaResponseProfile());
+                cfg.AddProfile(new ProdutoResponseProfile());
+                cfg.AddProfile(new ProdutoResponseEntradaProfile());
+
+
             });
             mapper = configEntrada.CreateMapper();
 

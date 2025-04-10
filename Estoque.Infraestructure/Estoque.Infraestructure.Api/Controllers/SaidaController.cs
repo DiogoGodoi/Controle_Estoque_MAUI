@@ -1,7 +1,7 @@
 ﻿using Estoque.Application.Repository.RepositoryProduto;
 using Estoque.Domain.Modelos;
 using Estoque.Infraestructure.Api.Service.Abstraction;
-using Estoque.Infraestructure.Data.ModelosEF;
+
 using Microsoft.AspNetCore.Mvc;
 
 namespace Estoque.Infraestructure.Api.Controllers

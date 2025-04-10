@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using Estoque.Application.Interfaces;
 using Estoque.Infraestructure.Data.Context;
-using Estoque.Infraestructure.Data.ModelosEF;
 using Estoque.Domain.Modelos;
 using Microsoft.EntityFrameworkCore;
+using Estoque.Application.Comand.Modelos;
 
 namespace Estoque.Infraestructure.Data.Repository
 {
@@ -21,7 +21,8 @@ namespace Estoque.Infraestructure.Data.Repository
         {
             try
             {
-                var ProdutoMapping = mapper.Map<ProdutoEF>(objeto);
+                
+                var ProdutoMapping = mapper.Map<ProdutoDTO>(objeto);
 
                 var ProdutoEF = await estoqueContext.produtos.FirstOrDefaultAsync(x => x.id == Guid.Parse(id));
 
@@ -62,7 +63,11 @@ namespace Estoque.Infraestructure.Data.Repository
         {
             try
             {
-                var Produto = await estoqueContext.produtos.FirstOrDefaultAsync(x => x.id == Guid.Parse(id));
+                var Produto = await estoqueContext
+                                    .produtos.Include(x => x.categoria)
+                                    .Include(x => x.usuario)
+                                    .Include(x => x.localEstoque)
+                                    .FirstOrDefaultAsync(x => x.id == Guid.Parse(id));
 
                 if (Produto == null)
                     throw new Exception("Produto não localizado");
@@ -84,16 +89,16 @@ namespace Estoque.Infraestructure.Data.Repository
                 var ProdutoEf = await estoqueContext.produtos.FirstOrDefaultAsync(x => x.descricao == objeto.descricao);
                 if (ProdutoEf != null) throw new Exception("Produto já cadastrado");
 
-                var usuarioEf = await estoqueContext.usuarios.FirstOrDefaultAsync(x => x.id == objeto.fk_Usuario_id);
+                var usuarioEf = await estoqueContext.usuarios.FirstOrDefaultAsync(x => x.id == objeto.usuario.id);
                 if (usuarioEf == null) throw new Exception("Usuário não encontrado");
 
-                var categoriaEf = await estoqueContext.categorias.FirstOrDefaultAsync(x => x.id == objeto.fk_Categoria_id);
+                var categoriaEf = await estoqueContext.categorias.FirstOrDefaultAsync(x => x.id == objeto.categoria.id);
                 if (categoriaEf == null) throw new Exception("Categoria não encontrada");
 
-                var localEstoqueEf = await estoqueContext.locaisEstoque.FirstOrDefaultAsync(x => x.id == objeto.fk_LocalEstoque_id);
+                var localEstoqueEf = await estoqueContext.locaisEstoque.FirstOrDefaultAsync(x => x.id == objeto.localEstoque.id);
                 if (localEstoqueEf == null) throw new Exception("Local de estoque encontrads");
 
-                var Produto = mapper.Map<ProdutoEF>(objeto);
+                var Produto = mapper.Map<ProdutoDTO>(objeto);
 
                 Produto.usuario = usuarioEf;
                 Produto.categoria = categoriaEf;
@@ -129,11 +134,14 @@ namespace Estoque.Infraestructure.Data.Repository
         {
             try
             {
-                var usuarios = await estoqueContext.produtos.ToListAsync();
+                var produtos = await estoqueContext.produtos
+                                    .Include(x => x.categoria)
+                                    .Include(x => x.localEstoque)
+                                    .ToListAsync();
 
-                var usuarioMappingDomain = mapper.Map<IEnumerable<Produto>>(usuarios);
+                var produtosMappingDomain = mapper.Map<IEnumerable<Produto>>(produtos);
 
-                return usuarioMappingDomain.ToList();
+                return produtosMappingDomain.ToList();
             }
             catch (Exception ex)
             {

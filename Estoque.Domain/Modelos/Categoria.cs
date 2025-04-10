@@ -4,7 +4,7 @@
     {
         public Guid id { get; private set; }
         public string nome { get; private set; }
-        public Guid fk_Usuario_id { get; private set; }
+        public Usuario usuario { get; private set; }
         public Categoria()
         {
 
@@ -59,7 +59,8 @@
             }
             else
             {
-                fk_Usuario_id = fkUsuario;
+                usuario = new Usuario(fkUsuario);
+
             }
         }
     }

@@ -100,7 +100,7 @@ namespace Estoque.Infraestructure.Http.Request.HttpProduto
         {
             try
             {
-                var url = $"";
+                var url = $"https://localhost:7170/api/Produtos/Listar";
 
                 var Produtos = await _httpClient.GetFromJsonAsync<IEnumerable<Produto>>(url);
 

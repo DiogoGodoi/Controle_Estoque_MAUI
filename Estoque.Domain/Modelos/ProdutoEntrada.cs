@@ -2,8 +2,8 @@
 {
     public class ProdutoEntrada
     {
-        public Guid fk_Produto_id { get; private set; }
-        public Guid fk_Entrada_id { get; private set; }
+        public Produto produto { get; private set; }
+        public Entrada entrada { get; private set; }
         public ProdutoEntrada()
         {
             
@@ -20,8 +20,8 @@
             }
             else
             {
-                this.fk_Produto_id = fk_Produto_id;
-                this.fk_Entrada_id = fk_Entrada_id;
+                produto = new Produto(fk_Produto_id);
+                entrada = new Entrada(fk_Entrada_id);
             }
         }
     }

@@ -4,7 +4,7 @@
     {
         public Guid id { get; private set; }
         public DateTime dataSaida { get; private set; }
-        public Guid fk_Usuario_id { get; private set; }
+        public Usuario usuario { get; private set; }
         public Saida()
         {
 
@@ -64,7 +64,7 @@
             }
             else
             {
-                this.fk_Usuario_id = fk_Usuario_id;
+               usuario = new Usuario(fk_Usuario_id);
             }
         }
 

@@ -13,3 +13,9 @@
 @using Estoque.Shared.Hybrid.Pages.Entrada
 @using Estoque.Shared.Hybrid.Pages.Saida
 @using Estoque.Shared.Hybrid.Pages.Usuario
+@using Estoque.Domain.Modelos
+@using AutoMapper
+@using Estoque.Application.Comand.Modelos
+
+
+@inject Estoque.Infraestructure.Http.Interface.IHttpRepository<Produto> IHttp;

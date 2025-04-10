@@ -27,7 +27,7 @@ namespace Estoque.Infraestructure.Api.Service
                 await _entradaRepository.Atualizar(objeto.id.ToString(), objeto);
 
                 ProdutoEntrada produtoEntrada = new ProdutoEntrada(produto.id, objeto.id);
-                await _produtoEntradaRepository.Atualizar(produtoEntrada.fk_Entrada_id.ToString(), produtoEntrada);
+                await _produtoEntradaRepository.Atualizar(produtoEntrada.entrada.id.ToString(), produtoEntrada);
 
                 Transacao transacao = new Entrada();
                 transacao.SetQuantidade(objeto.quantidade);
