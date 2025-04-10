@@ -1,19 +1,15 @@
-﻿using AutoMapper;
-using Estoque.Application.Comand.Modelos;
-using Estoque.Application.Interfaces;
+﻿using Estoque.Application.Interfaces;
 using Estoque.Domain.Modelos;
-using Estoque.Infraestructure.Api.Service.Interface;
+using Estoque.Infraestructure.Api.Service.Abstraction;
 
 namespace Estoque.Infraestructure.Api.Service
 {
-    public class LocalEstoqueService: IService<LocalEstoque>, IServiceDTO<LocalEstoqueDTO>
+    public class LocalEstoqueService: IService<LocalEstoque>
     {
         private readonly IRepository<LocalEstoque> _LocalEstoqueRepository;
-        private readonly IMapper _mapper;
-        public LocalEstoqueService(IRepository<LocalEstoque> LocalEstoqueRepository, IMapper mapper)
+        public LocalEstoqueService(IRepository<LocalEstoque> LocalEstoqueRepository)
         {
             _LocalEstoqueRepository = LocalEstoqueRepository;
-            _mapper = mapper;
         }
         public async Task Atualizar(string id, LocalEstoque objeto)
         {
@@ -26,15 +22,13 @@ namespace Estoque.Infraestructure.Api.Service
                 throw;
             }
         }
-        public async Task<LocalEstoqueDTO> Buscar(string id)
+        public async Task<LocalEstoque> Buscar(string id)
         {
             try
             {
                 var LocalEstoque = await _LocalEstoqueRepository.Buscar(id);
 
-                var LocalEstoqueMap = _mapper.Map<LocalEstoqueDTO>(LocalEstoque);
-
-                return LocalEstoqueMap;
+                return LocalEstoque;
             }
             catch
             {
@@ -63,15 +57,13 @@ namespace Estoque.Infraestructure.Api.Service
                 throw;
             }
         }
-        public async Task<IEnumerable<LocalEstoqueDTO>> Listar()
+        public async Task<IEnumerable<LocalEstoque>> Listar()
         {
             try
             {
                 var LocalEstoques = await _LocalEstoqueRepository.Listar();
 
-                var LocalEstoquesMap = _mapper.Map<IEnumerable<LocalEstoqueDTO>>(LocalEstoques);
-
-                return LocalEstoquesMap;
+                return LocalEstoques;
             }
             catch
             {

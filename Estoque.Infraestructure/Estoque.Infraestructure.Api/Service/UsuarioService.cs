@@ -1,19 +1,15 @@
-﻿using AutoMapper;
-using Estoque.Application.Comand.Modelos;
-using Estoque.Application.Interfaces;
+﻿using Estoque.Application.Interfaces;
 using Estoque.Domain.Modelos;
-using Estoque.Infraestructure.Api.Service.Interface;
+using Estoque.Infraestructure.Api.Service.Abstraction;
 
 namespace Estoque.Infraestructure.Api.Service
 {
-    public class UsuarioService : IService<Usuario>, IServiceDTO<UsuarioDTO>
+    public class UsuarioService : IService<Usuario>
     {
         private readonly IRepository<Usuario> _repositoryUsuario;
-        private readonly IMapper _mapper;
-        public UsuarioService(IRepository<Usuario> repositoryUsuario, IMapper mapper)
+        public UsuarioService(IRepository<Usuario> repositoryUsuario)
         {
             _repositoryUsuario = repositoryUsuario;
-            _mapper = mapper;
         }
         public async Task Atualizar(string id, Usuario objeto)
         {
@@ -26,15 +22,13 @@ namespace Estoque.Infraestructure.Api.Service
                 throw;
             }
         }
-        public async Task<UsuarioDTO> Buscar(string id)
+        public async Task<Usuario> Buscar(string id)
         {
             try
             {
                 var usuario = await _repositoryUsuario.Buscar(id);
 
-                var usuarioMap = _mapper.Map<UsuarioDTO>(usuario);
-
-                return usuarioMap;
+                return usuario;
             }
             catch
             {
@@ -63,15 +57,13 @@ namespace Estoque.Infraestructure.Api.Service
                 throw;
             }
         }
-        public async Task<IEnumerable<UsuarioDTO>> Listar()
+        public async Task<IEnumerable<Usuario>> Listar()
         {
             try
             {
                 var usuarios = await _repositoryUsuario.Listar();
 
-                var usuariosMap = _mapper.Map<IEnumerable<UsuarioDTO>>(usuarios);
-
-                return usuariosMap;
+                return usuarios;
             }
             catch
             {

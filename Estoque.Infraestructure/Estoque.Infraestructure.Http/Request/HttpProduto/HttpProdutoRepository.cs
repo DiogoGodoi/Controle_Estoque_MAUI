@@ -1,11 +1,10 @@
-﻿using Estoque.Application.Comand.Modelos;
-using Estoque.Domain.Modelos;
+﻿using Estoque.Domain.Modelos;
 using Estoque.Infraestructure.Http.Interface;
 using System.Net.Http.Json;
 
 namespace Estoque.Infraestructure.Http.Request.HttpProduto
 {
-    public class HttpProdutoRepository : IHttpRepository<Produto>, IHttpRepositoryDTO<ProdutoDTO>
+    public class HttpProdutoRepository : IHttpRepository<Produto>
     {
         private readonly HttpClient _httpClient;
         public HttpProdutoRepository(HttpClient httpClient)
@@ -34,13 +33,13 @@ namespace Estoque.Infraestructure.Http.Request.HttpProduto
                 throw;
             }
         }
-        public async Task<ProdutoDTO> Buscar(string id)
+        public async Task<Produto> Buscar(string id)
         {
             try
             {
                 var url = $"";
 
-                var Produto = await _httpClient.GetFromJsonAsync<ProdutoDTO>(url);
+                var Produto = await _httpClient.GetFromJsonAsync<Produto>(url);
 
                 return Produto;
 
@@ -97,13 +96,13 @@ namespace Estoque.Infraestructure.Http.Request.HttpProduto
                 throw;
             }
         }
-        public async Task<IEnumerable<ProdutoDTO>> Listar()
+        public async Task<IEnumerable<Produto>> Listar()
         {
             try
             {
                 var url = $"https://localhost:7170/api/Produtos/Listar";
 
-                var Produtos = await _httpClient.GetFromJsonAsync<IEnumerable<ProdutoDTO>>(url);
+                var Produtos = await _httpClient.GetFromJsonAsync<IEnumerable<Produto>>(url);
 
                 return Produtos;
 

@@ -1,11 +1,10 @@
-﻿using Estoque.Application.Comand.Modelos;
-using Estoque.Domain.Modelos;
+﻿using Estoque.Domain.Modelos;
 using Estoque.Infraestructure.Http.Interface;
 using System.Net.Http.Json;
 
 namespace Estoque.Infraestructure.Http.Request.HttpSaida
 {
-    public class HttpSaidaRepository : IHttpRepository<Saida>, IHttpRepositoryDTO<SaidaDTO>
+    public class HttpSaidaRepository : IHttpRepository<Saida>
     {
         private readonly HttpClient _httpClient;
         public HttpSaidaRepository(HttpClient httpClient)
@@ -34,13 +33,13 @@ namespace Estoque.Infraestructure.Http.Request.HttpSaida
                 throw;
             }
         }
-        public async Task<SaidaDTO> Buscar(string id)
+        public async Task<Saida> Buscar(string id)
         {
             try
             {
                 var url = $"";
 
-                var Saida = await _httpClient.GetFromJsonAsync<SaidaDTO>(url);
+                var Saida = await _httpClient.GetFromJsonAsync<Saida>(url);
 
                 return Saida;
 
@@ -97,13 +96,13 @@ namespace Estoque.Infraestructure.Http.Request.HttpSaida
                 throw;
             }
         }
-        public async Task<IEnumerable<SaidaDTO>> Listar()
+        public async Task<IEnumerable<Saida>> Listar()
         {
             try
             {
                 var url = $"";
 
-                var Saidas = await _httpClient.GetFromJsonAsync<IEnumerable<SaidaDTO>>(url);
+                var Saidas = await _httpClient.GetFromJsonAsync<IEnumerable<Saida>>(url);
 
                 return Saidas;
 

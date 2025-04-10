@@ -1,7 +1,6 @@
 ﻿using Estoque.Domain.Modelos;
-using Estoque.Infraestructure.Api.Service.Interface;
+using Estoque.Infraestructure.Api.Service.Abstraction;
 using Estoque.Infraestructure.Api.Service;
-using Estoque.Application.Comand.Modelos;
 
 namespace Estoque.Infraestructure.Api.ContainerDI
 {
@@ -16,14 +15,6 @@ namespace Estoque.Infraestructure.Api.ContainerDI
             services.AddScoped<IService<LocalEstoque>, LocalEstoqueService>();
             services.AddScoped<IService<Usuario>, UsuarioService>();
             services.AddScoped<IService<Perfil>, PerfilService>();
-
-            services.AddScoped<IServiceDTO<EntradaDTO>, EntradaService>();
-            services.AddScoped<IServiceDTO<SaidaDTO>, SaidaService>();
-            services.AddScoped<IServiceDTO<CategoriaDTO>, CategoriaService>();
-            services.AddScoped<IServiceDTO<ProdutoDTO>, ProdutoService>();
-            services.AddScoped<IServiceDTO<LocalEstoqueDTO>, LocalEstoqueService>();
-            services.AddScoped<IServiceDTO<UsuarioDTO>, UsuarioService>();
-            services.AddScoped<IServiceDTO<PerfilDTO>, PerfilService>();
 
             return services;
         }

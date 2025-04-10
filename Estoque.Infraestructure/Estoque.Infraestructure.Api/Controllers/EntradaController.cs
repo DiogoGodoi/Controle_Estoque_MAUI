@@ -1,7 +1,6 @@
-﻿using Estoque.Application.Comand.Modelos;
-using Estoque.Application.Repository.RepositoryCategoria;
+﻿using Estoque.Application.Repository.RepositoryCategoria;
 using Estoque.Domain.Modelos;
-using Estoque.Infraestructure.Api.Service.Interface;
+using Estoque.Infraestructure.Api.Service.Abstraction;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Estoque.Infraestructure.Api.Controllers
@@ -11,11 +10,9 @@ namespace Estoque.Infraestructure.Api.Controllers
     public class EntradaController : ControllerBase
     {
         private readonly IService<Entrada> serviceAPI;
-        private readonly IServiceDTO<EntradaDTO> serviceAPIDto;
-        public EntradaController(IService<Entrada> serviceAPI, IServiceDTO<EntradaDTO> serviceAPIDto)
+        public EntradaController(IService<Entrada> serviceAPI)
         {
             this.serviceAPI = serviceAPI;
-            this.serviceAPIDto = serviceAPIDto;
         }
 
         [HttpGet]
@@ -24,7 +21,7 @@ namespace Estoque.Infraestructure.Api.Controllers
         {
             try
             {
-                var Entradas = await serviceAPIDto.Listar();
+                var Entradas = await serviceAPI.Listar();
 
                 if (Entradas == null)
                 {
@@ -48,7 +45,7 @@ namespace Estoque.Infraestructure.Api.Controllers
         {
             try
             {
-                var Entrada = await serviceAPIDto.Buscar(id);
+                var Entrada = await serviceAPI.Buscar(id);
 
                 if (Entrada == null)
                 {

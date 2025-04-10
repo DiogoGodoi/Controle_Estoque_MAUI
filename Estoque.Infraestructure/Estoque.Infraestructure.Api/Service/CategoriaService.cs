@@ -1,20 +1,15 @@
-﻿using AutoMapper;
-using Estoque.Application.Comand.Modelos;
-using Estoque.Application.Interfaces;
+﻿using Estoque.Application.Interfaces;
 using Estoque.Domain.Modelos;
-using Estoque.Infraestructure.Api.Service.Interface;
+using Estoque.Infraestructure.Api.Service.Abstraction;
 
 namespace Estoque.Infraestructure.Api.Service
 {
-    public class CategoriaService : IService<Categoria>, IServiceDTO<CategoriaDTO>
+    public class CategoriaService : IService<Categoria>
     {
         private readonly IRepository<Categoria> _categoriaRepository;
-
-        private readonly IMapper mapper;
-        public CategoriaService(IRepository<Categoria> _categoriaRepository, IMapper mapper)
+        public CategoriaService(IRepository<Categoria> _categoriaRepository)
         {
             this._categoriaRepository = _categoriaRepository;
-            this.mapper = mapper;
         }
         public async Task Atualizar(string id, Categoria objeto)
         {
@@ -27,15 +22,13 @@ namespace Estoque.Infraestructure.Api.Service
                 throw;
             }
         }
-        public async Task<CategoriaDTO> Buscar(string id)
+        public async Task<Categoria> Buscar(string id)
         {
             try
             {
                 var categoria = await _categoriaRepository.Buscar(id);
 
-                var categoriaMap = mapper.Map<CategoriaDTO>(categoria);
-
-                return categoriaMap;
+                return categoria;   
             }
             catch
             {
@@ -64,15 +57,13 @@ namespace Estoque.Infraestructure.Api.Service
                 throw;
             }
         }
-        public async Task<IEnumerable<CategoriaDTO>> Listar()
+        public async Task<IEnumerable<Categoria>> Listar()
         {
             try
             {
                 var categorias = await _categoriaRepository.Listar();
 
-                var categoriasMap = mapper.Map<IEnumerable<CategoriaDTO>>(categorias);
-
-                return categoriasMap;
+                return categorias;
             }
             catch
             {

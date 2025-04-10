@@ -1,4 +1,5 @@
 ﻿@page "/Estoque"
+@inject IMapper _mapper
 
 
 @if (produtos == null)
@@ -20,7 +21,9 @@ else
 
     private async Task Requisicao()
     {
-        produtos = await IHttpProdutoDTO.Listar();
+        var dados = await IHttp.Listar();
+
+        produtos = _mapper.Map<IEnumerable<ProdutoDTO>>(dados);
     }
 }
 

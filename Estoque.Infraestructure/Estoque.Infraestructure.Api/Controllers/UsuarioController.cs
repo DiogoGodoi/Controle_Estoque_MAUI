@@ -1,6 +1,5 @@
-﻿using Estoque.Application.Comand.Modelos;
-using Estoque.Domain.Modelos;
-using Estoque.Infraestructure.Api.Service.Interface;
+﻿using Estoque.Domain.Modelos;
+using Estoque.Infraestructure.Api.Service.Abstraction;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Estoque.Infraestructure.Api.Controllers
@@ -10,12 +9,10 @@ namespace Estoque.Infraestructure.Api.Controllers
     public class UsuarioController : ControllerBase
     {
         private readonly IService<Usuario> serviceUsuario;
-        private readonly IServiceDTO<UsuarioDTO> serviceUsuarioDTO;
-        public UsuarioController(IService<Usuario> serviceUsuario, IServiceDTO<UsuarioDTO> serviceUsuarioDTO)
+        public UsuarioController(IService<Usuario> serviceUsuario)
         {
             this.serviceUsuario = serviceUsuario;
-            this.serviceUsuarioDTO = serviceUsuarioDTO;
-        }   
+        }
 
         [HttpGet]
         [Route("Listar")]
@@ -23,7 +20,7 @@ namespace Estoque.Infraestructure.Api.Controllers
         {
             try
             {
-                var Usuarios = await serviceUsuarioDTO.Listar();
+                var Usuarios = await serviceUsuario.Listar();
 
                 if (Usuarios == null)
                 {
@@ -47,7 +44,7 @@ namespace Estoque.Infraestructure.Api.Controllers
         {
             try
             {
-                var Usuario = await serviceUsuarioDTO.Buscar(id);
+                var Usuario = await serviceUsuario.Buscar(id);
 
                 if (Usuario == null)
                 {
