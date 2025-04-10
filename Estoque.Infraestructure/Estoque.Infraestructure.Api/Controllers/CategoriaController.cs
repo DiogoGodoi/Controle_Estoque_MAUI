@@ -1,5 +1,6 @@
-﻿using Estoque.Domain.Modelos;
-using Estoque.Infraestructure.Api.Service.Abstraction;
+﻿using Estoque.Application.Comand.Modelos;
+using Estoque.Domain.Modelos;
+using Estoque.Infraestructure.Api.Service.Interface;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Estoque.Infraestructure.Api.Controllers
@@ -9,9 +10,11 @@ namespace Estoque.Infraestructure.Api.Controllers
     public class CategoriaController : ControllerBase
     {
         private readonly IService<Categoria> _serviceCategoria;
-        public CategoriaController(IService<Categoria> serviceCategoria)
+        private readonly IServiceDTO<CategoriaDTO> _serviceCategoriaDTO;
+        public CategoriaController(IService<Categoria> serviceCategoria, IServiceDTO<CategoriaDTO> serviceCategoriaDTO)
         {
             _serviceCategoria = serviceCategoria;
+            _serviceCategoriaDTO = serviceCategoriaDTO;
         }
 
         [HttpGet]
@@ -20,7 +23,7 @@ namespace Estoque.Infraestructure.Api.Controllers
         {
             try
             {
-                var Categorias = await _serviceCategoria.Listar();
+                var Categorias = await _serviceCategoriaDTO.Listar();
 
                 if (Categorias == null)
                 {
@@ -44,7 +47,7 @@ namespace Estoque.Infraestructure.Api.Controllers
         {
             try
             {
-                var Categoria = await _serviceCategoria.Buscar(id);
+                var Categoria = await _serviceCategoriaDTO.Buscar(id);
 
                 if (Categoria == null)
                 {

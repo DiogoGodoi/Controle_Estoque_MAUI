@@ -1,15 +1,19 @@
-﻿using Estoque.Application.Interfaces;
+﻿using AutoMapper;
+using Estoque.Application.Comand.Modelos;
+using Estoque.Application.Interfaces;
 using Estoque.Domain.Modelos;
-using Estoque.Infraestructure.Api.Service.Abstraction;
+using Estoque.Infraestructure.Api.Service.Interface;
 
 namespace Estoque.Infraestructure.Api.Service
 {
-    public class LocalEstoqueService: IService<LocalEstoque>
+    public class LocalEstoqueService: IService<LocalEstoque>, IServiceDTO<LocalEstoqueDTO>
     {
         private readonly IRepository<LocalEstoque> _LocalEstoqueRepository;
-        public LocalEstoqueService(IRepository<LocalEstoque> LocalEstoqueRepository)
+        private readonly IMapper _mapper;
+        public LocalEstoqueService(IRepository<LocalEstoque> LocalEstoqueRepository, IMapper mapper)
         {
             _LocalEstoqueRepository = LocalEstoqueRepository;
+            _mapper = mapper;
         }
         public async Task Atualizar(string id, LocalEstoque objeto)
         {
@@ -22,13 +26,15 @@ namespace Estoque.Infraestructure.Api.Service
                 throw;
             }
         }
-        public async Task<LocalEstoque> Buscar(string id)
+        public async Task<LocalEstoqueDTO> Buscar(string id)
         {
             try
             {
                 var LocalEstoque = await _LocalEstoqueRepository.Buscar(id);
 
-                return LocalEstoque;
+                var LocalEstoqueMap = _mapper.Map<LocalEstoqueDTO>(LocalEstoque);
+
+                return LocalEstoqueMap;
             }
             catch
             {
@@ -57,13 +63,15 @@ namespace Estoque.Infraestructure.Api.Service
                 throw;
             }
         }
-        public async Task<IEnumerable<LocalEstoque>> Listar()
+        public async Task<IEnumerable<LocalEstoqueDTO>> Listar()
         {
             try
             {
                 var LocalEstoques = await _LocalEstoqueRepository.Listar();
 
-                return LocalEstoques;
+                var LocalEstoquesMap = _mapper.Map<IEnumerable<LocalEstoqueDTO>>(LocalEstoques);
+
+                return LocalEstoquesMap;
             }
             catch
             {

@@ -1,6 +1,7 @@
-﻿using Estoque.Application.Repository.RepositoryProduto;
+﻿using Estoque.Application.Comand.Modelos;
+using Estoque.Application.Repository.RepositoryProduto;
 using Estoque.Domain.Modelos;
-using Estoque.Infraestructure.Api.Service.Abstraction;
+using Estoque.Infraestructure.Api.Service.Interface;
 
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,9 +12,11 @@ namespace Estoque.Infraestructure.Api.Controllers
     public class SaidaController : ControllerBase
     {
         private readonly IService<Saida> _ServiceSaidas;
-        public SaidaController(IService<Saida> serviceSaidas)
+        private readonly IServiceDTO<SaidaDTO> _ServiceSaidasDTO;
+        public SaidaController(IService<Saida> serviceSaidas, IServiceDTO<SaidaDTO> ServiceSaidasDTO)
         {
             _ServiceSaidas = serviceSaidas;
+            _ServiceSaidasDTO = ServiceSaidasDTO;
         }
 
         [HttpGet]
@@ -22,7 +25,7 @@ namespace Estoque.Infraestructure.Api.Controllers
         {
             try
             {
-                var Saidas = await _ServiceSaidas.Listar();
+                var Saidas = await _ServiceSaidasDTO.Listar();
 
                 if (Saidas == null)
                 {
@@ -46,7 +49,7 @@ namespace Estoque.Infraestructure.Api.Controllers
         {
             try
             {
-                var Saida = await _ServiceSaidas.Buscar(id);
+                var Saida = await _ServiceSaidasDTO.Buscar(id);
 
                 if (Saida == null)
                 {

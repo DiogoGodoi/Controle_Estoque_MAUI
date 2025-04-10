@@ -1,15 +1,19 @@
-﻿using Estoque.Application.Interfaces;
+﻿using AutoMapper;
+using Estoque.Application.Comand.Modelos;
+using Estoque.Application.Interfaces;
 using Estoque.Domain.Modelos;
-using Estoque.Infraestructure.Api.Service.Abstraction;
+using Estoque.Infraestructure.Api.Service.Interface;
 
 namespace Estoque.Infraestructure.Api.Service
 {
-    public class PerfilService : IService<Perfil>
+    public class PerfilService : IService<Perfil>, IServiceDTO<PerfilDTO>
     {
         private readonly IRepository<Perfil> _repositoryPerfil;
-        public PerfilService(IRepository<Perfil> repositoryPerfil)
+        private readonly IMapper _mapper;
+        public PerfilService(IRepository<Perfil> repositoryPerfil, IMapper mapper)
         {
             _repositoryPerfil = repositoryPerfil;
+            _mapper = mapper;
         }
         public async Task Atualizar(string id, Perfil objeto)
         {
@@ -22,13 +26,15 @@ namespace Estoque.Infraestructure.Api.Service
                 throw;
             }
         }
-        public async Task<Perfil> Buscar(string id)
+        public async Task<PerfilDTO> Buscar(string id)
         {
             try
             {
                 var perfil = await _repositoryPerfil.Buscar(id);
 
-                return perfil;
+                var perfilMap = _mapper.Map<PerfilDTO>(perfil);
+
+                return perfilMap;
             }
             catch
             {
@@ -57,13 +63,15 @@ namespace Estoque.Infraestructure.Api.Service
                 throw;
             }
         }
-        public async Task<IEnumerable<Perfil>> Listar()
+        public async Task<IEnumerable<PerfilDTO>> Listar()
         {
             try
             {
                 var perfis = await _repositoryPerfil.Listar();
 
-                return perfis;
+                var perfisMap = _mapper.Map<IEnumerable<PerfilDTO>>(perfis);
+
+                return perfisMap;
             }
             catch
             {

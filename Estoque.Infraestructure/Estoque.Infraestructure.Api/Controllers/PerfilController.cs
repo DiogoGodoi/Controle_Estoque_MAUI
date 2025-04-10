@@ -1,6 +1,6 @@
-﻿using Estoque.Application.Repository.RepositoryLocalEstoque;
+﻿using Estoque.Application.Comand.Modelos;
 using Estoque.Domain.Modelos;
-using Estoque.Infraestructure.Api.Service.Abstraction;
+using Estoque.Infraestructure.Api.Service.Interface;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Estoque.Infraestructure.Api.Controllers
@@ -10,9 +10,11 @@ namespace Estoque.Infraestructure.Api.Controllers
     public class PerfilController : ControllerBase
     {
         private readonly IService<Perfil> _servicePerfil;
-        public PerfilController(IService<Perfil> servicePerfil)
+        private readonly IServiceDTO<PerfilDTO> _servicePerfilDTO;
+        public PerfilController(IService<Perfil> servicePerfil, IServiceDTO<PerfilDTO> servicePerfilDTO)
         {
             _servicePerfil = servicePerfil;
+            _servicePerfilDTO = servicePerfilDTO;
         }
 
         [HttpGet]
@@ -21,7 +23,7 @@ namespace Estoque.Infraestructure.Api.Controllers
         {
             try
             {
-                var Perfils = await _servicePerfil.Listar();
+                var Perfils = await _servicePerfilDTO.Listar();
 
                 if (Perfils == null)
                 {
@@ -45,7 +47,7 @@ namespace Estoque.Infraestructure.Api.Controllers
         {
             try
             {
-                var Perfil = await _servicePerfil.Buscar(id);
+                var Perfil = await _servicePerfilDTO.Buscar(id);
 
                 if (Perfil == null)
                 {
