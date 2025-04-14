@@ -1,12 +1,12 @@
-﻿using Estoque.Application.Comand.Modelos;
+﻿using Estoque.Infraestructure.Data.ModelosEF;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Estoque.Infraestructure.Data.Mapping
 {
-    public class ProdutoMapping : IEntityTypeConfiguration<ProdutoDTO>
+    public class ProdutoMapping : IEntityTypeConfiguration<ProdutoEF>
     {
-        public void Configure(EntityTypeBuilder<ProdutoDTO> builder)
+        public void Configure(EntityTypeBuilder<ProdutoEF> builder)
         {
             builder.ToTable("Produto");
 
@@ -78,7 +78,7 @@ namespace Estoque.Infraestructure.Data.Mapping
                    .HasForeignKey(x => x.fk_Produto_id);
 
             builder.HasData(
-                    new ProdutoDTO
+                    new ProdutoEF
                     {
                         id = Guid.Parse("f4c9e2b7-8d3a-4e6f-9b2d-7a1c5e0f3b8d"),
                         descricao = "Samsung S24",
@@ -93,7 +93,7 @@ namespace Estoque.Infraestructure.Data.Mapping
                         fk_Categoria_id = Guid.Parse("520d8ea5-17d0-4c80-be68-6ef17d907534"),
                         fk_Usuario_id = Guid.Parse("b3e1c5d2-7f4b-4a8e-8d6f-9a5f8e7b0c2a")
                     },
-                    new ProdutoDTO
+                    new ProdutoEF
                     {
                         id = Guid.Parse("d2f1a3b9-6c4e-4d7a-9e3b-8f2c7d1e0b5f"),
                         descricao = "Bomba d'água",
@@ -108,7 +108,7 @@ namespace Estoque.Infraestructure.Data.Mapping
                         fk_Categoria_id = Guid.Parse("527d8ea5-17d0-4c80-be68-6ef17d907534"),
                         fk_Usuario_id = Guid.Parse("b3e1a5d2-7f4b-4a8e-8d6f-9a3f8e7b1c2a")
                     },
-                    new ProdutoDTO
+                    new ProdutoEF
                     {
                         id = Guid.Parse("9a1b0b2a-6f71-4a24-bac0-2c5b9a3f0c1e"),
                         descricao = "Teclado Mecânico RGB",
@@ -123,7 +123,7 @@ namespace Estoque.Infraestructure.Data.Mapping
                         fk_Categoria_id = Guid.Parse("520d8ea5-17d0-4c80-be68-6ef17d907534"),
                         fk_Usuario_id = Guid.Parse("b3e1c5d2-7f4b-4a8e-8d6f-9a5f8e7b0c2a")
                     },
-                    new ProdutoDTO
+                    new ProdutoEF
                     {
                         id = Guid.Parse("f1183e88-91be-4d03-84df-93a29804dc3c"),
                         descricao = "Monitor LG 24”",
@@ -138,7 +138,7 @@ namespace Estoque.Infraestructure.Data.Mapping
                         fk_Categoria_id = Guid.Parse("520d8ea5-17d0-4c80-be68-6ef17d907534"),
                         fk_Usuario_id = Guid.Parse("b3e1c5d2-7f4b-4a8e-8d6f-9a5f8e7b0c2a")
                     },
-                    new ProdutoDTO
+                    new ProdutoEF
                     {
                         id = Guid.Parse("c8e3ef55-a791-4899-96a0-3f9e21d5c50f"),
                         descricao = "Mouse Logitech MX",
@@ -153,7 +153,7 @@ namespace Estoque.Infraestructure.Data.Mapping
                         fk_Categoria_id = Guid.Parse("520d8ea5-17d0-4c80-be68-6ef17d907534"),
                         fk_Usuario_id = Guid.Parse("b3e1c5d2-7f4b-4a8e-8d6f-9a5f8e7b0c2a")
                     },
-                    new ProdutoDTO
+                    new ProdutoEF
                     {
                         id = Guid.Parse("ff2ae999-8d89-4ef7-bb6c-6b445b2a111a"),
                         descricao = "Notebook Dell i7",
@@ -168,7 +168,7 @@ namespace Estoque.Infraestructure.Data.Mapping
                         fk_Categoria_id = Guid.Parse("520d8ea5-17d0-4c80-be68-6ef17d907534"),
                         fk_Usuario_id = Guid.Parse("b3e1c5d2-7f4b-4a8e-8d6f-9a5f8e7b0c2a")
                     },
-                    new ProdutoDTO
+                    new ProdutoEF
                     {
                         id = Guid.Parse("a771377e-b030-4431-a244-bacb394f944e"),
                         descricao = "Cabo HDMI 2m",
@@ -183,7 +183,7 @@ namespace Estoque.Infraestructure.Data.Mapping
                         fk_Categoria_id = Guid.Parse("520d8ea5-17d0-4c80-be68-6ef17d907534"),
                         fk_Usuario_id = Guid.Parse("b3e1c5d2-7f4b-4a8e-8d6f-9a5f8e7b0c2a")
                     },
-                    new ProdutoDTO
+                    new ProdutoEF
                     {
                         id = Guid.Parse("cf228b9c-00f2-44f8-83b9-3e3171e1a34d"),
                         descricao = "Impressora HP Deskjet",
@@ -198,7 +198,7 @@ namespace Estoque.Infraestructure.Data.Mapping
                         fk_Categoria_id = Guid.Parse("520d8ea5-17d0-4c80-be68-6ef17d907534"),
                         fk_Usuario_id = Guid.Parse("b3e1c5d2-7f4b-4a8e-8d6f-9a5f8e7b0c2a")
                     },
-                    new ProdutoDTO
+                    new ProdutoEF
                     {
                         id = Guid.Parse("e3450ea2-3db7-4d61-a15c-10ff7631a3a4"),
                         descricao = "Estabilizador 500VA",
@@ -213,7 +213,7 @@ namespace Estoque.Infraestructure.Data.Mapping
                         fk_Categoria_id = Guid.Parse("520d8ea5-17d0-4c80-be68-6ef17d907534"),
                         fk_Usuario_id = Guid.Parse("b3e1c5d2-7f4b-4a8e-8d6f-9a5f8e7b0c2a")
                     },
-                    new ProdutoDTO
+                    new ProdutoEF
                     {
                         id = Guid.Parse("bd13e89c-4bcb-4dc9-87db-f64e63f9b02e"),
                         descricao = "Suporte para Monitor",

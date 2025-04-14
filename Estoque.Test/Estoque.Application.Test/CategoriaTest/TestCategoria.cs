@@ -4,11 +4,10 @@ using Estoque.Application.Repository.Abstraction;
 using Estoque.Application.Repository.RepositoryCategoria;
 using Estoque.Application.Repository.RepositoryUsuario;
 using Estoque.Infraestructure.Data.Context;
-using Estoque.Application.Comand.Request;
-using Estoque.Application.Comand.Response;
 using Estoque.Infraestructure.Data.Repository;
 using Estoque.Domain.Modelos;
 using Microsoft.EntityFrameworkCore;
+using Estoque.Infraestructure.Data.AutoMapper;
 
 namespace Estoque.Application.Test.CategoriaTest
 {
@@ -37,12 +36,8 @@ namespace Estoque.Application.Test.CategoriaTest
             context = new EstoqueContext(options);
 
             var configCategoria = new MapperConfiguration(cfg => { 
-                cfg.AddProfile(new CategoriaRequestProfile()); 
-                cfg.AddProfile(new UsuarioRequestProfile());
-
-                cfg.AddProfile(new CategoriaResponseProfile());
-                cfg.AddProfile(new UsuarioResponseProfile());
-
+                cfg.AddProfile(new CategoriaProfile()); 
+                cfg.AddProfile(new UsuarioProfile());
             });
             mapper = configCategoria.CreateMapper();
 

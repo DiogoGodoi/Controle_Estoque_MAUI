@@ -1,6 +1,7 @@
 ﻿using Estoque.Application.Repository.RepositoryCategoria;
 using Estoque.Domain.Modelos;
 using Estoque.Infraestructure.Api.Service.Abstraction;
+using Estoque.Infraestructure.Data.AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Estoque.Infraestructure.Api.Controllers
@@ -29,7 +30,7 @@ namespace Estoque.Infraestructure.Api.Controllers
                 }
                 else
                 {
-                    return Ok(LocalEstoques);
+                    return Ok(LocalEstoques.toLocaisEstoqueDTO());
                 }
             }
             catch (Exception ex)
@@ -53,7 +54,7 @@ namespace Estoque.Infraestructure.Api.Controllers
                 }
                 else
                 {
-                    return Ok(LocalEstoque);
+                    return Ok(LocalEstoque.toLocalEstoqueDTO());
                 }
             }
             catch (Exception ex)

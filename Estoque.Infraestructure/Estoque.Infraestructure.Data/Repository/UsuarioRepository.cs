@@ -3,7 +3,7 @@ using Estoque.Application.Interfaces;
 using Estoque.Infraestructure.Data.Context;
 using Estoque.Domain.Modelos;
 using Microsoft.EntityFrameworkCore;
-using Estoque.Application.Comand.Modelos;
+using Estoque.Infraestructure.Data.ModelosEF;
 
 namespace Estoque.Infraestructure.Data.Repository
 {
@@ -21,7 +21,7 @@ namespace Estoque.Infraestructure.Data.Repository
         {
             try
             {
-                var usuariosMapping = mapper.Map<UsuarioDTO>(objeto);
+                var usuariosMapping = mapper.Map<UsuarioEF>(objeto);
 
                 var usuarioEf = await estoqueContext.usuarios.FirstOrDefaultAsync(x => x.id == Guid.Parse(id));
 
@@ -52,7 +52,9 @@ namespace Estoque.Infraestructure.Data.Repository
 
             try
             {
-                var usuario = await estoqueContext.usuarios.FirstOrDefaultAsync(x => x.id == Guid.Parse(id));
+                var usuario = await estoqueContext.usuarios
+                    .Include(x => x.perfil)
+                    .FirstOrDefaultAsync(x => x.id == Guid.Parse(id));
 
                 if (usuario == null)
                     throw new Exception("Usuário não localizado");
@@ -81,7 +83,7 @@ namespace Estoque.Infraestructure.Data.Repository
                 if (perfilEf == null)
                     throw new Exception("Perfil inexistente");
 
-                var usuario = mapper.Map<UsuarioDTO>(objeto);
+                var usuario = mapper.Map<UsuarioEF>(objeto);
 
                 usuario.perfil = perfilEf;
 
@@ -125,7 +127,9 @@ namespace Estoque.Infraestructure.Data.Repository
         {
             try
             {
-                var usuarios = await estoqueContext.usuarios.ToListAsync();
+                var usuarios = await estoqueContext.usuarios
+                                    .Include(x => x.perfil)
+                                    .ToListAsync();
 
                 var usuarioMappingDomain = mapper.Map<IEnumerable<Usuario>>(usuarios);
 

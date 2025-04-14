@@ -4,8 +4,7 @@ using Estoque.Application.Repository.Abstraction;
 using Estoque.Application.Repository.RepositoryPerfil;
 using Estoque.Application.Repository.RepositoryUsuario;
 using Estoque.Infraestructure.Data.Context;
-using Estoque.Application.Comand.Request;
-using Estoque.Application.Comand.Response;
+using Estoque.Infraestructure.Data.AutoMapper;
 using Estoque.Infraestructure.Data.Repository;
 using Estoque.Domain.Modelos;
 using Microsoft.EntityFrameworkCore;
@@ -37,12 +36,10 @@ namespace Estoque.Application.Test.PerfilTest
             context = new EstoqueContext(options);
 
             var configPerfil = new MapperConfiguration(cfg => { 
-                cfg.AddProfile(new PerfilRequestProfile()); 
-                cfg.AddProfile(new UsuarioRequestProfile());
-
-                cfg.AddProfile(new PerfilResponseProfile());
-                cfg.AddProfile(new UsuarioResponseProfile());
+                cfg.AddProfile(new PerfilProfile()); 
+                cfg.AddProfile(new UsuarioProfile());
             });
+
             mapper = configPerfil.CreateMapper();
 
             repository = new PerfilRepository(mapper, context);

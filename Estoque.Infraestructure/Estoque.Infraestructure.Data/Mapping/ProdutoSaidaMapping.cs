@@ -1,12 +1,12 @@
-﻿using Estoque.Application.Comand.Modelos;
+﻿using Estoque.Infraestructure.Data.ModelosEF;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Estoque.Infraestructure.Data.Mapping
 {
-    public class ProdutoSaidaMapping : IEntityTypeConfiguration<ProdutoSaidaDTO>
+    public class ProdutoSaidaMapping : IEntityTypeConfiguration<ProdutoSaidaEF>
     {
-        public void Configure(EntityTypeBuilder<ProdutoSaidaDTO> builder)
+        public void Configure(EntityTypeBuilder<ProdutoSaidaEF> builder)
         {
             builder.ToTable("ProdutoSaida");
 
@@ -32,7 +32,7 @@ namespace Estoque.Infraestructure.Data.Mapping
                    .WithMany(x => x.produtoSaida)
                    .HasForeignKey(x => x.fk_Produto_id);
 
-            builder.HasData(new ProdutoSaidaDTO { fk_Saida_id = Guid.Parse("b3e1c5d2-7f5c-4a8e-8d6f-9a5f8e7b0c2a"), 
+            builder.HasData(new ProdutoSaidaEF { fk_Saida_id = Guid.Parse("b3e1c5d2-7f5c-4a8e-8d6f-9a5f8e7b0c2a"), 
                 fk_Produto_id = Guid.Parse("f4c9e2b7-8d3a-4e6f-9b2d-7a1c5e0f3b8d") });
         }
     }

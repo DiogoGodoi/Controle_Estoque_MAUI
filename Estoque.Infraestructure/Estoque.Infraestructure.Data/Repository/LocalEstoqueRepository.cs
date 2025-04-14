@@ -3,7 +3,7 @@ using Estoque.Application.Interfaces;
 using Estoque.Infraestructure.Data.Context;
 using Estoque.Domain.Modelos;
 using Microsoft.EntityFrameworkCore;
-using Estoque.Application.Comand.Modelos;
+using Estoque.Infraestructure.Data.ModelosEF;
 
 namespace Estoque.Infraestructure.Data.Repository
 {
@@ -21,7 +21,7 @@ namespace Estoque.Infraestructure.Data.Repository
         {
             try
             {
-                var LocalEstoqueMapping = mapper.Map<LocalEstoqueDTO>(objeto);
+                var LocalEstoqueMapping = mapper.Map<LocalEstoqueEF>(objeto);
 
                 var LocalEstoqueEF = await estoqueContext.locaisEstoque.FirstOrDefaultAsync(x => x.id == Guid.Parse(id));
 
@@ -74,7 +74,7 @@ namespace Estoque.Infraestructure.Data.Repository
                 var LocalEstoqueEf = await estoqueContext.locaisEstoque.FirstOrDefaultAsync(x => x.nome == objeto.nome);
                 if (LocalEstoqueEf != null) throw new Exception("LocalEstoque já cadastrada");
 
-                var LocalEstoque = mapper.Map<LocalEstoqueDTO>(objeto);
+                var LocalEstoque = mapper.Map<LocalEstoqueEF>(objeto);
 
                 estoqueContext.locaisEstoque.Add(LocalEstoque);
 

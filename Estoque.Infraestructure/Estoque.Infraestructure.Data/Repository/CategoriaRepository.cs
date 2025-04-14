@@ -3,7 +3,7 @@ using Estoque.Application.Interfaces;
 using Estoque.Infraestructure.Data.Context;
 using Estoque.Domain.Modelos;
 using Microsoft.EntityFrameworkCore;
-using Estoque.Application.Comand.Modelos;
+using Estoque.Infraestructure.Data.ModelosEF;
 
 namespace Estoque.Infraestructure.Data.Repository
 {
@@ -21,7 +21,7 @@ namespace Estoque.Infraestructure.Data.Repository
         {
             try
             {
-                var CategoriaMapping = mapper.Map<CategoriaDTO>(objeto);
+                var CategoriaMapping = mapper.Map<CategoriaEF>(objeto);
 
                 var CategoriaEF = await estoqueContext.categorias.FirstOrDefaultAsync(x => x.id == Guid.Parse(id));
 
@@ -80,7 +80,7 @@ namespace Estoque.Infraestructure.Data.Repository
                 var usuarioEF = await estoqueContext.usuarios.FirstOrDefaultAsync(x => x.id == objeto.usuario.id);
                 if (usuarioEF == null) throw new Exception("Usuário não encontrado");
 
-                var categoria = mapper.Map<CategoriaDTO>(objeto);
+                var categoria = mapper.Map<CategoriaEF>(objeto);
                 categoria.usuario = usuarioEF;
 
                 estoqueContext.categorias.Add(categoria);
@@ -119,11 +119,11 @@ namespace Estoque.Infraestructure.Data.Repository
         {
             try
             {
-                var usuarios = await estoqueContext.categorias
+                var categorias = await estoqueContext.categorias
                                      .Include(x => x.produto)
                                      .Include(x => x.usuario).ToListAsync();
 
-                var usuarioMappingDomain = mapper.Map<IEnumerable<Categoria>>(usuarios);
+                var usuarioMappingDomain = mapper.Map<IEnumerable<Categoria>>(categorias);
 
                 return usuarioMappingDomain.ToList();
             }

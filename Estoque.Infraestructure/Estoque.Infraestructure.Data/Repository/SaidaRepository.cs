@@ -3,7 +3,7 @@ using Estoque.Application.Interfaces;
 using Estoque.Infraestructure.Data.Context;
 using Estoque.Domain.Modelos;
 using Microsoft.EntityFrameworkCore;
-using Estoque.Application.Comand.Modelos;
+using Estoque.Infraestructure.Data.ModelosEF;
 
 namespace Estoque.Infraestructure.Data.Repository
 {
@@ -21,7 +21,7 @@ namespace Estoque.Infraestructure.Data.Repository
         {
             try
             {
-                var SaidaMapping = mapper.Map<SaidaDTO>(objeto);
+                var SaidaMapping = mapper.Map<SaidaEF>(objeto);
 
                 var SaidaEF = await estoqueContext.saidas.FirstOrDefaultAsync(x => x.id == Guid.Parse(id));
 
@@ -30,7 +30,7 @@ namespace Estoque.Infraestructure.Data.Repository
 
                 SaidaEF.dataSaida = SaidaMapping.dataSaida;
                 SaidaEF.quantidade = SaidaMapping.quantidade;
-                SaidaEF.fk_Usuario_id = SaidaMapping.fk_Usuario_id;
+                SaidaEF.fk_Usuario_id = objeto.usuario.id;
 
                 estoqueContext.saidas.Update(SaidaEF);
 
@@ -79,7 +79,7 @@ namespace Estoque.Infraestructure.Data.Repository
 
                 var SaidaProdutoEf = estoqueContext.produtoSaida.Where(x => x.fk_Saida_id == objeto.id).ToList();
 
-                var Saida = mapper.Map<SaidaDTO>(objeto);
+                var Saida = mapper.Map<SaidaEF>(objeto);
 
                 Saida.produtoSaida = SaidaProdutoEf;
                 Saida.usuario = usuarioEf;

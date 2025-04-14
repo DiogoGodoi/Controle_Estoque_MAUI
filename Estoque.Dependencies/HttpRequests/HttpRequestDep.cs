@@ -1,4 +1,5 @@
 ﻿using Estoque.Domain.Modelos;
+using Estoque.Application.DTO;
 using Estoque.Infraestructure.Http.Interface;
 using Estoque.Infraestructure.Http.Request.HttpCategoria;
 using Estoque.Infraestructure.Http.Request.HttpEntrada;
@@ -14,12 +15,19 @@ namespace Estoque.Dependencies.HttpRequests
     {
         public static IServiceCollection AddHttpRequests(this IServiceCollection services)
         {
-            services.AddScoped<IHttpRepository<Categoria>, HttpCategoriaRepository>();
             services.AddScoped<IHttpRepository<Produto>, HttpProdutoRepository>();
+            services.AddScoped<IHttpRepository<Categoria>, HttpCategoriaRepository>();
             services.AddScoped<IHttpRepository<Usuario>, HttpUsuarioRepository>();
             services.AddScoped<IHttpRepository<Perfil>, HttpPerfilRepository>();
             services.AddScoped<IHttpRepository<Entrada>, HttpEntradaRepository>();
             services.AddScoped<IHttpRepository<Saida>, HttpSaidaRepository>();
+
+            services.AddScoped<IHttpRepositoryDTO<ProdutoDTO>, HttpProdutoRepository>();
+            services.AddScoped<IHttpRepositoryDTO<CategoriaDTO>, HttpCategoriaRepository>();
+            services.AddScoped<IHttpRepositoryDTO<UsuarioDTO>, HttpUsuarioRepository>();
+            services.AddScoped<IHttpRepositoryDTO<PerfilDTO>, HttpPerfilRepository>();
+            services.AddScoped<IHttpRepositoryDTO<EntradaDTO>, HttpEntradaRepository>();
+            services.AddScoped<IHttpRepositoryDTO<SaidaDTO>, HttpSaidaRepository>();
 
             return services;
         }

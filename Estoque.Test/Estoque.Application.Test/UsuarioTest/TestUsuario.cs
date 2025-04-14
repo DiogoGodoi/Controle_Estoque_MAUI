@@ -3,8 +3,7 @@ using Estoque.Application.Interfaces;
 using Estoque.Application.Repository.Abstraction;
 using Estoque.Application.Repository.RepositoryUsuario;
 using Estoque.Infraestructure.Data.Context;
-using Estoque.Application.Comand.Request;
-using Estoque.Application.Comand.Response;
+using Estoque.Infraestructure.Data.AutoMapper;
 using Estoque.Infraestructure.Data.Repository;
 using Estoque.Domain.Modelos;
 using Microsoft.EntityFrameworkCore;
@@ -32,8 +31,7 @@ namespace Estoque.Application.Test.UsuarioTest
             context = new EstoqueContext(options);
 
             var config = new MapperConfiguration(cfg => { 
-                cfg.AddProfile(new UsuarioRequestProfile());
-                cfg.AddProfile(new UsuarioResponseProfile());
+                cfg.AddProfile(new UsuarioProfile());
             });
             mapper = config.CreateMapper();
 

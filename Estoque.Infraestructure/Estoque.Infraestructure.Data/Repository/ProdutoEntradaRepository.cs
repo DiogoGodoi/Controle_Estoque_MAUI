@@ -3,7 +3,7 @@ using Estoque.Application.Interfaces;
 using Estoque.Infraestructure.Data.Context;
 using Estoque.Domain.Modelos;
 using Microsoft.EntityFrameworkCore;
-using Estoque.Application.Comand.Modelos;
+using Estoque.Infraestructure.Data.ModelosEF;
 
 namespace Estoque.Infraestructure.Data.Repository
 {
@@ -21,7 +21,7 @@ namespace Estoque.Infraestructure.Data.Repository
         {
             try
             {
-                var ProdutoEntradaMapping = mapper.Map<ProdutoEntradaDTO>(objeto);
+                var ProdutoEntradaMapping = mapper.Map<ProdutoEntradaEF>(objeto);
 
                 var ProdutoEntradaEF = await estoqueContext.produtoEntrada.FirstOrDefaultAsync(x => x.fk_Entrada_id == Guid.Parse(id));
 
@@ -82,7 +82,7 @@ namespace Estoque.Infraestructure.Data.Repository
                 if (entradaEf == null)
                     throw new Exception("Entrada não localizada");
 
-                var produtoEntrada = mapper.Map<ProdutoEntradaDTO>(objeto);
+                var produtoEntrada = mapper.Map<ProdutoEntradaEF>(objeto);
 
                 produtoEntrada.produto = produtoEf;
                 produtoEntrada.entrada = entradaEf;

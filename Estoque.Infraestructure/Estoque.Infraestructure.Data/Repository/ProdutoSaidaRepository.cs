@@ -3,7 +3,7 @@ using Estoque.Application.Interfaces;
 using Estoque.Infraestructure.Data.Context;
 using Estoque.Domain.Modelos;
 using Microsoft.EntityFrameworkCore;
-using Estoque.Application.Comand.Modelos;
+using Estoque.Infraestructure.Data.ModelosEF;
 
 namespace Estoque.Infraestructure.Data.Repository
 {
@@ -21,7 +21,7 @@ namespace Estoque.Infraestructure.Data.Repository
         {
             try
             {
-                var ProdutoSaidaMapping = mapper.Map<ProdutoSaidaDTO>(objeto);
+                var ProdutoSaidaMapping = mapper.Map<ProdutoSaidaEF>(objeto);
 
                 var ProdutoSaidaEF = await estoqueContext.produtoSaida.FirstOrDefaultAsync(x => x.fk_Saida_id == Guid.Parse(id));
 
@@ -82,7 +82,7 @@ namespace Estoque.Infraestructure.Data.Repository
                 if (SaidaEf == null)
                     throw new Exception("Saida não localizada");
 
-                var produtoSaida = mapper.Map<ProdutoSaidaDTO>(objeto);
+                var produtoSaida = mapper.Map<ProdutoSaidaEF>(objeto);
 
                 produtoSaida.produto = produtoEf;
                 produtoSaida.saida = SaidaEf;

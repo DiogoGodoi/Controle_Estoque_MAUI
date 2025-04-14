@@ -1,5 +1,6 @@
 ﻿using Estoque.Domain.Modelos;
 using Estoque.Infraestructure.Api.Service.Abstraction;
+using Estoque.Infraestructure.Data.AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Estoque.Infraestructure.Api.Controllers
@@ -28,7 +29,7 @@ namespace Estoque.Infraestructure.Api.Controllers
                 }
                 else
                 {
-                    return Ok(Usuarios);
+                    return Ok(Usuarios.toUsuariosDTO());
                 }
             }
             catch (Exception ex)
@@ -52,7 +53,7 @@ namespace Estoque.Infraestructure.Api.Controllers
                 }
                 else
                 {
-                    return Ok(Usuario);
+                    return Ok(Usuario.toUsuarioDTO());
                 }
             }
             catch (Exception ex)

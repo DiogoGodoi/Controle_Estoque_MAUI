@@ -1,10 +1,11 @@
 ﻿using Estoque.Domain.Modelos;
+using Estoque.Application.DTO;
 using Estoque.Infraestructure.Http.Interface;
 using System.Net.Http.Json;
 
 namespace Estoque.Infraestructure.Http.Request.HttpProduto
 {
-    public class HttpProdutoRepository : IHttpRepository<Produto>
+    public class HttpProdutoRepository : IHttpRepository<Produto>, IHttpRepositoryDTO<ProdutoDTO>
     {
         private readonly HttpClient _httpClient;
         public HttpProdutoRepository(HttpClient httpClient)
@@ -20,26 +21,6 @@ namespace Estoque.Infraestructure.Http.Request.HttpProduto
                 HttpResponseMessage response = await _httpClient.PutAsJsonAsync(url, objeto);
 
                 var Produto = await response.Content.ReadFromJsonAsync<Produto>();
-
-                return Produto;
-
-            }
-            catch (HttpRequestException ex)
-            {
-                throw new HttpRequestException($"Erro de servidor: {ex.Message}");
-            }
-            catch
-            {
-                throw;
-            }
-        }
-        public async Task<Produto> Buscar(string id)
-        {
-            try
-            {
-                var url = $"";
-
-                var Produto = await _httpClient.GetFromJsonAsync<Produto>(url);
 
                 return Produto;
 
@@ -96,13 +77,33 @@ namespace Estoque.Infraestructure.Http.Request.HttpProduto
                 throw;
             }
         }
-        public async Task<IEnumerable<Produto>> Listar()
+        public async Task<ProdutoDTO> Buscar(string id)
+        {
+            try
+            {
+                var url = $"";
+
+                var Produto = await _httpClient.GetFromJsonAsync<ProdutoDTO>(url);
+
+                return Produto;
+
+            }
+            catch (HttpRequestException ex)
+            {
+                throw new HttpRequestException($"Erro de servidor: {ex.Message}");
+            }
+            catch
+            {
+                throw;
+            }
+        }
+        public async Task<IEnumerable<ProdutoDTO>> Listar()
         {
             try
             {
                 var url = $"https://localhost:7170/api/Produtos/Listar";
 
-                var Produtos = await _httpClient.GetFromJsonAsync<IEnumerable<Produto>>(url);
+                var Produtos = await _httpClient.GetFromJsonAsync<IEnumerable<ProdutoDTO>>(url);
 
                 return Produtos;
 

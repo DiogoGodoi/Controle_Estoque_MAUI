@@ -3,7 +3,7 @@ using Estoque.Application.Interfaces;
 using Estoque.Infraestructure.Data.Context;
 using Estoque.Domain.Modelos;
 using Microsoft.EntityFrameworkCore;
-using Estoque.Application.Comand.Modelos;
+using Estoque.Infraestructure.Data.ModelosEF;
 
 namespace Estoque.Infraestructure.Data.Repository
 {
@@ -21,7 +21,7 @@ namespace Estoque.Infraestructure.Data.Repository
         {
             try
             {
-                var EntradaMapping = mapper.Map<EntradaDTO>(objeto);
+                var EntradaMapping = mapper.Map<EntradaEF>(objeto);
 
                 var EntradaEF = await estoqueContext.entradas.FirstOrDefaultAsync(x => x.id == Guid.Parse(id));
 
@@ -30,7 +30,7 @@ namespace Estoque.Infraestructure.Data.Repository
 
                 EntradaEF.dataEntrada = EntradaMapping.dataEntrada;
                 EntradaEF.quantidade = EntradaMapping.quantidade;
-                EntradaEF.fk_Usuario_id = EntradaMapping.fk_Usuario_id;
+                EntradaEF.fk_Usuario_id = objeto.usuario.id;
 
                 estoqueContext.entradas.Update(EntradaEF);
 
@@ -49,6 +49,7 @@ namespace Estoque.Infraestructure.Data.Repository
             {
                 var entrada = await estoqueContext.entradas
                                     .Include(x => x.produtoEntrada)
+                                    .Include(x => x.usuario)
                                     .FirstOrDefaultAsync(x => x.id == Guid.Parse(id));
 
                 if (entrada == null)
@@ -78,7 +79,7 @@ namespace Estoque.Infraestructure.Data.Repository
 
                 var entradaProdutoEf = estoqueContext.produtoEntrada.Where(x => x.fk_Entrada_id == objeto.id).ToList();
 
-                var entrada = mapper.Map<EntradaDTO>(objeto);
+                var entrada = mapper.Map<EntradaEF>(objeto);
 
                 entrada.produtoEntrada = entradaProdutoEf;
                 entrada.usuario = usuarioEf;
@@ -117,6 +118,7 @@ namespace Estoque.Infraestructure.Data.Repository
             {
                 var entradas = await estoqueContext.entradas
                                     .Include(x => x.produtoEntrada)
+                                    .Include(x => x.usuario)
                                     .ToListAsync();
 
                 var entradaMappingDomain = mapper.Map<IEnumerable<Entrada>>(entradas);

@@ -3,7 +3,7 @@ using Estoque.Application.Interfaces;
 using Estoque.Infraestructure.Data.Context;
 using Estoque.Domain.Modelos;
 using Microsoft.EntityFrameworkCore;
-using Estoque.Application.Comand.Modelos;
+using Estoque.Infraestructure.Data.ModelosEF;
 
 namespace Estoque.Infraestructure.Data.Repository
 {
@@ -21,8 +21,7 @@ namespace Estoque.Infraestructure.Data.Repository
         {
             try
             {
-                
-                var ProdutoMapping = mapper.Map<ProdutoDTO>(objeto);
+                var ProdutoMapping = mapper.Map<ProdutoEF>(objeto);
 
                 var ProdutoEF = await estoqueContext.produtos.FirstOrDefaultAsync(x => x.id == Guid.Parse(id));
 
@@ -42,8 +41,9 @@ namespace Estoque.Infraestructure.Data.Repository
                 ProdutoEF.preco2 = ProdutoMapping.preco2;
                 ProdutoEF.preco3 = ProdutoMapping.preco3;
                 ProdutoEF.precoMedio = ProdutoMapping.precoMedio;
-                ProdutoEF.fk_Categoria_id = ProdutoMapping.fk_Categoria_id;
-                ProdutoEF.fk_Usuario_id = ProdutoMapping.fk_Usuario_id;
+                ProdutoEF.fk_Categoria_id = objeto.categoria.id;
+                ProdutoEF.fk_Usuario_id = objeto.usuario.id;
+                ProdutoEF.fk_LocalEstoque_id = objeto.localEstoque.id;
 
                 estoqueContext.produtos.Update(ProdutoEF);
 
@@ -98,7 +98,7 @@ namespace Estoque.Infraestructure.Data.Repository
                 var localEstoqueEf = await estoqueContext.locaisEstoque.FirstOrDefaultAsync(x => x.id == objeto.localEstoque.id);
                 if (localEstoqueEf == null) throw new Exception("Local de estoque encontrads");
 
-                var Produto = mapper.Map<ProdutoDTO>(objeto);
+                var Produto = mapper.Map<ProdutoEF>(objeto);
 
                 Produto.usuario = usuarioEf;
                 Produto.categoria = categoriaEf;
@@ -137,6 +137,7 @@ namespace Estoque.Infraestructure.Data.Repository
                 var produtos = await estoqueContext.produtos
                                     .Include(x => x.categoria)
                                     .Include(x => x.localEstoque)
+                                    .Include(x => x.usuario)
                                     .ToListAsync();
 
                 var produtosMappingDomain = mapper.Map<IEnumerable<Produto>>(produtos);

@@ -1,10 +1,11 @@
-﻿using Estoque.Domain.Modelos;
+﻿using Estoque.Application.DTO;
+using Estoque.Domain.Modelos;
 using Estoque.Infraestructure.Http.Interface;
 using System.Net.Http.Json;
 
 namespace Estoque.Infraestructure.Http.Request.HttpPerfil
 {
-    public class HttpPerfilRepository : IHttpRepository<Perfil>
+    public class HttpPerfilRepository : IHttpRepository<Perfil>, IHttpRepositoryDTO<PerfilDTO>
     {
         private readonly HttpClient _httpClient;
         public HttpPerfilRepository(HttpClient httpClient)
@@ -20,26 +21,6 @@ namespace Estoque.Infraestructure.Http.Request.HttpPerfil
                 HttpResponseMessage response = await _httpClient.PutAsJsonAsync(url, objeto);
 
                 var Perfil = await response.Content.ReadFromJsonAsync<Perfil>();
-
-                return Perfil;
-
-            }
-            catch (HttpRequestException ex)
-            {
-                throw new HttpRequestException($"Erro de servidor: {ex.Message}");
-            }
-            catch
-            {
-                throw;
-            }
-        }
-        public async Task<Perfil> Buscar(string id)
-        {
-            try
-            {
-                var url = $"";
-
-                var Perfil = await _httpClient.GetFromJsonAsync<Perfil>(url);
 
                 return Perfil;
 
@@ -96,13 +77,33 @@ namespace Estoque.Infraestructure.Http.Request.HttpPerfil
                 throw;
             }
         }
-        public async Task<IEnumerable<Perfil>> Listar()
+        public async Task<PerfilDTO> Buscar(string id)
         {
             try
             {
                 var url = $"";
 
-                var Perfils = await _httpClient.GetFromJsonAsync<IEnumerable<Perfil>>(url);
+                var Perfil = await _httpClient.GetFromJsonAsync<PerfilDTO>(url);
+
+                return Perfil;
+
+            }
+            catch (HttpRequestException ex)
+            {
+                throw new HttpRequestException($"Erro de servidor: {ex.Message}");
+            }
+            catch
+            {
+                throw;
+            }
+        }
+        public async Task<IEnumerable<PerfilDTO>> Listar()
+        {
+            try
+            {
+                var url = $"";
+
+                var Perfils = await _httpClient.GetFromJsonAsync<IEnumerable<PerfilDTO>>(url);
 
                 return Perfils;
 

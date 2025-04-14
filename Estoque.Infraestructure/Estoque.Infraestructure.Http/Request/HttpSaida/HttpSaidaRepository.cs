@@ -1,10 +1,11 @@
-﻿using Estoque.Domain.Modelos;
+﻿using Estoque.Application.DTO;
+using Estoque.Domain.Modelos;
 using Estoque.Infraestructure.Http.Interface;
 using System.Net.Http.Json;
 
 namespace Estoque.Infraestructure.Http.Request.HttpSaida
 {
-    public class HttpSaidaRepository : IHttpRepository<Saida>
+    public class HttpSaidaRepository : IHttpRepository<Saida>, IHttpRepositoryDTO<SaidaDTO>
     {
         private readonly HttpClient _httpClient;
         public HttpSaidaRepository(HttpClient httpClient)
@@ -20,26 +21,6 @@ namespace Estoque.Infraestructure.Http.Request.HttpSaida
                 HttpResponseMessage response = await _httpClient.PutAsJsonAsync(url, objeto);
 
                 var Saida = await response.Content.ReadFromJsonAsync<Saida>();
-
-                return Saida;
-
-            }
-            catch (HttpRequestException ex)
-            {
-                throw new HttpRequestException($"Erro de servidor: {ex.Message}");
-            }
-            catch
-            {
-                throw;
-            }
-        }
-        public async Task<Saida> Buscar(string id)
-        {
-            try
-            {
-                var url = $"";
-
-                var Saida = await _httpClient.GetFromJsonAsync<Saida>(url);
 
                 return Saida;
 
@@ -96,13 +77,33 @@ namespace Estoque.Infraestructure.Http.Request.HttpSaida
                 throw;
             }
         }
-        public async Task<IEnumerable<Saida>> Listar()
+        public async Task<SaidaDTO> Buscar(string id)
         {
             try
             {
                 var url = $"";
 
-                var Saidas = await _httpClient.GetFromJsonAsync<IEnumerable<Saida>>(url);
+                var Saida = await _httpClient.GetFromJsonAsync<SaidaDTO>(url);
+
+                return Saida;
+
+            }
+            catch (HttpRequestException ex)
+            {
+                throw new HttpRequestException($"Erro de servidor: {ex.Message}");
+            }
+            catch
+            {
+                throw;
+            }
+        }
+        public async Task<IEnumerable<SaidaDTO>> Listar()
+        {
+            try
+            {
+                var url = $"";
+
+                var Saidas = await _httpClient.GetFromJsonAsync<IEnumerable<SaidaDTO>>(url);
 
                 return Saidas;
 

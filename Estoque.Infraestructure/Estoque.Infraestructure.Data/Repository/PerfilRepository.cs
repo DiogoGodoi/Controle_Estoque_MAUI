@@ -3,7 +3,7 @@ using Estoque.Application.Interfaces;
 using Estoque.Infraestructure.Data.Context;
 using Estoque.Domain.Modelos;
 using Microsoft.EntityFrameworkCore;
-using Estoque.Application.Comand.Modelos;
+using Estoque.Infraestructure.Data.ModelosEF;
 
 namespace Estoque.Infraestructure.Data.Repository
 {
@@ -21,7 +21,7 @@ namespace Estoque.Infraestructure.Data.Repository
         {
             try
             {
-                var PerfilMapping = mapper.Map<PerfilDTO>(objeto);
+                var PerfilMapping = mapper.Map<PerfilEF>(objeto);
 
                 var PerfilEF = await estoqueContext.perfis.FirstOrDefaultAsync(x => x.id == Guid.Parse(id));
 
@@ -72,7 +72,7 @@ namespace Estoque.Infraestructure.Data.Repository
                 var PerfilEf = await estoqueContext.perfis.FirstOrDefaultAsync(x => x.nome == objeto.nome);
                 if (PerfilEf != null) throw new Exception("Perfil já cadastrado");
 
-                var Perfil = mapper.Map<PerfilDTO>(objeto);
+                var Perfil = mapper.Map<PerfilEF>(objeto);
                 
                 estoqueContext.perfis.Add(Perfil);
 
