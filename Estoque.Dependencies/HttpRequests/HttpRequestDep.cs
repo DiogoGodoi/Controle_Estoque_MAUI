@@ -9,7 +9,7 @@ using Estoque.Infraestructure.Http.Request.HttpSaida;
 using Estoque.Infraestructure.Http.Request.HttpUsuario;
 using Microsoft.Extensions.DependencyInjection;
 using Estoque.Infraestructure.Http.Request.HttpProdutoEntrada;
-using Estoque.Infraestructure.Http.Request.HttpRepositorySaida;
+using Estoque.Infraestructure.Http.Request.HttpProdutoSaida;
 
 namespace Estoque.Dependencies.HttpRequests
 {

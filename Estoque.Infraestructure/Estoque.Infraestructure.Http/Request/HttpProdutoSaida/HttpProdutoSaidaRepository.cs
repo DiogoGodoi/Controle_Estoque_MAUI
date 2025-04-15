@@ -2,7 +2,7 @@
 using Estoque.Infraestructure.Http.Interface;
 using System.Net.Http.Json;
 
-namespace Estoque.Infraestructure.Http.Request.HttpRepositorySaida
+namespace Estoque.Infraestructure.Http.Request.HttpProdutoSaida
 {
     public class HttpProdutoSaidaRepository:IHttpRepositoryDTO<ProdutoSaidaDTO>
     {

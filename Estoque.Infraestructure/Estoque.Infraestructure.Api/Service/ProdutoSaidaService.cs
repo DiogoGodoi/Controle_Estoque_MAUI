@@ -1,7 +1,8 @@
 ﻿using Estoque.Application.Interfaces;
 using Estoque.Domain.Modelos;
+using Estoque.Infraestructure.Api.Service.Abstraction;
 
-namespace Estoque.Infraestructure.Api.Service.Abstraction
+namespace Estoque.Infraestructure.Api.Service
 {
     public class ProdutoSaidaService: IService<ProdutoSaida>
     {
