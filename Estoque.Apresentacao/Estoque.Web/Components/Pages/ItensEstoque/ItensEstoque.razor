@@ -6,8 +6,26 @@
 }
 else
 {
+    <h3>Estoque de produtos</h3>
+
+    <div class="container-fluid">
+        <div class="row col-12">
+            @foreach (var item in categorias)
+            {
+                <button class="btn btn-primary col-1 m-1" @onclick="@(() => FiltrarPorCategoria(item))">
+                    @item
+                </button>
+            }
+
+            <button class="btn btn-primary col-1 m-1" @onclick="@(() => FiltrarPorCategoria("Todos"))">
+                Todos
+            </button>
+        </div>
+    </div>
+
     <ListarProdutos produtos="@produtos" />
 }
+
 
 @code {
     private IEnumerable<ProdutoDTO> produtos { get; set; } = new List<ProdutoDTO>();
@@ -17,9 +35,20 @@ else
         await Requisicao();
     }
 
+    private IEnumerable<string> categorias { get; set; } = new List<string>();
+
     private async Task Requisicao()
     {
         produtos = await HttpRepositoryProdutosDTO.Listar();
+
+        var agrupador = produtos.GroupBy(x => x.categoria);
+
+        categorias = agrupador.Select(x => x.Key).ToList();
+    }
+
+    private async Task FiltrarPorCategoria(string chave)
+    {
+        produtos = await HttpRepositoryFiltroProdutoDTO.Filtro(chave);
     }
 }
 

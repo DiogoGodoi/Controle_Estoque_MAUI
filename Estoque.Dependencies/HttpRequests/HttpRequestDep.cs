@@ -33,6 +33,8 @@ namespace Estoque.Dependencies.HttpRequests
             services.AddScoped<IHttpRepositoryDTO<ProdutoEntradaDTO>, HttpProdutoEntradaRepository>();
             services.AddScoped<IHttpRepositoryDTO<ProdutoSaidaDTO>, HttpProdutoSaidaRepository>();
 
+            services.AddScoped<IHttpFiltroRepositoryDTO<ProdutoDTO>, HttpProdutoRepository>();
+
             return services;
         }
     }

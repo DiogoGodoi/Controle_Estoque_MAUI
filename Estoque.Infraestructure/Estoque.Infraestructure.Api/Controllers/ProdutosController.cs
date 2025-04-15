@@ -63,6 +63,35 @@ namespace Estoque.Infraestructure.Api.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("Buscar/Categoria/{descricao}")]
+        public async Task<IActionResult> BuscarProdutosPorCategoria(string descricao)
+        {
+            try
+            {
+                var produto = await _produtoService.Listar();
+
+                var porCategoria = produto.Where(x => x.categoria.nome == descricao);
+
+                if (porCategoria == null)
+                {
+                    return NotFound();
+                }
+                else if (descricao.Equals("Todos"))
+                {
+                    return Ok(produto.toProdutosDTO());
+                }
+                else
+                {
+                    return Ok(porCategoria.toProdutosDTO());
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpPost]
         [Route("Cadastrar")]
         public async Task<IActionResult> CadastrarProduto([FromBody] Produto produto)

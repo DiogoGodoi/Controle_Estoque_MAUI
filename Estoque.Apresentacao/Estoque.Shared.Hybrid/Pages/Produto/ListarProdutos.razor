@@ -1,7 +1,5 @@
 ﻿@page "/ListarProdutos"
 
-<h3>Estoque de produtos</h3>
-
 @if (produtos == null)
 {
     <h5>Carregando</h5>
@@ -51,5 +49,4 @@ else
     public IEnumerable<ProdutoDTO> produtos { get; set; } = new List<ProdutoDTO>();
 
     PaginationState paginacao = new PaginationState { ItemsPerPage = 10 };
-
 }

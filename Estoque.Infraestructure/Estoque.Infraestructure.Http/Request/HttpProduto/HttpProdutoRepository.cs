@@ -5,7 +5,7 @@ using System.Net.Http.Json;
 
 namespace Estoque.Infraestructure.Http.Request.HttpProduto
 {
-    public class HttpProdutoRepository : IHttpRepository<Produto>, IHttpRepositoryDTO<ProdutoDTO>
+    public class HttpProdutoRepository : IHttpRepository<Produto>, IHttpRepositoryDTO<ProdutoDTO>, IHttpFiltroRepositoryDTO<ProdutoDTO>
     {
         private readonly HttpClient _httpClient;
         public HttpProdutoRepository(HttpClient httpClient)
@@ -102,6 +102,26 @@ namespace Estoque.Infraestructure.Http.Request.HttpProduto
             try
             {
                 var url = $"https://localhost:7170/api/Produtos/Listar";
+
+                var Produtos = await _httpClient.GetFromJsonAsync<IEnumerable<ProdutoDTO>>(url);
+
+                return Produtos;
+
+            }
+            catch (HttpRequestException ex)
+            {
+                throw new HttpRequestException($"Erro de servidor: {ex.Message}");
+            }
+            catch
+            {
+                throw;
+            }
+        }
+        public async Task<IEnumerable<ProdutoDTO>> Filtro(string chave)
+        {
+            try
+            {
+                var url = $"https://localhost:7170/api/Produtos/Buscar/Categoria/{chave}";
 
                 var Produtos = await _httpClient.GetFromJsonAsync<IEnumerable<ProdutoDTO>>(url);
 
