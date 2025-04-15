@@ -9,15 +9,15 @@ else
     <h3>Estoque de produtos</h3>
 
     <div class="container-fluid">
-        <div class="row col-12">
+        <div class="row">
             @foreach (var item in categorias)
             {
-                <button class="btn btn-primary col-1 m-1" @onclick="@(() => FiltrarPorCategoria(item))">
+                <button class="btn btn-primary col-12 col-md-1 m-1" @onclick="@(() => FiltrarPorCategoria(item))">
                     @item
                 </button>
             }
 
-            <button class="btn btn-primary col-1 m-1" @onclick="@(() => FiltrarPorCategoria("Todos"))">
+            <button class="btn btn-primary col-12 col-md-1 m-1" @onclick="@(() => FiltrarPorCategoria("Todos"))">
                 Todos
             </button>
         </div>

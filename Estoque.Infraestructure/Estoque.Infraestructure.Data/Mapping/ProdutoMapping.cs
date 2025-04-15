@@ -78,6 +78,7 @@ namespace Estoque.Infraestructure.Data.Mapping
                    .HasForeignKey(x => x.fk_Produto_id);
 
             builder.HasData(
+
                     new ProdutoEF
                     {
                         id = Guid.Parse("f4c9e2b7-8d3a-4e6f-9b2d-7a1c5e0f3b8d"),
@@ -377,8 +378,157 @@ namespace Estoque.Infraestructure.Data.Mapping
                         fk_LocalEstoque_id = Guid.Parse("537d8ba5-17d0-4c80-be68-6ef17d907534"),
                         fk_Categoria_id = Guid.Parse("527d8ea5-17d0-4c80-be68-6ef17d907534"),
                         fk_Usuario_id = Guid.Parse("b3e1a5d2-7f4b-4a8e-8d6f-9a3f8e7b1c2a")
-                    }
-                );
+                    },
+                    new ProdutoEF
+                    {
+                        id = Guid.Parse("c1a1d51f-2c8b-4a4c-89de-1e1d77d4a001"),
+                        descricao = "Fonte ATX 500W",
+                        quantidade = 10,
+                        estoqueMin = 3,
+                        unidade = "UN",
+                        preco1 = 250.00m,
+                        preco2 = 260.00m,
+                        preco3 = 245.00m,
+                        precoMedio = 251.67m,
+                        fk_LocalEstoque_id = Guid.Parse("537d8ba5-17d0-4c80-be68-6ef17d907534"),
+                        fk_Categoria_id = Guid.Parse("511d8ea5-16a0-4c81-be61-6ef17d907534"),
+                        fk_Usuario_id = Guid.Parse("b3e1c5d2-7f4b-4a8e-8d6f-9a5f8e7b0c2a")
+                    },
+                    new ProdutoEF
+                    {
+                        id = Guid.Parse("d2e2e77b-a7aa-4a3f-9324-b86f4a2bc002"),
+                        descricao = "Luminária LED 30W",
+                        quantidade = 25,
+                        estoqueMin = 10,
+                        unidade = "UN",
+                        preco1 = 60.00m,
+                        preco2 = 65.00m,
+                        preco3 = 58.00m,
+                        precoMedio = 61.00m,
+                        fk_LocalEstoque_id = Guid.Parse("537d8ba5-17d0-4c80-be68-6ef17d907534"),
+                        fk_Categoria_id = Guid.Parse("511d8ea5-16a0-4c81-be61-6ef17d907534"),
+                        fk_Usuario_id = Guid.Parse("b3e1c5d2-7f4b-4a8e-8d6f-9a5f8e7b0c2a")
+                    },
+                    new ProdutoEF
+                    {
+                        id = Guid.Parse("f3b4c2de-8e29-41d6-a97f-bf9ac5030003"),
+                        descricao = "Tomada Inteligente Wi-Fi",
+                        quantidade = 30,
+                        estoqueMin = 10,
+                        unidade = "UN",
+                        preco1 = 120.00m,
+                        preco2 = 130.00m,
+                        preco3 = 115.00m,
+                        precoMedio = 121.67m,
+                        fk_LocalEstoque_id = Guid.Parse("537d8ba5-17d0-4c80-be68-6ef17d907534"),
+                        fk_Categoria_id = Guid.Parse("511d8ea5-16a0-4c81-be61-6ef17d907534"),
+                        fk_Usuario_id = Guid.Parse("b3e1c5d2-7f4b-4a8e-8d6f-9a5f8e7b0c2a")
+                    },
+                    new ProdutoEF
+                    {
+                        id = Guid.Parse("a2c9b7d2-55c3-4ef6-832e-b3f7a7000004"),
+                        descricao = "Reator Eletrônico 2x32W",
+                        quantidade = 12,
+                        estoqueMin = 4,
+                        unidade = "UN",
+                        preco1 = 80.00m,
+                        preco2 = 85.00m,
+                        preco3 = 75.00m,
+                        precoMedio = 80.00m,
+                        fk_LocalEstoque_id = Guid.Parse("537d8ba5-17d0-4c80-be68-6ef17d907534"),
+                        fk_Categoria_id = Guid.Parse("511d8ea5-16a0-4c81-be61-6ef17d907534"),
+                        fk_Usuario_id = Guid.Parse("b3e1c5d2-7f4b-4a8e-8d6f-9a5f8e7b0c2a")
+                    },
+                    new ProdutoEF
+                    {
+                        id = Guid.Parse("b6fbc98a-3d63-4baf-b8f7-12cbcf8a0005"),
+                        descricao = "Sensor de Presença",
+                        quantidade = 18,
+                        estoqueMin = 6,
+                        unidade = "UN",
+                        preco1 = 55.00m,
+                        preco2 = 60.00m,
+                        preco3 = 52.00m,
+                        precoMedio = 55.67m,
+                        fk_LocalEstoque_id = Guid.Parse("537d8ba5-17d0-4c80-be68-6ef17d907534"),
+                        fk_Categoria_id = Guid.Parse("511d8ea5-16a0-4c81-be61-6ef17d907534"),
+                        fk_Usuario_id = Guid.Parse("b3e1c5d2-7f4b-4a8e-8d6f-9a5f8e7b0c2a")
+                    },
+                    new ProdutoEF
+                    {
+                        id = Guid.Parse("de9c62be-55a3-45c2-9468-bfd7de0f0006"),
+                        descricao = "Disjuntor 20A DIN",
+                        quantidade = 40,
+                        estoqueMin = 15,
+                        unidade = "UN",
+                        preco1 = 18.00m,
+                        preco2 = 20.00m,
+                        preco3 = 17.00m,
+                        precoMedio = 18.33m,
+                        fk_LocalEstoque_id = Guid.Parse("537d8ba5-17d0-4c80-be68-6ef17d907534"),
+                        fk_Categoria_id = Guid.Parse("511d8ea5-16a0-4c81-be61-6ef17d907534"),
+                        fk_Usuario_id = Guid.Parse("b3e1c5d2-7f4b-4a8e-8d6f-9a5f8e7b0c2a")
+                    },
+                    new ProdutoEF
+                    {
+                        id = Guid.Parse("e9f7e5b1-bd02-4141-a35b-4c9811f80007"),
+                        descricao = "Câmera de Segurança IP",
+                        quantidade = 9,
+                        estoqueMin = 3,
+                        unidade = "UN",
+                        preco1 = 350.00m,
+                        preco2 = 370.00m,
+                        preco3 = 340.00m,
+                        precoMedio = 353.33m,
+                        fk_LocalEstoque_id = Guid.Parse("537d8ba5-17d0-4c80-be68-6ef17d907534"),
+                        fk_Categoria_id = Guid.Parse("511d8ea5-16a0-4c81-be61-6ef17d907534"),
+                        fk_Usuario_id = Guid.Parse("b3e1c5d2-7f4b-4a8e-8d6f-9a5f8e7b0c2a")
+                    },
+                    new ProdutoEF
+                    {
+                        id = Guid.Parse("f8807a7f-cfab-4ff8-aaa6-8fd1bc3d0008"),
+                        descricao = "Controle Remoto Universal",
+                        quantidade = 22,
+                        estoqueMin = 6,
+                        unidade = "UN",
+                        preco1 = 40.00m,
+                        preco2 = 45.00m,
+                        preco3 = 38.00m,
+                        precoMedio = 41.00m,
+                        fk_LocalEstoque_id = Guid.Parse("537d8ba5-17d0-4c80-be68-6ef17d907534"),
+                        fk_Categoria_id = Guid.Parse("511d8ea5-16a0-4c81-be61-6ef17d907534"),
+                        fk_Usuario_id = Guid.Parse("b3e1c5d2-7f4b-4a8e-8d6f-9a5f8e7b0c2a")
+                    },
+                    new ProdutoEF
+                    {
+                        id = Guid.Parse("ca441e8c-e0ae-4aa2-b1c3-d1dfcb870009"),
+                        descricao = "Tomada 20A com USB",
+                        quantidade = 17,
+                        estoqueMin = 5,
+                        unidade = "UN",
+                        preco1 = 55.00m,
+                        preco2 = 60.00m,
+                        preco3 = 53.00m,
+                        precoMedio = 56.00m,
+                        fk_LocalEstoque_id = Guid.Parse("537d8ba5-17d0-4c80-be68-6ef17d907534"),
+                        fk_Categoria_id = Guid.Parse("511d8ea5-16a0-4c81-be61-6ef17d907534"),
+                        fk_Usuario_id = Guid.Parse("b3e1c5d2-7f4b-4a8e-8d6f-9a5f8e7b0c2a")
+                    },
+                    new ProdutoEF
+                    {
+                        id = Guid.Parse("ec5aa65c-ea90-4be2-95b2-f70e3c7a0010"),
+                        descricao = "Chave comutadora trifásica",
+                        quantidade = 5,
+                        estoqueMin = 2,
+                        unidade = "UN",
+                        preco1 = 180.00m,
+                        preco2 = 190.00m,
+                        preco3 = 175.00m,
+                        precoMedio = 181.67m,
+                        fk_LocalEstoque_id = Guid.Parse("537d8ba5-17d0-4c80-be68-6ef17d907534"),
+                        fk_Categoria_id = Guid.Parse("511d8ea5-16a0-4c81-be61-6ef17d907534"),
+                        fk_Usuario_id = Guid.Parse("b3e1c5d2-7f4b-4a8e-8d6f-9a5f8e7b0c2a")
+                    });
 
         }
     }

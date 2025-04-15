@@ -36,8 +36,25 @@ namespace Estoque.Infraestructure.Data.Mapping
 
             //dados
             builder.HasData(
-                new CategoriaEF { id = Guid.Parse("520d8ea5-17d0-4c80-be68-6ef17d907534"), nome = "Eletrônicos", fk_Usuario_id = Guid.Parse("b3e1c5d2-7f4b-4a8e-8d6f-9a5f8e7b0c2a") },
-                new CategoriaEF { id = Guid.Parse("527d8ea5-17d0-4c80-be68-6ef17d907534"), nome = "Hidráulicos", fk_Usuario_id = Guid.Parse("b3e1a5d2-7f4b-4a8e-8d6f-9a3f8e7b1c2a") });
+                new CategoriaEF
+                {
+                    id = Guid.Parse("520d8ea5-17d0-4c80-be68-6ef17d907534"),
+                    nome = "Eletrônicos",
+                    fk_Usuario_id = Guid.Parse("b3e1c5d2-7f4b-4a8e-8d6f-9a5f8e7b0c2a")
+                },
+                new CategoriaEF
+                {
+                    id = Guid.Parse("527d8ea5-17d0-4c80-be68-6ef17d907534"),
+                    nome = "Hidráulicos",
+                    fk_Usuario_id = Guid.Parse("b3e1a5d2-7f4b-4a8e-8d6f-9a3f8e7b1c2a")
+                },
+                 new CategoriaEF
+                 {
+                     id = Guid.Parse("511d8ea5-16a0-4c81-be61-6ef17d907534"),
+                     nome = "Elétricos",
+                     fk_Usuario_id = Guid.Parse("b3e1a5d2-7f4b-4a8e-8d6f-9a3f8e7b1c2a")
+                 });
+
 
         }
     }
