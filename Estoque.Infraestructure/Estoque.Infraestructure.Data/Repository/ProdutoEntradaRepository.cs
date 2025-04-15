@@ -1,27 +1,24 @@
-﻿using AutoMapper;
-using Estoque.Application.Interfaces;
-using Estoque.Infraestructure.Data.Context;
+﻿using Estoque.Application.Interfaces;
 using Estoque.Domain.Modelos;
-using Microsoft.EntityFrameworkCore;
+using Estoque.Infraestructure.Data.Context;
+using Estoque.Infraestructure.Data.Extend;
 using Estoque.Infraestructure.Data.ModelosEF;
+using Microsoft.EntityFrameworkCore;
 
 namespace Estoque.Infraestructure.Data.Repository
 {
     public class ProdutoEntradaRepository : IRepository<ProdutoEntrada>
     {
-        private readonly IMapper mapper;
-
         private readonly EstoqueContext estoqueContext;
-        public ProdutoEntradaRepository(IMapper mapper, EstoqueContext estoqueContext)
+        public ProdutoEntradaRepository(EstoqueContext estoqueContext)
         {
-            this.mapper = mapper;
             this.estoqueContext = estoqueContext;
         }
         public async Task Atualizar(string id, ProdutoEntrada objeto)
         {
             try
             {
-                var ProdutoEntradaMapping = mapper.Map<ProdutoEntradaEF>(objeto);
+                var ProdutoEntradaMapping = objeto.toProdutoEntradaEF();
 
                 var ProdutoEntradaEF = await estoqueContext.produtoEntrada.FirstOrDefaultAsync(x => x.fk_Entrada_id == Guid.Parse(id));
 
@@ -56,7 +53,7 @@ namespace Estoque.Infraestructure.Data.Repository
                 if (ProdutoEntrada == null)
                     throw new Exception("Entrada não localizada");
 
-                var usuarioMappingDomain = mapper.Map<ProdutoEntrada>(ProdutoEntrada);
+                var usuarioMappingDomain = ProdutoEntrada.toProdutoEntrada();
 
                 return usuarioMappingDomain;
 
@@ -82,7 +79,7 @@ namespace Estoque.Infraestructure.Data.Repository
                 if (entradaEf == null)
                     throw new Exception("Entrada não localizada");
 
-                var produtoEntrada = mapper.Map<ProdutoEntradaEF>(objeto);
+                var produtoEntrada = objeto.toProdutoEntradaEF();
 
                 produtoEntrada.produto = produtoEf;
                 produtoEntrada.entrada = entradaEf;
@@ -126,7 +123,7 @@ namespace Estoque.Infraestructure.Data.Repository
                                     .Include(x => x.produto)
                                     .ToListAsync();
 
-                var usuarioMappingDomain = mapper.Map<IEnumerable<ProdutoEntrada>>(usuarios);
+                var usuarioMappingDomain = usuarios.toProdutosEntrada();
 
                 return usuarioMappingDomain.ToList();
             }

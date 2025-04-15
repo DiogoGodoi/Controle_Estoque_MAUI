@@ -1,27 +1,24 @@
-﻿using AutoMapper;
-using Estoque.Application.Interfaces;
-using Estoque.Infraestructure.Data.Context;
+﻿using Estoque.Application.Interfaces;
 using Estoque.Domain.Modelos;
-using Microsoft.EntityFrameworkCore;
+using Estoque.Infraestructure.Data.Context;
+using Estoque.Infraestructure.Data.Extend;
 using Estoque.Infraestructure.Data.ModelosEF;
+using Microsoft.EntityFrameworkCore;
 
 namespace Estoque.Infraestructure.Data.Repository
 {
     public class ProdutoRepository : IRepository<Produto>
     {
-        private readonly IMapper mapper;
-
         private readonly EstoqueContext estoqueContext;
-        public ProdutoRepository(IMapper mapper, EstoqueContext estoqueContext)
+        public ProdutoRepository(EstoqueContext estoqueContext)
         {
-            this.mapper = mapper;
             this.estoqueContext = estoqueContext;
         }
         public async Task Atualizar(string id, Produto objeto)
         {
             try
             {
-                var ProdutoMapping = mapper.Map<ProdutoEF>(objeto);
+                var ProdutoMapping = objeto.toProdutoEF();
 
                 var ProdutoEF = await estoqueContext.produtos.FirstOrDefaultAsync(x => x.id == Guid.Parse(id));
 
@@ -41,9 +38,9 @@ namespace Estoque.Infraestructure.Data.Repository
                 ProdutoEF.preco2 = ProdutoMapping.preco2;
                 ProdutoEF.preco3 = ProdutoMapping.preco3;
                 ProdutoEF.precoMedio = ProdutoMapping.precoMedio;
-                ProdutoEF.fk_Categoria_id = objeto.categoria.id;
-                ProdutoEF.fk_Usuario_id = objeto.usuario.id;
-                ProdutoEF.fk_LocalEstoque_id = objeto.localEstoque.id;
+                ProdutoEF.fk_Categoria_id = ProdutoMapping.fk_Categoria_id;
+                ProdutoEF.fk_Usuario_id = ProdutoMapping.fk_Usuario_id;
+                ProdutoEF.fk_LocalEstoque_id = ProdutoMapping.fk_LocalEstoque_id;
 
                 estoqueContext.produtos.Update(ProdutoEF);
 
@@ -63,16 +60,17 @@ namespace Estoque.Infraestructure.Data.Repository
         {
             try
             {
-                var Produto = await estoqueContext
+                var produto = await estoqueContext
                                     .produtos.Include(x => x.categoria)
                                     .Include(x => x.usuario)
+                                        .ThenInclude(x => x.perfil)
                                     .Include(x => x.localEstoque)
                                     .FirstOrDefaultAsync(x => x.id == Guid.Parse(id));
 
-                if (Produto == null)
+                if (produto == null)
                     throw new Exception("Produto não localizado");
 
-                var usuarioMappingDomain = mapper.Map<Produto>(Produto);
+                var usuarioMappingDomain = produto.toProduto();
 
                 return usuarioMappingDomain;
 
@@ -98,7 +96,7 @@ namespace Estoque.Infraestructure.Data.Repository
                 var localEstoqueEf = await estoqueContext.locaisEstoque.FirstOrDefaultAsync(x => x.id == objeto.localEstoque.id);
                 if (localEstoqueEf == null) throw new Exception("Local de estoque encontrads");
 
-                var Produto = mapper.Map<ProdutoEF>(objeto);
+                var Produto = objeto.toProdutoEF();
 
                 Produto.usuario = usuarioEf;
                 Produto.categoria = categoriaEf;
@@ -138,9 +136,10 @@ namespace Estoque.Infraestructure.Data.Repository
                                     .Include(x => x.categoria)
                                     .Include(x => x.localEstoque)
                                     .Include(x => x.usuario)
+                                    .ThenInclude(x => x.perfil)
                                     .ToListAsync();
 
-                var produtosMappingDomain = mapper.Map<IEnumerable<Produto>>(produtos);
+                var produtosMappingDomain = produtos.toProdutos();
 
                 return produtosMappingDomain.ToList();
             }

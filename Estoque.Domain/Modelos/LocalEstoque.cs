@@ -17,6 +17,11 @@
             SetId();
             SetNome(nome);
         }
+        public LocalEstoque(Guid id, string nome)
+        {
+            this.id = id;
+            this.nome = nome;
+        }
         private void SetId()
         {
             id = Guid.NewGuid();

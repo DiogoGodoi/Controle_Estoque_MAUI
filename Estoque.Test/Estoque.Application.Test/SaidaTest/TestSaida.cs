@@ -1,14 +1,12 @@
-﻿using AutoMapper;
-using Estoque.Application.Interfaces;
+﻿using Estoque.Application.Interfaces;
 using Estoque.Application.Repository.Abstraction;
-using Estoque.Application.Repository.RepositorySaida;
 using Estoque.Application.Repository.RepositoryProduto;
 using Estoque.Application.Repository.RepositoryProdutoSaida;
+using Estoque.Application.Repository.RepositorySaida;
 using Estoque.Application.Repository.RepositoryUsuario;
-using Estoque.Infraestructure.Data.Context;
-using Estoque.Infraestructure.Data.AutoMapper;
-using Estoque.Infraestructure.Data.Repository;
 using Estoque.Domain.Modelos;
+using Estoque.Infraestructure.Data.Context;
+using Estoque.Infraestructure.Data.Repository;
 using Microsoft.EntityFrameworkCore;
 
 namespace Estoque.Application.Test.SaidaTest
@@ -35,9 +33,6 @@ namespace Estoque.Application.Test.SaidaTest
         public IAtualizar<Produto> atualizarProduto;
         public IBuscar<Produto> buscarProduto;
 
-
-
-        public IMapper mapper;
         public Saida Saida;
         public Usuario usuario;
         public ProdutoSaida produtoSaida;
@@ -50,18 +45,9 @@ namespace Estoque.Application.Test.SaidaTest
                 .UseSqlServer("Server=(localdb)MSSQLLocalDB;Initial Catalog=DbEstoque;Integrated Security=true; MultipleActiveResultSets=true").Options;
             context = new EstoqueContext(options);
 
-            var configSaida = new MapperConfiguration(cfg => {
-                cfg.AddProfile(new SaidaProfile()); 
-                cfg.AddProfile(new UsuarioProfile()); 
-                cfg.AddProfile(new CategoriaProfile());
-                cfg.AddProfile(new ProdutoProfile()); 
-                cfg.AddProfile(new ProdutoSaidaProfile());
-            });
-            mapper = configSaida.CreateMapper();
-
-            repository = new SaidaRepository(mapper, context);
-            repositoryUsuario = new UsuarioRepository(mapper, context);
-            produtoRepository = new ProdutoRepository(mapper, context);
+            repository = new SaidaRepository(context);
+            repositoryUsuario = new UsuarioRepository(context);
+            produtoRepository = new ProdutoRepository(context);
 
             cadastrarSaida = new CadastrarSaida(repository);
             atualizarSaida = new AtualizarSaida(repository);
@@ -73,7 +59,7 @@ namespace Estoque.Application.Test.SaidaTest
             atualizarProduto = new AtualizarProduto(produtoRepository);
             buscarProduto = new BuscarProduto(produtoRepository);
 
-            produtoSaidaRepository = new ProdutoSaidaRepository(mapper, context);
+            produtoSaidaRepository = new ProdutoSaidaRepository(context);
             cadastrarProdutoSaida = new CadastrarProdutoSaida(produtoSaidaRepository);
             atualizarProdutoSaida = new AtualizarProdutoSaida(produtoSaidaRepository);
             deletarProdutoSaida = new DeletarProdutoSaida(produtoSaidaRepository);

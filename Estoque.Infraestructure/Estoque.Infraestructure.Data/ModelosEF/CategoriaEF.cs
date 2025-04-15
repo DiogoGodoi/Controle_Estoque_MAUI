@@ -1,4 +1,6 @@
-﻿namespace Estoque.Infraestructure.Data.ModelosEF
+﻿using Estoque.Domain.Modelos;
+
+namespace Estoque.Infraestructure.Data.ModelosEF
 {
     public class CategoriaEF
     {

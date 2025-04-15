@@ -6,6 +6,5 @@
         public DateTime dataEntrada { get; set; }
         public string usuario { get; set; }
         public int quantidade { get; set; }
-        public string produto { get; set; }
     }
 }

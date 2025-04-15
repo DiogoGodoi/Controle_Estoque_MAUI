@@ -1,27 +1,24 @@
-﻿using AutoMapper;
-using Estoque.Application.Interfaces;
-using Estoque.Infraestructure.Data.Context;
+﻿using Estoque.Application.Interfaces;
 using Estoque.Domain.Modelos;
-using Microsoft.EntityFrameworkCore;
+using Estoque.Infraestructure.Data.Context;
+using Estoque.Infraestructure.Data.Extend;
 using Estoque.Infraestructure.Data.ModelosEF;
+using Microsoft.EntityFrameworkCore;
 
 namespace Estoque.Infraestructure.Data.Repository
 {
     public class EntradaRepository : IRepository<Entrada>
     {
-        private readonly IMapper mapper;
-
         private readonly EstoqueContext estoqueContext;
-        public EntradaRepository(IMapper mapper, EstoqueContext estoqueContext)
+        public EntradaRepository(EstoqueContext estoqueContext)
         {
-            this.mapper = mapper;
             this.estoqueContext = estoqueContext;
         }
         public async Task Atualizar(string id, Entrada objeto)
         {
             try
             {
-                var EntradaMapping = mapper.Map<EntradaEF>(objeto);
+                var EntradaMapping = objeto.toEntradaEF();
 
                 var EntradaEF = await estoqueContext.entradas.FirstOrDefaultAsync(x => x.id == Guid.Parse(id));
 
@@ -55,7 +52,7 @@ namespace Estoque.Infraestructure.Data.Repository
                 if (entrada == null)
                     throw new Exception("Entrada não localizada");
 
-                var entradaEF = mapper.Map<Entrada>(entrada);
+                var entradaEF = entrada.toEntrada();
 
                 return entradaEF;
 
@@ -79,11 +76,11 @@ namespace Estoque.Infraestructure.Data.Repository
 
                 var entradaProdutoEf = estoqueContext.produtoEntrada.Where(x => x.fk_Entrada_id == objeto.id).ToList();
 
-                var entrada = mapper.Map<EntradaEF>(objeto);
+                var entrada = objeto.toEntradaEF();
 
                 entrada.produtoEntrada = entradaProdutoEf;
                 entrada.usuario = usuarioEf;
-                
+
                 estoqueContext.entradas.Add(entrada);
 
                 await estoqueContext.SaveChangesAsync();
@@ -121,7 +118,7 @@ namespace Estoque.Infraestructure.Data.Repository
                                     .Include(x => x.usuario)
                                     .ToListAsync();
 
-                var entradaMappingDomain = mapper.Map<IEnumerable<Entrada>>(entradas);
+                var entradaMappingDomain = entradas.toEntradas();
 
                 return entradaMappingDomain.ToList();
             }

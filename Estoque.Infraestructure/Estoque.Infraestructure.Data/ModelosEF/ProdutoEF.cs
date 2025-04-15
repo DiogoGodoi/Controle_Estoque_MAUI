@@ -7,10 +7,10 @@
         public string unidade { get; set; }
         public int quantidade { get; set; }
         public decimal preco1 { get; set; }
-        public decimal? preco2 { get; set; }
-        public decimal? preco3 { get; set; }
-        public decimal? precoMedio { get; set; }
-        public int? estoqueMin { get; set; }
+        public decimal preco2 { get; set; }
+        public decimal preco3 { get; set; }
+        public decimal precoMedio { get; set; }
+        public int estoqueMin { get; set; }
         public UsuarioEF usuario { get; set; }
         public Guid fk_Usuario_id { get; set; }
         public CategoriaEF categoria { get; set; }

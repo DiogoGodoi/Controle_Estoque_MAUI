@@ -1,27 +1,24 @@
-﻿using AutoMapper;
-using Estoque.Application.Interfaces;
-using Estoque.Infraestructure.Data.Context;
+﻿using Estoque.Application.Interfaces;
 using Estoque.Domain.Modelos;
-using Microsoft.EntityFrameworkCore;
+using Estoque.Infraestructure.Data.Context;
+using Estoque.Infraestructure.Data.Extend;
 using Estoque.Infraestructure.Data.ModelosEF;
+using Microsoft.EntityFrameworkCore;
 
 namespace Estoque.Infraestructure.Data.Repository
 {
     public class SaidaRepository : IRepository<Saida>
     {
-        private readonly IMapper mapper;
-
         private readonly EstoqueContext estoqueContext;
-        public SaidaRepository(IMapper mapper, EstoqueContext estoqueContext)
+        public SaidaRepository(EstoqueContext estoqueContext)
         {
-            this.mapper = mapper;
             this.estoqueContext = estoqueContext;
         }
         public async Task Atualizar(string id, Saida objeto)
         {
             try
             {
-                var SaidaMapping = mapper.Map<SaidaEF>(objeto);
+                var SaidaMapping = objeto.toSaidaEF();
 
                 var SaidaEF = await estoqueContext.saidas.FirstOrDefaultAsync(x => x.id == Guid.Parse(id));
 
@@ -47,15 +44,15 @@ namespace Estoque.Infraestructure.Data.Repository
 
             try
             {
-                var Saida = await estoqueContext.saidas
+                var saida = await estoqueContext.saidas
                                   .Include(x => x.produtoSaida)
                                   .Include(x => x.usuario)
                                   .FirstOrDefaultAsync(x => x.id == Guid.Parse(id));
 
-                if (Saida == null)
+                if (saida == null)
                     throw new Exception("Saida não localizada");
 
-                var SaidaEF = mapper.Map<Saida>(Saida);
+                var SaidaEF = saida.toSaida();
 
                 return SaidaEF;
 
@@ -79,11 +76,11 @@ namespace Estoque.Infraestructure.Data.Repository
 
                 var SaidaProdutoEf = estoqueContext.produtoSaida.Where(x => x.fk_Saida_id == objeto.id).ToList();
 
-                var Saida = mapper.Map<SaidaEF>(objeto);
+                var Saida = objeto.toSaidaEF();
 
                 Saida.produtoSaida = SaidaProdutoEf;
                 Saida.usuario = usuarioEf;
-                
+
                 estoqueContext.saidas.Add(Saida);
 
                 await estoqueContext.SaveChangesAsync();
@@ -121,7 +118,7 @@ namespace Estoque.Infraestructure.Data.Repository
                                    .Include(x => x.usuario)
                                    .ToListAsync();
 
-                var SaidaMappingDomain = mapper.Map<IEnumerable<Saida>>(saidas);
+                var SaidaMappingDomain = saidas.toSaidas();
 
                 return SaidaMappingDomain.ToList();
             }

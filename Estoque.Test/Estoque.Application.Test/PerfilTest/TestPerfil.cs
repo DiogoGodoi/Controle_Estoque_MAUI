@@ -1,12 +1,10 @@
-﻿using AutoMapper;
-using Estoque.Application.Interfaces;
+﻿using Estoque.Application.Interfaces;
 using Estoque.Application.Repository.Abstraction;
 using Estoque.Application.Repository.RepositoryPerfil;
 using Estoque.Application.Repository.RepositoryUsuario;
-using Estoque.Infraestructure.Data.Context;
-using Estoque.Infraestructure.Data.AutoMapper;
-using Estoque.Infraestructure.Data.Repository;
 using Estoque.Domain.Modelos;
+using Estoque.Infraestructure.Data.Context;
+using Estoque.Infraestructure.Data.Repository;
 using Microsoft.EntityFrameworkCore;
 
 namespace Estoque.Application.Test.PerfilTest
@@ -23,7 +21,6 @@ namespace Estoque.Application.Test.PerfilTest
         public IRepository<Usuario> repositoryUsuario;
         public ICadastrar<Usuario> cadastrarUsuario;
 
-        public IMapper mapper;
         public Perfil Perfil;
         public Usuario usuario;
         public EstoqueContext context;
@@ -35,15 +32,8 @@ namespace Estoque.Application.Test.PerfilTest
                 .UseSqlServer("Server=(localdb)MSSQLLocalDB;Initial Catalog=DbEstoque;Integrated Security=true; MultipleActiveResultSets=true").Options;
             context = new EstoqueContext(options);
 
-            var configPerfil = new MapperConfiguration(cfg => { 
-                cfg.AddProfile(new PerfilProfile()); 
-                cfg.AddProfile(new UsuarioProfile());
-            });
-
-            mapper = configPerfil.CreateMapper();
-
-            repository = new PerfilRepository(mapper, context);
-            repositoryUsuario = new UsuarioRepository(mapper, context);
+            repository = new PerfilRepository(context);
+            repositoryUsuario = new UsuarioRepository(context);
 
             cadastrarPerfil = new CadastrarPerfil(repository);
             atualizarPerfil = new AtualizarPerfil(repository);

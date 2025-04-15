@@ -1,11 +1,9 @@
-﻿using AutoMapper;
-using Estoque.Application.Interfaces;
+﻿using Estoque.Application.Interfaces;
 using Estoque.Application.Repository.Abstraction;
 using Estoque.Application.Repository.RepositoryProduto;
 using Estoque.Application.Repository.RepositoryUsuario;
 using Estoque.Domain.Modelos;
 using Estoque.Infraestructure.Data.Context;
-using Estoque.Infraestructure.Data.AutoMapper;
 using Estoque.Infraestructure.Data.Repository;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,7 +21,6 @@ namespace Estoque.Application.Test.ProdutoTest
         public IRepository<Usuario> repositoryUsuario;
         public ICadastrar<Usuario> cadastrarUsuario;
 
-        public IMapper mapper;
         public Produto Produto;
         public Usuario usuario;
         public EstoqueContext context;
@@ -35,17 +32,8 @@ namespace Estoque.Application.Test.ProdutoTest
                 .UseSqlServer("Server=(localdb)MSSQLLocalDB;Initial Catalog=DbEstoque;Integrated Security=true; MultipleActiveResultSets=true").Options;
             context = new EstoqueContext(options);
 
-            var configProduto = new MapperConfiguration(cfg => { 
-
-                cfg.AddProfile(new ProdutoProfile()); 
-                cfg.AddProfile(new UsuarioProfile()); 
-                cfg.AddProfile(new CategoriaProfile());
-
-            });
-            mapper = configProduto.CreateMapper();
-
-            repository = new ProdutoRepository(mapper, context);
-            repositoryUsuario = new UsuarioRepository(mapper, context);
+            repository = new ProdutoRepository(context);
+            repositoryUsuario = new UsuarioRepository(context);
 
             cadastrarProduto = new CadastrarProduto(repository);
             atualizarProduto = new AtualizarProduto(repository);

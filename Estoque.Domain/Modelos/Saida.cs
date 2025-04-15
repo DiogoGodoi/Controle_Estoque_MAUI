@@ -1,6 +1,6 @@
 ﻿namespace Estoque.Domain.Modelos
 {
-    public class Saida: Transacao
+    public class Saida : Transacao
     {
         public Guid id { get; private set; }
         public DateTime dataSaida { get; private set; }
@@ -22,6 +22,13 @@
         public Saida(DateTime dataSaida, int quantidade, Guid fk_Usuario_id) : this(dataSaida, quantidade)
         {
             AssociarUsuario(fk_Usuario_id);
+        }
+        public Saida(Guid id, DateTime dataSaida, int quantidade, Usuario usuario)
+        {
+            this.id = id;
+            this.dataSaida = dataSaida;
+            base.quantidade = quantidade;
+            this.usuario = usuario;
         }
         private void SetId()
         {
@@ -64,7 +71,7 @@
             }
             else
             {
-               usuario = new Usuario(fk_Usuario_id);
+                usuario = new Usuario(fk_Usuario_id);
             }
         }
 

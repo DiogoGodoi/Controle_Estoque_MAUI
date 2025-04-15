@@ -1,7 +1,7 @@
 ﻿using Estoque.Application.Repository.RepositoryCategoria;
 using Estoque.Domain.Modelos;
 using Estoque.Infraestructure.Api.Service.Abstraction;
-using Estoque.Infraestructure.Data.AutoMapper;
+using Estoque.Application.Extensions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Estoque.Infraestructure.Api.Controllers

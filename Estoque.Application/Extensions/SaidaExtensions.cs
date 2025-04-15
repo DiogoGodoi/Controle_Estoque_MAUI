@@ -1,7 +1,7 @@
 ﻿using Estoque.Domain.Modelos;
 using Estoque.Application.DTO;
 
-namespace Estoque.Infraestructure.Data.AutoMapper
+namespace Estoque.Application.Extensions
 {
     public static class SaidaExtensions
     {

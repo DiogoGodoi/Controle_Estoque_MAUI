@@ -1,13 +1,11 @@
-﻿using AutoMapper;
-using Estoque.Application.Interfaces;
+﻿using Estoque.Application.Interfaces;
 using Estoque.Application.Repository.Abstraction;
 using Estoque.Application.Repository.RepositoryCategoria;
 using Estoque.Application.Repository.RepositoryUsuario;
+using Estoque.Domain.Modelos;
 using Estoque.Infraestructure.Data.Context;
 using Estoque.Infraestructure.Data.Repository;
-using Estoque.Domain.Modelos;
 using Microsoft.EntityFrameworkCore;
-using Estoque.Infraestructure.Data.AutoMapper;
 
 namespace Estoque.Application.Test.CategoriaTest
 {
@@ -22,8 +20,6 @@ namespace Estoque.Application.Test.CategoriaTest
 
         public IRepository<Usuario> repositoryUsuario;
         public ICadastrar<Usuario> cadastrarUsuario;
-
-        public IMapper mapper;
         public Categoria categoria;
         public Usuario usuario;
         public EstoqueContext context;
@@ -35,14 +31,8 @@ namespace Estoque.Application.Test.CategoriaTest
                 .UseSqlServer("Server=(localdb)MSSQLLocalDB;Initial Catalog=DbEstoque;Integrated Security=true; MultipleActiveResultSets=true").Options;
             context = new EstoqueContext(options);
 
-            var configCategoria = new MapperConfiguration(cfg => { 
-                cfg.AddProfile(new CategoriaProfile()); 
-                cfg.AddProfile(new UsuarioProfile());
-            });
-            mapper = configCategoria.CreateMapper();
-
-            repository = new CategoriaRepository(mapper, context);
-            repositoryUsuario = new UsuarioRepository(mapper, context);
+            repository = new CategoriaRepository(context);
+            repositoryUsuario = new UsuarioRepository(context);
 
             cadastrarCategoria = new CadastrarCategoria(repository);
             atualizarCategoria = new AtualizarCategoria(repository);
