@@ -47,6 +47,7 @@ namespace Estoque.Infraestructure.Data.Repository
             {
                 var ProdutoEntrada = await estoqueContext.produtoEntrada
                                            .Include(x => x.entrada)
+                                           .ThenInclude(x => x.usuario)
                                            .Include(x => x.produto)
                                            .FirstOrDefaultAsync(x => x.fk_Entrada_id == Guid.Parse(idEntrada));
 
@@ -120,6 +121,7 @@ namespace Estoque.Infraestructure.Data.Repository
             {
                 var usuarios = await estoqueContext.produtoEntrada
                                     .Include(x => x.entrada)
+                                     .ThenInclude(x => x.usuario)
                                     .Include(x => x.produto)
                                     .ToListAsync();
 

@@ -1,0 +1,26 @@
+﻿@page "/Entradas"
+
+@if (entradas == null)
+{
+    <h5>Carregando</h5>
+}
+else
+{
+    <ListarEntradas entradas="@entradas" />
+}
+
+@code {
+    private IEnumerable<ProdutoEntradaDTO> entradas { get; set; } = new List<ProdutoEntradaDTO>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Requisicao();
+    }
+
+    private async Task Requisicao()
+    {
+        entradas = await HttpRepositoryEntradasDTO.Listar();
+    }
+}
+
+

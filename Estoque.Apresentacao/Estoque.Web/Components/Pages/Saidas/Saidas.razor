@@ -1,0 +1,26 @@
+﻿@page "/Saidas"
+
+@if (saidas == null)
+{
+    <h5>Carregando</h5>
+}
+else
+{
+    <ListarSaidas saidas="@saidas" />
+}
+
+@code {
+    private IEnumerable<ProdutoSaidaDTO> saidas { get; set; } = new List<ProdutoSaidaDTO>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Requisicao();
+    }
+
+    private async Task Requisicao()
+    {
+        saidas = await HttpRepositorySaidasDTO.Listar();
+    }
+}
+
+

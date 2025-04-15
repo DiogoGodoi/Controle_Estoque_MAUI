@@ -15,6 +15,8 @@ namespace Estoque.Infraestructure.Api.ContainerDI
             services.AddScoped<IService<LocalEstoque>, LocalEstoqueService>();
             services.AddScoped<IService<Usuario>, UsuarioService>();
             services.AddScoped<IService<Perfil>, PerfilService>();
+            services.AddScoped<IService<ProdutoSaida>, ProdutoSaidaService>();
+            services.AddScoped<IService<ProdutoEntrada>, ProdutoEntradaService>();
 
             return services;
         }

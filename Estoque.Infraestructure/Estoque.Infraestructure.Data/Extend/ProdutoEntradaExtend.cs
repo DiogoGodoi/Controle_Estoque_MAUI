@@ -15,7 +15,18 @@ namespace Estoque.Infraestructure.Data.Extend
         }
         public static ProdutoEntrada toProdutoEntrada(this ProdutoEntradaEF produtoEntrada)
         {
-            return new ProdutoEntrada(produtoEntrada.fk_Produto_id, produtoEntrada.fk_Entrada_id);
+            Usuario usuario = new Usuario(produtoEntrada.entrada.usuario.email, produtoEntrada.entrada.usuario.senha, 
+                produtoEntrada.entrada.usuario.fk_Perfil_id);
+
+            Entrada entrada = new Entrada(produtoEntrada.entrada.id, produtoEntrada.entrada.dataEntrada, 
+                produtoEntrada.entrada.quantidade, usuario);
+
+            Produto produto = new Produto(produtoEntrada.entrada.fk_Usuario_id, produtoEntrada.produto.fk_Categoria_id,
+                       produtoEntrada.produto.fk_LocalEstoque_id, produtoEntrada.produto.descricao, produtoEntrada.produto.unidade,
+                       produtoEntrada.produto.quantidade, produtoEntrada.produto.preco1, produtoEntrada.produto.preco2,
+                       produtoEntrada.produto.preco3, produtoEntrada.produto.estoqueMin);
+
+            return new ProdutoEntrada(produto, entrada);
         }
         public static IEnumerable<ProdutoEntrada> toProdutosEntrada(this IEnumerable<ProdutoEntradaEF> produtosEntrada)
         {
