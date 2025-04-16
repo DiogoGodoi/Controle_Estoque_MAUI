@@ -12,18 +12,24 @@ else
         <div class="row">
             @foreach (var item in categorias)
             {
-                <button class="btn btn-primary col-12 col-md-1 m-1" @onclick="@(() => FiltrarPorCategoria(item))">
-                    @item
-                </button>
+                <div class="col-12 col-md-1 m-1 p-0">
+                    <button class="btn btn-primary col-12" @onclick="@(() => FiltrarPorCategoria(item))">
+                        @item
+                    </button>
+                </div>
             }
+            <div class="col-12 col-md-1 m-1 p-0">
+                <button class="btn btn-primary col-12" @onclick="@(() => FiltrarPorCategoria("Todos"))">
+                    Todos
+                </button>
+            </div>
 
-            <button class="btn btn-primary col-12 col-md-1 m-1" @onclick="@(() => FiltrarPorCategoria("Todos"))">
-                Todos
-            </button>
+            <div class="col-12">
+                <ListarProdutos produtos="@produtos" />
+            </div>
+
         </div>
     </div>
-
-    <ListarProdutos produtos="@produtos" />
 }
 
 
