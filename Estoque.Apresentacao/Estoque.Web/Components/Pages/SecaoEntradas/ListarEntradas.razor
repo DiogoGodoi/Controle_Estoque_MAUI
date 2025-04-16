@@ -1,0 +1,40 @@
+﻿@page "/Entradas"
+
+@if (entradas == null)
+{
+    <h5>Carregando</h5>
+}
+else
+{
+    <div class="container-fluid">
+        <div class="row">
+
+            <div class="col-12">
+                <GridEntradas entradas="@entradas" />
+            </div>
+
+            <div class="d-flex justify-content-end col-12 m-1 p-0">
+                <button class="btn btn-primary col-12 col-md-1 my-1 mx-3">
+                    Nova entrada
+                </button>
+            </div>
+
+        </div>
+    </div>
+}
+
+@code {
+    private IEnumerable<ProdutoEntradaDTO> entradas { get; set; } = new List<ProdutoEntradaDTO>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Requisicao();
+    }
+
+    private async Task Requisicao()
+    {
+        entradas = await HttpRepositoryEntradasDTO.Listar();
+    }
+}
+
+

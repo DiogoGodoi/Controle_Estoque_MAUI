@@ -101,7 +101,7 @@ namespace Estoque.Infraestructure.Http.Request.HttpLocalEstoque
         {
             try
             {
-                var url = $"";
+                var url = $"https://localhost:7170/api/LocalEstoque/Listar";
 
                 var LocalEstoques = await _httpClient.GetFromJsonAsync<IEnumerable<LocalEstoqueDTO>>(url);
 

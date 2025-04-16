@@ -1,16 +1,16 @@
-﻿@page "/Entradas"
+﻿@page "/GridSaidas"
 
-<h3>Entradas de produto</h3>
+<h3>Saidas de produto</h3>
 
-@if (entradas == null)
+@if (saidas == null)
 {
     <h5>Carregando</h5>
 }
 else
 {
     <div class="table-responsive">
-        <QuickGrid Items="entradas.AsQueryable()" Pagination="paginacao" class="table table-striped">
-            <PropertyColumn Property="@(p => p.dataEntrada.ToString("dd/MM/yyyy"))" Title="Data de entrada" />
+        <QuickGrid Items="saidas.AsQueryable()" Pagination="paginacao" class="table table-striped">
+            <PropertyColumn Property="@(p => p.dataSaida.ToString("dd/MM/yyyy"))" Title="Data de entrada" />
             <PropertyColumn Align="Align.Center" Property="@(p => p.produto)" Title="Produto" />
             <PropertyColumn Align="Align.Center" Property="@(p => p.quantidade)" Title="Quantidade" />
         </QuickGrid>
@@ -21,9 +21,7 @@ else
 @code {
 
     [Parameter]
-    public IEnumerable<ProdutoEntradaDTO> entradas { get; set; } = new List<ProdutoEntradaDTO>();
+    public IEnumerable<ProdutoSaidaDTO> saidas { get; set; } = new List<ProdutoSaidaDTO>();
 
     PaginationState paginacao = new PaginationState { ItemsPerPage = 10 };
-
 }
-

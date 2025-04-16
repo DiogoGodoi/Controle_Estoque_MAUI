@@ -6,6 +6,8 @@
 @using Estoque.Shared.Hybrid.Pages.Produto
 @using Estoque.Shared.Hybrid.Pages.Saida
 @using Estoque.Shared.Hybrid.Pages.Usuario
+@using Estoque.Shared.Hybrid.Pages.LocalEstoque
+@using Estoque.Shared.Hybrid.Pages.Perfil
 @using Estoque.Web
 @using Estoque.Web.Components
 @using Microsoft.AspNetCore.Components.Forms
@@ -14,9 +16,13 @@
 @using Microsoft.AspNetCore.Components.Web.Virtualization
 @using Microsoft.JSInterop
 @using static Microsoft.AspNetCore.Components.Web.RenderMode
-@using Estoque.Application.DTO;
+@using Estoque.Application.DTO
 
 @inject Estoque.Infraestructure.Http.Interface.IHttpRepositoryDTO<ProdutoDTO> HttpRepositoryProdutosDTO;
 @inject Estoque.Infraestructure.Http.Interface.IHttpRepositoryDTO<ProdutoEntradaDTO> HttpRepositoryEntradasDTO;
 @inject Estoque.Infraestructure.Http.Interface.IHttpRepositoryDTO<ProdutoSaidaDTO> HttpRepositorySaidasDTO;
 @inject Estoque.Infraestructure.Http.Interface.IHttpFiltroRepositoryDTO<ProdutoDTO> HttpRepositoryFiltroProdutoDTO;
+@inject Estoque.Infraestructure.Http.Interface.IHttpRepositoryDTO<CategoriaDTO> HttpRepositoryCategoriaDTO
+@inject Estoque.Infraestructure.Http.Interface.IHttpRepositoryDTO<LocalEstoqueDTO> HttpRepositoryLocalEstoqueDTO
+@inject Estoque.Infraestructure.Http.Interface.IHttpRepositoryDTO<UsuarioDTO> HttpRepositoryUsuarioDTO
+@inject Estoque.Infraestructure.Http.Interface.IHttpRepositoryDTO<PerfilDTO> HttpRepositoryPerfilDTO

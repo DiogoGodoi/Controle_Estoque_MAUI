@@ -1,0 +1,28 @@
+﻿@page "/GridCategorias"
+
+<h3>Categorias de produto</h3>
+
+@if (categorias == null)
+{
+    <h5>Carregando</h5>
+}
+else
+{
+    <div class="table-responsive">
+        <QuickGrid Items="categorias.AsQueryable()" Pagination="paginacao" class="table table-striped">
+            <PropertyColumn Property="@(p => p.nome)" Title="Nome" />
+            <PropertyColumn Align="Align.Center" Property="@(p => p.usuario)" Title="Usuário criação" />
+        </QuickGrid>
+        <Paginator State="paginacao" />
+    </div>
+}
+
+
+@code {
+
+    [Parameter]
+    public IEnumerable<CategoriaDTO> categorias { get; set; } = new List<CategoriaDTO>();
+
+    PaginationState paginacao = new PaginationState { ItemsPerPage = 4 };
+
+}

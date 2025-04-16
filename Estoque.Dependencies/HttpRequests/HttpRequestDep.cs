@@ -10,6 +10,7 @@ using Estoque.Infraestructure.Http.Request.HttpUsuario;
 using Microsoft.Extensions.DependencyInjection;
 using Estoque.Infraestructure.Http.Request.HttpProdutoEntrada;
 using Estoque.Infraestructure.Http.Request.HttpProdutoSaida;
+using Estoque.Infraestructure.Http.Request.HttpLocalEstoque;
 
 namespace Estoque.Dependencies.HttpRequests
 {
@@ -32,6 +33,7 @@ namespace Estoque.Dependencies.HttpRequests
             services.AddScoped<IHttpRepositoryDTO<SaidaDTO>, HttpSaidaRepository>();
             services.AddScoped<IHttpRepositoryDTO<ProdutoEntradaDTO>, HttpProdutoEntradaRepository>();
             services.AddScoped<IHttpRepositoryDTO<ProdutoSaidaDTO>, HttpProdutoSaidaRepository>();
+            services.AddScoped<IHttpRepositoryDTO<LocalEstoqueDTO>, HttpLocalEstoqueRepository>();
 
             services.AddScoped<IHttpFiltroRepositoryDTO<ProdutoDTO>, HttpProdutoRepository>();
 

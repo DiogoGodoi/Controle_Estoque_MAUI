@@ -101,7 +101,7 @@ namespace Estoque.Infraestructure.Http.Request.HttpCategoria
         {
             try
             {
-                var url = $"";
+                var url = $"https://localhost:7170/api/Categoria/Listar";
 
                 var categorias = await _httpClient.GetFromJsonAsync<IEnumerable<CategoriaDTO>>(url);
 

@@ -101,7 +101,7 @@ namespace Estoque.Infraestructure.Http.Request.HttpUsuario
         {
             try
             {
-                var url = $"";
+                var url = $"https://localhost:7170/api/Usuario/Listar";
 
                 var Usuarios = await _httpClient.GetFromJsonAsync<IEnumerable<UsuarioDTO>>(url);
 

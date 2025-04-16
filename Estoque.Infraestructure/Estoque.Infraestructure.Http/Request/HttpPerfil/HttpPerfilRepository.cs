@@ -101,7 +101,7 @@ namespace Estoque.Infraestructure.Http.Request.HttpPerfil
         {
             try
             {
-                var url = $"";
+                var url = $"https://localhost:7170/api/Perfil/Listar";
 
                 var Perfils = await _httpClient.GetFromJsonAsync<IEnumerable<PerfilDTO>>(url);
 
