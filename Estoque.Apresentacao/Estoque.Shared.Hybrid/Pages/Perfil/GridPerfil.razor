@@ -1,6 +1,6 @@
 ﻿@page "/GridPerfil"
 
-<h3>Perfis de usuário</h3>
+<h3 style="text-align: center">Perfis de usuário</h3>
 
 @if (perfil == null)
 {
@@ -10,7 +10,7 @@ else
 {
     <div class="table-responsive">
         <QuickGrid Items="perfil.AsQueryable()" Pagination="paginacao" class="table table-striped">
-            <PropertyColumn Property="@(p => p.nome)" Title="Nome" />
+            <PropertyColumn Align="Align.Center" Property="@(p => p.nome)" Title="Nome" />
         </QuickGrid>
         <Paginator State="paginacao" />
     </div>

@@ -3,7 +3,7 @@ using Estoque.Infraestructure.Data.ModelosEF;
 
 namespace Estoque.Infraestructure.Data.Extend
 {
-    public static class PerfilExtendEF
+    public static class PerfilExtend
     {
         public static PerfilEF toPerfilEF(this Perfil perfil)
         {

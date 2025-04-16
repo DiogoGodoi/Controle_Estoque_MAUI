@@ -24,6 +24,11 @@ else
                 </button>
             </div>
 
+            <div class="col-12 col-md-5 m-1 p-0 input-group">
+                <input type="text" class="form-control"
+                       placeholder="Descrição" aria-label="Descrição" @oninput="@((e) => Pesquisar(e) )">
+            </div>
+
             <div class="col-12">
                 <GridProdutos produtos="@produtos" />
             </div>
@@ -40,7 +45,10 @@ else
 
 
 @code {
+
     private IEnumerable<ProdutoDTO> produtos { get; set; } = new List<ProdutoDTO>();
+
+    private IEnumerable<ProdutoDTO> produtosAux { get; set; } = new List<ProdutoDTO>();
 
     protected override async Task OnInitializedAsync()
     {
@@ -53,6 +61,8 @@ else
     {
         produtos = await HttpRepositoryProdutosDTO.Listar();
 
+        produtosAux = produtos;
+
         var agrupador = produtos.GroupBy(x => x.categoria);
 
         categorias = agrupador.Select(x => x.Key).ToList();
@@ -61,6 +71,24 @@ else
     private async Task FiltrarPorCategoria(string chave)
     {
         produtos = await HttpRepositoryFiltroProdutoDTO.Filtro(chave);
+    }
+
+    private void Pesquisar(ChangeEventArgs args)
+    {
+        if (!string.IsNullOrEmpty(args.Value.ToString()))
+        {
+            var produtosFiltrados = produtos.Where(x => x.descricao.Contains(args.Value.ToString(), StringComparison.OrdinalIgnoreCase))
+                                    .ToList();
+
+            if (produtosFiltrados.Count() != 0)
+            {
+                produtos = produtosFiltrados;
+            }
+        }
+        else
+        {
+            produtos = produtosAux;
+        }
     }
 }
 

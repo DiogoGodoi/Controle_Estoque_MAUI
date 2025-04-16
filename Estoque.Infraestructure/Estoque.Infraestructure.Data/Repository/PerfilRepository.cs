@@ -47,7 +47,9 @@ namespace Estoque.Infraestructure.Data.Repository
         {
             try
             {
-                var Perfil = await estoqueContext.perfis.FirstOrDefaultAsync(x => x.id == Guid.Parse(id));
+                var Perfil = await estoqueContext.perfis
+                                                  .Include(x => x.usuario)
+                                                  .FirstOrDefaultAsync(x => x.id == Guid.Parse(id));
 
                 if (Perfil == null)
                     throw new Exception("Perfil não localizado");
@@ -107,7 +109,9 @@ namespace Estoque.Infraestructure.Data.Repository
         {
             try
             {
-                var usuarios = await estoqueContext.perfis.ToListAsync();
+                var usuarios = await estoqueContext.perfis
+                                     .Include(x => x.usuario)
+                                     .ToListAsync();
 
                 var usuarioMappingDomain = usuarios.toPerfis();
 

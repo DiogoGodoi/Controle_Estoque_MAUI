@@ -1,6 +1,6 @@
 ﻿@page "/GridLocalEstoque"
 
-<h3>Categorias de produto</h3>
+<h3 style="text-align: center">Locais de estoque</h3>
 
 @if (localEstoque == null)
 {
@@ -10,7 +10,7 @@ else
 {
     <div class="table-responsive">
         <QuickGrid Items="localEstoque.AsQueryable()" Pagination="paginacao" class="table table-striped">
-            <PropertyColumn Property="@(p => p.nome)" Title="Nome" />
+            <PropertyColumn Align="Align.Center" Property="@(p => p.nome)" Title="Nome" />
         </QuickGrid>
         <Paginator State="paginacao" />
     </div>
