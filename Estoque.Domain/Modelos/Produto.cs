@@ -42,6 +42,24 @@
             SetEstoqueMin(estoqueMin);
             SetPrecoMedio();
         }
+        public Produto(Guid id, string descricao, string unidade, int quantidade, decimal preco1,
+         decimal preco2, decimal preco3, decimal precoMedio, int estoqueMin,
+         Usuario usuario, Categoria categoria, LocalEstoque localEstoque)
+        {
+            this.id = id;
+            this.descricao = descricao;
+            this.unidade = unidade;
+            this.quantidade = quantidade;
+            this.preco1 = preco1;
+            this.preco2 = preco2;
+            this.preco3 = preco3;
+            this.precoMedio = precoMedio;
+            this.estoqueMin = estoqueMin;
+            this.usuario = usuario;
+            this.categoria = categoria;
+            this.localEstoque = localEstoque;
+        }
+
         private void SetId()
         {
             id = Guid.NewGuid();

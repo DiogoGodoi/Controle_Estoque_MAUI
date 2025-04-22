@@ -1,0 +1,28 @@
+﻿@page "/GridUsuarios"
+
+<h3>Categorias de produto</h3>
+
+@if (usuarios == null)
+{
+    <h5>Carregando</h5>
+}
+else
+{
+    <div class="table-responsive">
+        <QuickGrid Items="usuarios.AsQueryable()" Pagination="paginacao" class="table table-striped">
+            <PropertyColumn Property="@(p => p.email)" Title="Email" />
+            <PropertyColumn Align="Align.Center" Property="@(p => p.perfil)" Title="Perfil" />
+        </QuickGrid>
+        <Paginator State="paginacao" />
+    </div>
+}
+
+
+@code {
+
+    [Parameter]
+    public IEnumerable<UsuarioDTO> usuarios { get; set; } = new List<UsuarioDTO>();
+
+    PaginationState paginacao = new PaginationState { ItemsPerPage = 4 };
+
+}

@@ -1,5 +1,5 @@
-﻿using Estoque.Application.Comand.Modelos;
-using Estoque.Infraestructure.Data.Mapping;
+﻿using Estoque.Infraestructure.Data.Mapping;
+using Estoque.Infraestructure.Data.ModelosEF;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage;
@@ -26,15 +26,15 @@ namespace Estoque.Infraestructure.Data.Context
             modelBuilder.ApplyConfiguration(new LocalEstoqueMapping());
             modelBuilder.ApplyConfiguration(new PerfilMapping());
         }
-        public DbSet<UsuarioDTO> usuarios { get; set; }
-        public DbSet<CategoriaDTO> categorias { get; set; }
-        public DbSet<EntradaDTO> entradas { get; set; }
-        public DbSet<SaidaDTO> saidas { get; set; }
-        public DbSet<ProdutoEntradaDTO> produtoEntrada { get; set; }
-        public DbSet<ProdutoSaidaDTO> produtoSaida { get; set; }
-        public DbSet<ProdutoDTO> produtos { get; set; }
-        public DbSet<LocalEstoqueDTO> locaisEstoque { get; set; }
-        public DbSet<PerfilDTO> perfis { get; set; }
+        public DbSet<UsuarioEF> usuarios { get; set; }
+        public DbSet<CategoriaEF> categorias { get; set; }
+        public DbSet<EntradaEF> entradas { get; set; }
+        public DbSet<SaidaEF> saidas { get; set; }
+        public DbSet<ProdutoEntradaEF> produtoEntrada { get; set; }
+        public DbSet<ProdutoSaidaEF> produtoSaida { get; set; }
+        public DbSet<ProdutoEF> produtos { get; set; }
+        public DbSet<LocalEstoqueEF> locaisEstoque { get; set; }
+        public DbSet<PerfilEF> perfis { get; set; }
         public void GerarBaseTeste()
         {
             try

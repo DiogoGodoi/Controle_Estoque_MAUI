@@ -32,7 +32,6 @@ builder.Services.AddRepositoryCategoria();
 
 // Add Services
 builder.Services.AddEFCore();
-builder.Services.AddAutoMapperService();
 builder.Services.AddServiceDI();
 
 static void GerarBanco(WebApplication app)
@@ -58,7 +57,7 @@ app.UseCors(options =>
 {
     options.AllowAnyHeader();
     options.AllowAnyMethod();
-    options.AllowAnyOrigin();   
+    options.AllowAnyOrigin();
 
 });
 

@@ -24,6 +24,12 @@
             AssociarUsuario(fkUsuario);
             SetNome(nome);
         }
+        public Categoria(Guid id, string nome, Usuario usuario)
+        {
+            this.id = id;
+            this.nome = nome;
+            this.usuario = usuario;
+        }
         private void SetId()
         {
             id = Guid.NewGuid();

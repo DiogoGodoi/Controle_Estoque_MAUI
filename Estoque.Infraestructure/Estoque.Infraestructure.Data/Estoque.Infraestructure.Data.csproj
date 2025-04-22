@@ -16,8 +16,4 @@
     <ProjectReference Include="..\..\Estoque.Domain\Estoque.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Validations\" />
-  </ItemGroup>
-
 </Project>

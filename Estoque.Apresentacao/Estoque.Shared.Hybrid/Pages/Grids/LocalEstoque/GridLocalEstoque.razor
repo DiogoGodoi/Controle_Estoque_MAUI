@@ -1,0 +1,28 @@
+﻿@page "/GridLocalEstoque"
+
+<h3 style="text-align: center">Locais de estoque</h3>
+
+@if (localEstoque == null)
+{
+    <h5>Carregando</h5>
+}
+else
+{
+    <div class="table-responsive">
+        <QuickGrid Items="localEstoque.AsQueryable()" Pagination="paginacao" class="table table-striped">
+            <PropertyColumn Property="@(p => p.nome)" Title="Nome" />
+            <PropertyColumn Align="Align.Center" Property="@(p => p.usuario)" Title="Usuário criação" />
+        </QuickGrid>
+        <Paginator State="paginacao" />
+    </div>
+}
+
+
+@code {
+
+    [Parameter]
+    public IEnumerable<LocalEstoqueDTO> localEstoque { get; set; } = new List<LocalEstoqueDTO>();
+
+    PaginationState paginacao = new PaginationState { ItemsPerPage = 4 };
+
+}

@@ -1,13 +1,10 @@
-﻿using AutoMapper;
-using Estoque.Application.Interfaces;
+﻿using Estoque.Application.Interfaces;
 using Estoque.Application.Repository.Abstraction;
 using Estoque.Application.Repository.RepositoryLocalEstoque;
 using Estoque.Application.Repository.RepositoryUsuario;
-using Estoque.Infraestructure.Data.Context;
-using Estoque.Application.Comand.Request;
-using Estoque.Application.Comand.Response;
-using Estoque.Infraestructure.Data.Repository;
 using Estoque.Domain.Modelos;
+using Estoque.Infraestructure.Data.Context;
+using Estoque.Infraestructure.Data.Repository;
 using Microsoft.EntityFrameworkCore;
 
 namespace Estoque.Application.Test.LocalEstoqueTest
@@ -24,7 +21,6 @@ namespace Estoque.Application.Test.LocalEstoqueTest
         public IRepository<Usuario> repositoryUsuario;
         public ICadastrar<Usuario> cadastrarUsuario;
 
-        public IMapper mapper;
         public LocalEstoque LocalEstoque;
         public Usuario usuario;
         public EstoqueContext context;
@@ -36,18 +32,8 @@ namespace Estoque.Application.Test.LocalEstoqueTest
                 .UseSqlServer("Server=(localdb)MSSQLLocalDB;Initial Catalog=DbEstoque;Integrated Security=true; MultipleActiveResultSets=true").Options;
             context = new EstoqueContext(options);
 
-            var configLocalEstoque = new MapperConfiguration(cfg => { 
-                cfg.AddProfile(new LocalEstoqueRequestProfile()); 
-                cfg.AddProfile(new UsuarioRequestProfile());
-
-                cfg.AddProfile(new LocalEstoqueResponseProfile());
-                cfg.AddProfile(new UsuarioResponseProfile());
-
-            });
-            mapper = configLocalEstoque.CreateMapper();
-
-            repository = new LocalEstoqueRepository(mapper, context);
-            repositoryUsuario = new UsuarioRepository(mapper, context);
+            repository = new LocalEstoqueRepository(context);
+            repositoryUsuario = new UsuarioRepository(context);
 
             cadastrarLocalEstoque = new CadastrarLocalEstoque(repository);
             atualizarLocalEstoque = new AtualizarLocalEstoque(repository);
@@ -131,7 +117,7 @@ namespace Estoque.Application.Test.LocalEstoqueTest
 
         [Test]
         [TestCase("537d8ba5-17d0-4c80-be68-6ef17d907534")]
-        public async Task FalharDeletarNaBase(string id)
+        public async Task DeletarNaBase(string id)
         {
             //Arrange
             bool resultado;

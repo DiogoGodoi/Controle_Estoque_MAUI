@@ -12,6 +12,11 @@
         {
             AssociarEntidades(fk_Produto_id, fk_Saida_id);
         }
+        public ProdutoSaida(Produto produto, Saida saida)
+        {
+            this.produto = produto;
+            this.saida = saida;
+        }
         private void AssociarEntidades(Guid fk_Produto_id, Guid fk_Saida_id)
         {
             if (fk_Produto_id == Guid.Empty && fk_Saida_id == Guid.Empty)

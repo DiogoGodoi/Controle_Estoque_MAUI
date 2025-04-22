@@ -1,6 +1,6 @@
-﻿using Estoque.Application.Comand.Modelos;
-using Estoque.Domain.Modelos;
-using Estoque.Infraestructure.Api.Service.Interface;
+﻿using Estoque.Domain.Modelos;
+using Estoque.Infraestructure.Api.Service.Abstraction;
+using Estoque.Application.Extensions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Estoque.Infraestructure.Api.Controllers
@@ -10,11 +10,9 @@ namespace Estoque.Infraestructure.Api.Controllers
     public class ProdutosController : ControllerBase
     {
         private readonly IService<Produto> _produtoService;
-        private readonly IServiceDTO<ProdutoDTO> _produtoServiceDTO;
-        public ProdutosController(IService<Produto> produtoService, IServiceDTO<ProdutoDTO> produtoServiceDTO)
+        public ProdutosController(IService<Produto> produtoService)
         {
             _produtoService = produtoService;
-            _produtoServiceDTO = produtoServiceDTO;
         }
 
         [HttpGet]
@@ -23,7 +21,7 @@ namespace Estoque.Infraestructure.Api.Controllers
         {
             try
             {
-                var produtos = await _produtoServiceDTO.Listar();
+                var produtos = await _produtoService.Listar();
 
                 if (produtos == null)
                 {
@@ -31,7 +29,7 @@ namespace Estoque.Infraestructure.Api.Controllers
                 }
                 else
                 {
-                    return Ok(produtos);
+                    return Ok(produtos.toProdutosDTO());
                 }
             }
             catch (Exception ex)
@@ -47,7 +45,7 @@ namespace Estoque.Infraestructure.Api.Controllers
         {
             try
             {
-                var produto = await _produtoServiceDTO.Buscar(id);
+                var produto = await _produtoService.Buscar(id);
 
                 if (produto == null)
                 {
@@ -55,12 +53,41 @@ namespace Estoque.Infraestructure.Api.Controllers
                 }
                 else
                 {
-                    return Ok(produto);
+                    return Ok(produto.toProdutoDTO());
                 }
             }
             catch (Exception ex)
             {
 
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("Buscar/Categoria/{descricao}")]
+        public async Task<IActionResult> BuscarProdutosPorCategoria(string descricao)
+        {
+            try
+            {
+                var produto = await _produtoService.Listar();
+
+                var porCategoria = produto.Where(x => x.categoria.nome == descricao);
+
+                if (porCategoria == null)
+                {
+                    return NotFound();
+                }
+                else if (descricao.Equals("Todos"))
+                {
+                    return Ok(produto.toProdutosDTO());
+                }
+                else
+                {
+                    return Ok(porCategoria.toProdutosDTO());
+                }
+            }
+            catch (Exception ex)
+            {
                 return BadRequest(ex.Message);
             }
         }

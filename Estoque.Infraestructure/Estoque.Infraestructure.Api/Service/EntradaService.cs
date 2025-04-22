@@ -1,24 +1,21 @@
-﻿using AutoMapper;
-using Estoque.Application.Comand.Modelos;
-using Estoque.Application.Interfaces;
+﻿using Estoque.Application.Interfaces;
 using Estoque.Domain.Modelos;
-using Estoque.Infraestructure.Api.Service.Interface;
+using Estoque.Infraestructure.Api.Service.Abstraction;
 
 namespace Estoque.Infraestructure.Api.Service
 {
-    public class EntradaService : IService<Entrada>, IServiceDTO<EntradaDTO>
+    public class EntradaService : IService<Entrada>
     {
         private readonly IRepository<Entrada> _entradaRepository;
         private readonly IRepository<Produto> _produtoRepository;
         private readonly IRepository<ProdutoEntrada> _produtoEntradaRepository;
-        private readonly IMapper _mapper;
+
         public EntradaService(IRepository<Entrada> entradaRepository, IRepository<Produto> produtoRepository,
-            IRepository<ProdutoEntrada> produtoEntradaRepository, IMapper mapper)
+            IRepository<ProdutoEntrada> produtoEntradaRepository)
         {
             _entradaRepository = entradaRepository;
             _produtoRepository = produtoRepository;
             _produtoEntradaRepository = produtoEntradaRepository;
-            _mapper = mapper;
         }
 
         public async Task Atualizar(string idProduto, Entrada objeto)
@@ -43,15 +40,13 @@ namespace Estoque.Infraestructure.Api.Service
                 throw;
             }
         }
-        public async Task<EntradaDTO> Buscar(string id)
+        public async Task<Entrada> Buscar(string id)
         {
             try
             {
                 var entrada = await _entradaRepository.Buscar(id);
 
-                var entradaMap = _mapper.Map<EntradaDTO>(entrada);
-
-                return entradaMap;
+                return entrada;
             }
             catch (Exception)
             {
@@ -90,15 +85,13 @@ namespace Estoque.Infraestructure.Api.Service
                 throw;
             }
         }
-        public async Task<IEnumerable<EntradaDTO>> Listar()
+        public async Task<IEnumerable<Entrada>> Listar()
         {
             try
             {
                 var entradas = await _entradaRepository.Listar();
 
-                var entradasMap = _mapper.Map<IEnumerable<EntradaDTO>>(entradas);
-
-                return entradasMap;
+                return entradas;
             }
             catch (Exception)
             {

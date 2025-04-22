@@ -1,15 +1,12 @@
-﻿using AutoMapper;
-using Estoque.Application.Interfaces;
+﻿using Estoque.Application.Interfaces;
 using Estoque.Application.Repository.Abstraction;
 using Estoque.Application.Repository.RepositoryEntrada;
 using Estoque.Application.Repository.RepositoryProduto;
-using Estoque.Application.Repository.RepositoryUsuario;
 using Estoque.Application.Repository.RepositoryProdutoEntrada;
-using Estoque.Infraestructure.Data.Context;
-using Estoque.Application.Comand.Request;
-using Estoque.Application.Comand.Response;
-using Estoque.Infraestructure.Data.Repository;
+using Estoque.Application.Repository.RepositoryUsuario;
 using Estoque.Domain.Modelos;
+using Estoque.Infraestructure.Data.Context;
+using Estoque.Infraestructure.Data.Repository;
 using Microsoft.EntityFrameworkCore;
 
 namespace Estoque.Application.Test.EntradaTest
@@ -36,7 +33,6 @@ namespace Estoque.Application.Test.EntradaTest
         public IAtualizar<Produto> atualizarProduto;
         public IBuscar<Produto> buscarProduto;
 
-        public IMapper mapper;
         public Entrada Entrada;
         public Saida Saida;
         public Usuario usuario;
@@ -50,27 +46,10 @@ namespace Estoque.Application.Test.EntradaTest
                 .UseSqlServer("Server=(localdb)MSSQLLocalDB;Initial Catalog=DbEstoque;Integrated Security=true; MultipleActiveResultSets=true").Options;
             context = new EstoqueContext(options);
 
-            var configEntrada = new MapperConfiguration(cfg =>
-            {
-                cfg.AddProfile(new EntradaRequestProfile()); 
-                cfg.AddProfile(new UsuarioRequestProfile()); 
-                cfg.AddProfile(new CategoriaRequestProfile());
-                cfg.AddProfile(new ProdutoRequestProfile()); 
-                cfg.AddProfile(new ProdutoRequestEntradaProfile());
 
-                cfg.AddProfile(new EntradaResponseProfile());
-                cfg.AddProfile(new UsuarioResponseProfile());
-                cfg.AddProfile(new CategoriaResponseProfile());
-                cfg.AddProfile(new ProdutoResponseProfile());
-                cfg.AddProfile(new ProdutoResponseEntradaProfile());
-
-
-            });
-            mapper = configEntrada.CreateMapper();
-
-            repository = new EntradaRepository(mapper, context);
-            repositoryUsuario = new UsuarioRepository(mapper, context);
-            produtoRepository = new ProdutoRepository(mapper, context);
+            repository = new EntradaRepository(context);
+            repositoryUsuario = new UsuarioRepository(context);
+            produtoRepository = new ProdutoRepository(context);
 
             cadastrarEntrada = new CadastrarEntrada(repository);
             atualizarEntrada = new AtualizarEntrada(repository);
@@ -82,7 +61,7 @@ namespace Estoque.Application.Test.EntradaTest
             atualizarProduto = new AtualizarProduto(produtoRepository);
             buscarProduto = new BuscarProduto(produtoRepository);
 
-            produtoEntradaRepository = new ProdutoEntradaRepository(mapper, context);
+            produtoEntradaRepository = new ProdutoEntradaRepository(context);
             cadastrarProdutoEntrada = new CadastrarProdutoEntrada(produtoEntradaRepository);
             atualizarProdutoEntrada = new AtualizarProdutoEntrada(produtoEntradaRepository);
             deletarProdutoEntrada = new DeletarProdutoEntrada(produtoEntradaRepository);

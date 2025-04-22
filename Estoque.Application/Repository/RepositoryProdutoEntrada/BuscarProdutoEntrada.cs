@@ -10,7 +10,7 @@ namespace Estoque.Application.Repository.RepositoryProdutoEntrada
         public BuscarProdutoEntrada(IRepository<ProdutoEntrada> repository)
         {
             this.repository = repository;
-        }
+        }   
         public Task<ProdutoEntrada> ExecutarBusca(string id)
         {
             return repository.Buscar(id);

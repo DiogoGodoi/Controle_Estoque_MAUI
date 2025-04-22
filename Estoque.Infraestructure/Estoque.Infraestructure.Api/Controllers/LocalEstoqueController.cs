@@ -1,7 +1,7 @@
-﻿using Estoque.Application.Comand.Modelos;
-using Estoque.Application.Repository.RepositoryCategoria;
+﻿using Estoque.Application.Repository.RepositoryCategoria;
 using Estoque.Domain.Modelos;
-using Estoque.Infraestructure.Api.Service.Interface;
+using Estoque.Infraestructure.Api.Service.Abstraction;
+using Estoque.Application.Extensions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Estoque.Infraestructure.Api.Controllers
@@ -11,11 +11,9 @@ namespace Estoque.Infraestructure.Api.Controllers
     public class LocalEstoqueController : ControllerBase
     {
         private readonly IService<LocalEstoque> _serviceLocalEstoque;
-        private readonly IServiceDTO<LocalEstoqueDTO> _serviceLocalEstoqueDTO;
-        public LocalEstoqueController(IService<LocalEstoque> serviceLocalEstoque, IServiceDTO<LocalEstoqueDTO> serviceLocalEstoqueDTO)
+        public LocalEstoqueController(IService<LocalEstoque> serviceLocalEstoque)
         {
             _serviceLocalEstoque = serviceLocalEstoque;
-            _serviceLocalEstoqueDTO = serviceLocalEstoqueDTO;
         }
 
         [HttpGet]
@@ -24,7 +22,7 @@ namespace Estoque.Infraestructure.Api.Controllers
         {
             try
             {
-                var LocalEstoques = await _serviceLocalEstoqueDTO.Listar();
+                var LocalEstoques = await _serviceLocalEstoque.Listar();
 
                 if (LocalEstoques == null)
                 {
@@ -32,7 +30,7 @@ namespace Estoque.Infraestructure.Api.Controllers
                 }
                 else
                 {
-                    return Ok(LocalEstoques);
+                    return Ok(LocalEstoques.toLocaisEstoqueDTO());
                 }
             }
             catch (Exception ex)
@@ -48,7 +46,7 @@ namespace Estoque.Infraestructure.Api.Controllers
         {
             try
             {
-                var LocalEstoque = await _serviceLocalEstoqueDTO.Buscar(id);
+                var LocalEstoque = await _serviceLocalEstoque.Buscar(id);
 
                 if (LocalEstoque == null)
                 {
@@ -56,7 +54,7 @@ namespace Estoque.Infraestructure.Api.Controllers
                 }
                 else
                 {
-                    return Ok(LocalEstoque);
+                    return Ok(LocalEstoque.toLocalEstoqueDTO());
                 }
             }
             catch (Exception ex)

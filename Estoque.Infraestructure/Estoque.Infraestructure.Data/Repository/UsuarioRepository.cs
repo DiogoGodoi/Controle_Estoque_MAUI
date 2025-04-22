@@ -1,34 +1,31 @@
-﻿using AutoMapper;
-using Estoque.Application.Interfaces;
-using Estoque.Infraestructure.Data.Context;
+﻿using Estoque.Application.Interfaces;
 using Estoque.Domain.Modelos;
+using Estoque.Infraestructure.Data.Context;
+using Estoque.Infraestructure.Data.Extend;
 using Microsoft.EntityFrameworkCore;
-using Estoque.Application.Comand.Modelos;
 
 namespace Estoque.Infraestructure.Data.Repository
 {
     public class UsuarioRepository : IRepository<Usuario>
     {
-        private readonly IMapper mapper;
 
         private readonly EstoqueContext estoqueContext;
-        public UsuarioRepository(IMapper mapper, EstoqueContext estoqueContext)
+        public UsuarioRepository(EstoqueContext estoqueContext)
         {
-            this.mapper = mapper;
             this.estoqueContext = estoqueContext;
         }
         public async Task Atualizar(string id, Usuario objeto)
         {
             try
             {
-                var usuariosMapping = mapper.Map<UsuarioDTO>(objeto);
+                var usuariosMapping = objeto.toUsuarioEF();
 
                 var usuarioEf = await estoqueContext.usuarios.FirstOrDefaultAsync(x => x.id == Guid.Parse(id));
 
                 if (usuarioEf == null)
                     throw new Exception("Usuário não encontrado");
 
-                if(usuarioEf.email == objeto.email)
+                if (usuarioEf.email == objeto.email)
                     throw new DbUpdateException("Já existe um usuário com esse e-mail");
 
                 usuarioEf.email = usuariosMapping.email;
@@ -52,12 +49,14 @@ namespace Estoque.Infraestructure.Data.Repository
 
             try
             {
-                var usuario = await estoqueContext.usuarios.FirstOrDefaultAsync(x => x.id == Guid.Parse(id));
+                var usuario = await estoqueContext.usuarios
+                    .Include(x => x.perfil)
+                    .FirstOrDefaultAsync(x => x.id == Guid.Parse(id));
 
                 if (usuario == null)
                     throw new Exception("Usuário não localizado");
 
-                var usuarioMappingDomain = mapper.Map<Usuario>(usuario);
+                var usuarioMappingDomain = usuario.toUsuario();
 
                 return usuarioMappingDomain;
 
@@ -81,7 +80,7 @@ namespace Estoque.Infraestructure.Data.Repository
                 if (perfilEf == null)
                     throw new Exception("Perfil inexistente");
 
-                var usuario = mapper.Map<UsuarioDTO>(objeto);
+                var usuario = objeto.toUsuarioEF();
 
                 usuario.perfil = perfilEf;
 
@@ -90,9 +89,9 @@ namespace Estoque.Infraestructure.Data.Repository
                 await estoqueContext.SaveChangesAsync();
 
             }
-            catch (AutoMapperMappingException ex)
+            catch (DbUpdateException ex)
             {
-                throw new AutoMapperMappingException($"{ex.Message}");
+                throw new DbUpdateException($"{ex.Message}");
             }
             catch (Exception ex)
             {
@@ -125,9 +124,11 @@ namespace Estoque.Infraestructure.Data.Repository
         {
             try
             {
-                var usuarios = await estoqueContext.usuarios.ToListAsync();
+                var usuarios = await estoqueContext.usuarios
+                                    .Include(x => x.perfil)
+                                    .ToListAsync();
 
-                var usuarioMappingDomain = mapper.Map<IEnumerable<Usuario>>(usuarios);
+                var usuarioMappingDomain = usuarios.toUsuarios();
 
                 return usuarioMappingDomain;
             }

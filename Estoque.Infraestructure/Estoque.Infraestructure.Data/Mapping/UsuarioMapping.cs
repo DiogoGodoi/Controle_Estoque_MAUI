@@ -1,12 +1,13 @@
-﻿using Estoque.Application.Comand.Modelos;
+﻿using Estoque.Infraestructure.Data.Extend;
+using Estoque.Infraestructure.Data.ModelosEF;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Estoque.Infraestructure.Data.Mapping
 {
-    public class UsuarioMapping : IEntityTypeConfiguration<UsuarioDTO>
+    public class UsuarioMapping : IEntityTypeConfiguration<UsuarioEF>
     {
-        public void Configure(EntityTypeBuilder<UsuarioDTO> builder)
+        public void Configure(EntityTypeBuilder<UsuarioEF> builder)
         {
             builder.ToTable("Usuario");
 
@@ -48,16 +49,23 @@ namespace Estoque.Infraestructure.Data.Mapping
                    .WithOne(x => x.usuario)
                    .HasForeignKey(x => x.fk_Usuario_id);
 
+            //ligação produto
             builder.HasMany(x => x.produto)
                    .WithOne(x => x.usuario)
                    .HasForeignKey(x => x.fk_Usuario_id);
 
+            //ligação localEstoque
+            builder.HasMany(x => x.localEstoque)
+                   .WithOne(x => x.usuario)
+                   .HasForeignKey(x => x.fk_Usuario_id)
+                   .OnDelete(DeleteBehavior.Restrict);
+
 
             //Dados
 
-            builder.HasData(new UsuarioDTO { id = Guid.Parse("b3e1c5d2-7f4b-4a8e-8d6f-9a5f8e7b0c2a"), 
+            builder.HasData(new UsuarioEF { id = Guid.Parse("b3e1c5d2-7f4b-4a8e-8d6f-9a5f8e7b0c2a"), 
                                             fk_Perfil_id = Guid.Parse("520d8ea5-17d0-4c80-be68-aef17d016534"), email = "diogo@localhost.com.br", senha = "Ashby123" },
-                            new UsuarioDTO { id = Guid.Parse("b3e1a5d2-7f4b-4a8e-8d6f-9a3f8e7b1c2a"), 
+                            new UsuarioEF { id = Guid.Parse("b3e1a5d2-7f4b-4a8e-8d6f-9a3f8e7b1c2a"), 
                                             fk_Perfil_id = Guid.Parse("527d8ea5-17d0-4c80-be68-bef68c90513a"), email = "moises@localhost.com.br", senha = "Ash123by" });
         }
     }

@@ -1,27 +1,24 @@
-﻿using AutoMapper;
-using Estoque.Application.Interfaces;
-using Estoque.Infraestructure.Data.Context;
+﻿using Estoque.Application.Interfaces;
 using Estoque.Domain.Modelos;
+using Estoque.Infraestructure.Data.Context;
+using Estoque.Infraestructure.Data.Extend;
+using Estoque.Infraestructure.Data.ModelosEF;
 using Microsoft.EntityFrameworkCore;
-using Estoque.Application.Comand.Modelos;
 
 namespace Estoque.Infraestructure.Data.Repository
 {
     public class LocalEstoqueRepository : IRepository<LocalEstoque>
     {
-        private readonly IMapper mapper;
-
         private readonly EstoqueContext estoqueContext;
-        public LocalEstoqueRepository(IMapper mapper, EstoqueContext estoqueContext)
+        public LocalEstoqueRepository(EstoqueContext estoqueContext)
         {
-            this.mapper = mapper;
             this.estoqueContext = estoqueContext;
         }
         public async Task Atualizar(string id, LocalEstoque objeto)
         {
             try
             {
-                var LocalEstoqueMapping = mapper.Map<LocalEstoqueDTO>(objeto);
+                var LocalEstoqueMapping = objeto.toLocalEstoqueEF();
 
                 var LocalEstoqueEF = await estoqueContext.locaisEstoque.FirstOrDefaultAsync(x => x.id == Guid.Parse(id));
 
@@ -52,12 +49,13 @@ namespace Estoque.Infraestructure.Data.Repository
             {
                 var LocalEstoque = await estoqueContext.locaisEstoque
                                          .Include(x => x.produtos)
+                                         .Include(x => x.usuario)
                                          .FirstOrDefaultAsync(x => x.id == Guid.Parse(id));
 
                 if (LocalEstoque == null)
                     throw new Exception("Local estoque não localizada");
 
-                var localMappingDomain = mapper.Map<LocalEstoque>(LocalEstoque);
+                var localMappingDomain = LocalEstoque.toLocalEstoque();
 
                 return localMappingDomain;
 
@@ -74,7 +72,7 @@ namespace Estoque.Infraestructure.Data.Repository
                 var LocalEstoqueEf = await estoqueContext.locaisEstoque.FirstOrDefaultAsync(x => x.nome == objeto.nome);
                 if (LocalEstoqueEf != null) throw new Exception("LocalEstoque já cadastrada");
 
-                var LocalEstoque = mapper.Map<LocalEstoqueDTO>(objeto);
+                var LocalEstoque = objeto.toLocalEstoqueEF();
 
                 estoqueContext.locaisEstoque.Add(LocalEstoque);
 
@@ -98,7 +96,7 @@ namespace Estoque.Infraestructure.Data.Repository
 
                 await estoqueContext.SaveChangesAsync();
             }
-            catch(DbUpdateException ex)
+            catch (DbUpdateException ex)
             {
                 throw new DbUpdateException($"Existem produtos nesse local de estoque");
             }
@@ -113,9 +111,10 @@ namespace Estoque.Infraestructure.Data.Repository
             {
                 var locais = await estoqueContext.locaisEstoque
                                    .Include(x => x.produtos)
+                                   .Include(x => x.usuario)
                                    .ToListAsync();
 
-                var locaisMappingDomain = mapper.Map<IEnumerable<LocalEstoque>>(locais);
+                var locaisMappingDomain = locais.toLocalEstoques();
 
                 return locaisMappingDomain.ToList();
             }

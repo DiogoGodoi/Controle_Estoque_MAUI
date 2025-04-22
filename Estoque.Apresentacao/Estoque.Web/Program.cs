@@ -1,5 +1,4 @@
 using Estoque.Dependencies.HttpRequests;
-using Estoque.Dependencies.Services;
 using Estoque.Web.Components;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,9 +8,6 @@ builder.Services.AddHttpClient();
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
-
-//services
-builder.Services.AddAutoMapperService();
 
 //HttpRequest
 builder.Services.AddHttpRequests();

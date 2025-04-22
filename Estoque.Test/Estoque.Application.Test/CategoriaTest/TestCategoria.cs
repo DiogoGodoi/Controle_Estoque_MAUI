@@ -1,13 +1,10 @@
-﻿using AutoMapper;
-using Estoque.Application.Interfaces;
+﻿using Estoque.Application.Interfaces;
 using Estoque.Application.Repository.Abstraction;
 using Estoque.Application.Repository.RepositoryCategoria;
 using Estoque.Application.Repository.RepositoryUsuario;
-using Estoque.Infraestructure.Data.Context;
-using Estoque.Application.Comand.Request;
-using Estoque.Application.Comand.Response;
-using Estoque.Infraestructure.Data.Repository;
 using Estoque.Domain.Modelos;
+using Estoque.Infraestructure.Data.Context;
+using Estoque.Infraestructure.Data.Repository;
 using Microsoft.EntityFrameworkCore;
 
 namespace Estoque.Application.Test.CategoriaTest
@@ -23,8 +20,6 @@ namespace Estoque.Application.Test.CategoriaTest
 
         public IRepository<Usuario> repositoryUsuario;
         public ICadastrar<Usuario> cadastrarUsuario;
-
-        public IMapper mapper;
         public Categoria categoria;
         public Usuario usuario;
         public EstoqueContext context;
@@ -36,18 +31,8 @@ namespace Estoque.Application.Test.CategoriaTest
                 .UseSqlServer("Server=(localdb)MSSQLLocalDB;Initial Catalog=DbEstoque;Integrated Security=true; MultipleActiveResultSets=true").Options;
             context = new EstoqueContext(options);
 
-            var configCategoria = new MapperConfiguration(cfg => { 
-                cfg.AddProfile(new CategoriaRequestProfile()); 
-                cfg.AddProfile(new UsuarioRequestProfile());
-
-                cfg.AddProfile(new CategoriaResponseProfile());
-                cfg.AddProfile(new UsuarioResponseProfile());
-
-            });
-            mapper = configCategoria.CreateMapper();
-
-            repository = new CategoriaRepository(mapper, context);
-            repositoryUsuario = new UsuarioRepository(mapper, context);
+            repository = new CategoriaRepository(context);
+            repositoryUsuario = new UsuarioRepository(context);
 
             cadastrarCategoria = new CadastrarCategoria(repository);
             atualizarCategoria = new AtualizarCategoria(repository);
@@ -96,7 +81,7 @@ namespace Estoque.Application.Test.CategoriaTest
         }
 
         [Test]
-        [TestCase("b3e1a5d2-7f4b-4a8e-8d6f-9a3f8e7b1c2a", "520d8ea5-17d0-4c80-be68-6ef17d907534", "Elétricos")]
+        [TestCase("b3e1a5d2-7f4b-4a8e-8d6f-9a3f8e7b1c2a", "520d8ea5-17d0-4c80-be68-6ef17d907534", "Mecânicos")]
         public async Task AtualizarNaBase(string idUsuario, string idCategoriaAtual, string novaCategoria)
         {
             //Arrange

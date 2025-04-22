@@ -25,6 +25,13 @@
         {
             AssociarPerfil(fk_Perfil_id);
         }
+        public Usuario(Guid id, string email, string senha, Perfil perfil)
+        {
+            this.id = id;
+            this.email = email;
+            this.senha = senha;
+            this.perfil = perfil;
+        }
         private void SetId()
         {
             id = Guid.NewGuid();

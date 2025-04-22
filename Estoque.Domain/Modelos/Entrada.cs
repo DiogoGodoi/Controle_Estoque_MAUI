@@ -24,6 +24,14 @@
         {
             AssociarUsuario(fk_Usuario_id);
         }
+        public Entrada(Guid id, DateTime dataEntrada, int quantidade, Usuario usuario)
+        {
+            this.id = id;
+            this.dataEntrada = dataEntrada;
+            this.usuario = usuario;
+            base.quantidade = quantidade;
+        }
+
         private void SetId()
         {
             id = Guid.NewGuid();

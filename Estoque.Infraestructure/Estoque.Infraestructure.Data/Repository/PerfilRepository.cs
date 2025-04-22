@@ -1,34 +1,31 @@
-﻿using AutoMapper;
-using Estoque.Application.Interfaces;
-using Estoque.Infraestructure.Data.Context;
+﻿using Estoque.Application.Interfaces;
 using Estoque.Domain.Modelos;
+using Estoque.Infraestructure.Data.Context;
+using Estoque.Infraestructure.Data.Extend;
+using Estoque.Infraestructure.Data.ModelosEF;
 using Microsoft.EntityFrameworkCore;
-using Estoque.Application.Comand.Modelos;
 
 namespace Estoque.Infraestructure.Data.Repository
 {
     public class PerfilRepository : IRepository<Perfil>
     {
-        private readonly IMapper mapper;
-
         private readonly EstoqueContext estoqueContext;
-        public PerfilRepository(IMapper mapper, EstoqueContext estoqueContext)
+        public PerfilRepository(EstoqueContext estoqueContext)
         {
-            this.mapper = mapper;
             this.estoqueContext = estoqueContext;
         }
         public async Task Atualizar(string id, Perfil objeto)
         {
             try
             {
-                var PerfilMapping = mapper.Map<PerfilDTO>(objeto);
+                var PerfilMapping = objeto.toPerfilEF();
 
                 var PerfilEF = await estoqueContext.perfis.FirstOrDefaultAsync(x => x.id == Guid.Parse(id));
 
                 if (PerfilEF == null)
                     throw new Exception("Perfil não encontrado");
 
-                if(PerfilEF.nome == objeto.nome)
+                if (PerfilEF.nome == objeto.nome)
                     throw new Exception("Já existe uma Perfil com esse nome");
 
                 PerfilEF.nome = PerfilMapping.nome;
@@ -50,12 +47,14 @@ namespace Estoque.Infraestructure.Data.Repository
         {
             try
             {
-                var Perfil = await estoqueContext.perfis.FirstOrDefaultAsync(x => x.id == Guid.Parse(id));
+                var Perfil = await estoqueContext.perfis
+                                                  .Include(x => x.usuario)
+                                                  .FirstOrDefaultAsync(x => x.id == Guid.Parse(id));
 
                 if (Perfil == null)
                     throw new Exception("Perfil não localizado");
 
-                var usuarioMappingDomain = mapper.Map<Perfil>(Perfil);
+                var usuarioMappingDomain = Perfil.toPerfil();
 
                 return usuarioMappingDomain;
 
@@ -72,8 +71,8 @@ namespace Estoque.Infraestructure.Data.Repository
                 var PerfilEf = await estoqueContext.perfis.FirstOrDefaultAsync(x => x.nome == objeto.nome);
                 if (PerfilEf != null) throw new Exception("Perfil já cadastrado");
 
-                var Perfil = mapper.Map<PerfilDTO>(objeto);
-                
+                var Perfil = objeto.toPerfilEF();
+
                 estoqueContext.perfis.Add(Perfil);
 
                 await estoqueContext.SaveChangesAsync();
@@ -110,9 +109,11 @@ namespace Estoque.Infraestructure.Data.Repository
         {
             try
             {
-                var usuarios = await estoqueContext.perfis.ToListAsync();
+                var usuarios = await estoqueContext.perfis
+                                     .Include(x => x.usuario)
+                                     .ToListAsync();
 
-                var usuarioMappingDomain = mapper.Map<IEnumerable<Perfil>>(usuarios);
+                var usuarioMappingDomain = usuarios.toPerfis();
 
                 return usuarioMappingDomain.ToList();
             }

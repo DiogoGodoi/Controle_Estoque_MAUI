@@ -1,8 +1,7 @@
-﻿using Estoque.Application.Comand.Modelos;
-using Estoque.Application.Repository.RepositoryProduto;
+﻿using Estoque.Application.Repository.RepositoryProduto;
 using Estoque.Domain.Modelos;
-using Estoque.Infraestructure.Api.Service.Interface;
-
+using Estoque.Infraestructure.Api.Service.Abstraction;
+using Estoque.Application.Extensions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Estoque.Infraestructure.Api.Controllers
@@ -12,11 +11,9 @@ namespace Estoque.Infraestructure.Api.Controllers
     public class SaidaController : ControllerBase
     {
         private readonly IService<Saida> _ServiceSaidas;
-        private readonly IServiceDTO<SaidaDTO> _ServiceSaidasDTO;
-        public SaidaController(IService<Saida> serviceSaidas, IServiceDTO<SaidaDTO> ServiceSaidasDTO)
+        public SaidaController(IService<Saida> serviceSaidas)
         {
             _ServiceSaidas = serviceSaidas;
-            _ServiceSaidasDTO = ServiceSaidasDTO;
         }
 
         [HttpGet]
@@ -25,7 +22,7 @@ namespace Estoque.Infraestructure.Api.Controllers
         {
             try
             {
-                var Saidas = await _ServiceSaidasDTO.Listar();
+                var Saidas = await _ServiceSaidas.Listar();
 
                 if (Saidas == null)
                 {
@@ -33,7 +30,7 @@ namespace Estoque.Infraestructure.Api.Controllers
                 }
                 else
                 {
-                    return Ok(Saidas);
+                    return Ok(Saidas.toSaidasDTO());
                 }
             }
             catch (Exception ex)
@@ -49,7 +46,7 @@ namespace Estoque.Infraestructure.Api.Controllers
         {
             try
             {
-                var Saida = await _ServiceSaidasDTO.Buscar(id);
+                var Saida = await _ServiceSaidas.Buscar(id);
 
                 if (Saida == null)
                 {
@@ -57,7 +54,7 @@ namespace Estoque.Infraestructure.Api.Controllers
                 }
                 else
                 {
-                    return Ok(Saida);
+                    return Ok(Saida.toSaidaDTO());
                 }
             }
             catch (Exception ex)
