@@ -1,4 +1,5 @@
-﻿using Estoque.Infraestructure.Data.ModelosEF;
+﻿using Estoque.Infraestructure.Data.Extend;
+using Estoque.Infraestructure.Data.ModelosEF;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -48,9 +49,16 @@ namespace Estoque.Infraestructure.Data.Mapping
                    .WithOne(x => x.usuario)
                    .HasForeignKey(x => x.fk_Usuario_id);
 
+            //ligação produto
             builder.HasMany(x => x.produto)
                    .WithOne(x => x.usuario)
                    .HasForeignKey(x => x.fk_Usuario_id);
+
+            //ligação localEstoque
+            builder.HasMany(x => x.localEstoque)
+                   .WithOne(x => x.usuario)
+                   .HasForeignKey(x => x.fk_Usuario_id)
+                   .OnDelete(DeleteBehavior.Restrict);
 
 
             //Dados

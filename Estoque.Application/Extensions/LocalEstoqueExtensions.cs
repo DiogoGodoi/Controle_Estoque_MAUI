@@ -11,6 +11,7 @@ namespace Estoque.Application.Extensions
             {
                 id = localEstoque.id,
                 nome = localEstoque.nome,
+                usuario = localEstoque.usuario.email,
             };
         }
         public static IEnumerable<LocalEstoqueDTO> toLocaisEstoqueDTO(this IEnumerable<LocalEstoque> locaisEstoque)

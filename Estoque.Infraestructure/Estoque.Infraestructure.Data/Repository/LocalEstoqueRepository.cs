@@ -49,6 +49,7 @@ namespace Estoque.Infraestructure.Data.Repository
             {
                 var LocalEstoque = await estoqueContext.locaisEstoque
                                          .Include(x => x.produtos)
+                                         .Include(x => x.usuario)
                                          .FirstOrDefaultAsync(x => x.id == Guid.Parse(id));
 
                 if (LocalEstoque == null)
@@ -110,6 +111,7 @@ namespace Estoque.Infraestructure.Data.Repository
             {
                 var locais = await estoqueContext.locaisEstoque
                                    .Include(x => x.produtos)
+                                   .Include(x => x.usuario)
                                    .ToListAsync();
 
                 var locaisMappingDomain = locais.toLocalEstoques();

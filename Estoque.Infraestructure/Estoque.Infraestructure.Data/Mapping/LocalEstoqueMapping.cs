@@ -22,6 +22,12 @@ namespace Estoque.Infraestructure.Data.Mapping
             //chave candidata
             builder.HasIndex(x => x.nome).IsUnique();
 
+            //chave estrangeira
+            builder.HasOne(x => x.usuario)
+                   .WithMany(x => x.localEstoque)
+                   .HasForeignKey(x => x.fk_Usuario_id)
+                   .OnDelete(DeleteBehavior.Restrict);
+
             //chave primária
             builder.HasKey("id");
 
@@ -33,8 +39,8 @@ namespace Estoque.Infraestructure.Data.Mapping
 
             //dados
             builder.HasData(
-                new LocalEstoqueEF { id = Guid.Parse("510d4ea5-17d0-4c80-be68-6ef17d907534"), nome = "Epi" },
-                new LocalEstoqueEF { id = Guid.Parse("537d8ba5-17d0-4c80-be68-6ef17d907534"), nome = "Produtos" });
+                new LocalEstoqueEF { id = Guid.Parse("510d4ea5-17d0-4c80-be68-6ef17d907534"), nome = "Epi", fk_Usuario_id = Guid.Parse("b3e1c5d2-7f4b-4a8e-8d6f-9a5f8e7b0c2a") },
+                new LocalEstoqueEF { id = Guid.Parse("537d8ba5-17d0-4c80-be68-6ef17d907534"), nome = "Produtos", fk_Usuario_id = Guid.Parse("b3e1c5d2-7f4b-4a8e-8d6f-9a5f8e7b0c2a") });
         }
     }
 }

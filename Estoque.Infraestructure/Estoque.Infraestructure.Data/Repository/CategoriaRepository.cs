@@ -37,7 +37,7 @@ namespace Estoque.Infraestructure.Data.Repository
             }
             catch (DbUpdateException ex)
             {
-                throw;
+                throw new DbUpdateException("Já existe uma categoria com esse nome");
             }
             catch (Exception ex)
             {

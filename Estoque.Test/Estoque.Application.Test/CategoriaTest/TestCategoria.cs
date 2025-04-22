@@ -81,7 +81,7 @@ namespace Estoque.Application.Test.CategoriaTest
         }
 
         [Test]
-        [TestCase("b3e1a5d2-7f4b-4a8e-8d6f-9a3f8e7b1c2a", "520d8ea5-17d0-4c80-be68-6ef17d907534", "Elétricos")]
+        [TestCase("b3e1a5d2-7f4b-4a8e-8d6f-9a3f8e7b1c2a", "520d8ea5-17d0-4c80-be68-6ef17d907534", "Mecânicos")]
         public async Task AtualizarNaBase(string idUsuario, string idCategoriaAtual, string novaCategoria)
         {
             //Arrange

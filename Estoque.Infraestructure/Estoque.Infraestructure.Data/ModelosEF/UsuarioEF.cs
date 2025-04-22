@@ -9,6 +9,7 @@ namespace Estoque.Infraestructure.Data.ModelosEF
         public string? senha { get; set; }
         public Guid fk_Perfil_id { get; set; }
         public PerfilEF? perfil { get; set; }
+        public ICollection<LocalEstoqueEF> localEstoque { get; set; }
         public ICollection<CategoriaEF> categoria { get; set; }
         public ICollection<EntradaEF> entrada { get; set; }
         public ICollection<ProdutoEF> produto { get; set; }

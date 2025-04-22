@@ -117,7 +117,7 @@ namespace Estoque.Application.Test.LocalEstoqueTest
 
         [Test]
         [TestCase("537d8ba5-17d0-4c80-be68-6ef17d907534")]
-        public async Task FalharDeletarNaBase(string id)
+        public async Task DeletarNaBase(string id)
         {
             //Arrange
             bool resultado;
