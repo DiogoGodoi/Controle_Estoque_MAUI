@@ -21,21 +21,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infraestructure", "Infraest
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Apresentation", "Apresentation", "{60325579-B2CF-4B6E-A1DD-3DA40E85BC15}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Estoque.Web", "Estoque.Apresentacao\Estoque.Web\Estoque.Web.csproj", "{390D065E-03F5-480D-9A26-A94782B57E83}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Estoque.Domain.Test", "Estoque.Test\Estoque.Domain.Test\Estoque.Domain.Test.csproj", "{150B8C41-3847-4A28-A09B-C800FD55B8E6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Estoque.Application.Test", "Estoque.Test\Estoque.Application.Test\Estoque.Application.Test.csproj", "{C6126ED6-9AD9-4A52-8807-E7E8E1F88C02}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Estoque.Shared.Hybrid", "Estoque.Apresentacao\Estoque.Shared.Hybrid\Estoque.Shared.Hybrid.csproj", "{EC3BE93E-8D03-4116-B855-A431F8081EB3}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Estoque.Desktop", "Estoque.Apresentacao\Estoque.Desktop\Estoque.Desktop.csproj", "{DA1D6168-15B8-416F-9E30-FE077C54ECB4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Estoque.Infraestructure.Data", "Estoque.Infraestructure\Estoque.Infraestructure.Data\Estoque.Infraestructure.Data.csproj", "{7A95CABF-2CC7-46C4-960D-32DAC2854320}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Estoque.Infraestructure.Api", "Estoque.Infraestructure\Estoque.Infraestructure.Api\Estoque.Infraestructure.Api.csproj", "{C3E8CD88-05F9-4B87-A66F-3ED405CC3C87}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Estoque.Infraestructure.Http", "Estoque.Infraestructure\Estoque.Infraestructure.Http\Estoque.Infraestructure.Http.csproj", "{F1ED2D0F-4E94-4043-B09E-27273F74B8C4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Estoque.Apresentacao.Maui", "Estoque.Apresentacao\Estoque.Maui\Estoque.Apresentacao.Maui\Estoque.Apresentacao.Maui.csproj", "{B658437C-CCAF-40D0-A3DD-D09E6D2B9028}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -55,10 +51,6 @@ Global
 		{6FF2EA84-62A1-47F8-880C-6CDCF6D720AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6FF2EA84-62A1-47F8-880C-6CDCF6D720AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6FF2EA84-62A1-47F8-880C-6CDCF6D720AD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{390D065E-03F5-480D-9A26-A94782B57E83}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{390D065E-03F5-480D-9A26-A94782B57E83}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{390D065E-03F5-480D-9A26-A94782B57E83}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{390D065E-03F5-480D-9A26-A94782B57E83}.Release|Any CPU.Build.0 = Release|Any CPU
 		{150B8C41-3847-4A28-A09B-C800FD55B8E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{150B8C41-3847-4A28-A09B-C800FD55B8E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{150B8C41-3847-4A28-A09B-C800FD55B8E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -67,14 +59,6 @@ Global
 		{C6126ED6-9AD9-4A52-8807-E7E8E1F88C02}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C6126ED6-9AD9-4A52-8807-E7E8E1F88C02}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C6126ED6-9AD9-4A52-8807-E7E8E1F88C02}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EC3BE93E-8D03-4116-B855-A431F8081EB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EC3BE93E-8D03-4116-B855-A431F8081EB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EC3BE93E-8D03-4116-B855-A431F8081EB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EC3BE93E-8D03-4116-B855-A431F8081EB3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DA1D6168-15B8-416F-9E30-FE077C54ECB4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DA1D6168-15B8-416F-9E30-FE077C54ECB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DA1D6168-15B8-416F-9E30-FE077C54ECB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DA1D6168-15B8-416F-9E30-FE077C54ECB4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7A95CABF-2CC7-46C4-960D-32DAC2854320}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7A95CABF-2CC7-46C4-960D-32DAC2854320}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7A95CABF-2CC7-46C4-960D-32DAC2854320}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -87,6 +71,10 @@ Global
 		{F1ED2D0F-4E94-4043-B09E-27273F74B8C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F1ED2D0F-4E94-4043-B09E-27273F74B8C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F1ED2D0F-4E94-4043-B09E-27273F74B8C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B658437C-CCAF-40D0-A3DD-D09E6D2B9028}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B658437C-CCAF-40D0-A3DD-D09E6D2B9028}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B658437C-CCAF-40D0-A3DD-D09E6D2B9028}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B658437C-CCAF-40D0-A3DD-D09E6D2B9028}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -95,14 +83,12 @@ Global
 		{2DA6F0C6-433D-42B7-9AE4-BC4BB97F927F} = {792625BF-6B3F-4D2F-871E-BFA5FA6FC36A}
 		{9AC69687-E44B-4CA8-91E8-398A4CE763F0} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{6FF2EA84-62A1-47F8-880C-6CDCF6D720AD} = {7A609147-8095-4BF3-B867-5A90324F36EE}
-		{390D065E-03F5-480D-9A26-A94782B57E83} = {60325579-B2CF-4B6E-A1DD-3DA40E85BC15}
 		{150B8C41-3847-4A28-A09B-C800FD55B8E6} = {972B2F53-42D8-4DB1-B039-87C346738AF9}
 		{C6126ED6-9AD9-4A52-8807-E7E8E1F88C02} = {972B2F53-42D8-4DB1-B039-87C346738AF9}
-		{EC3BE93E-8D03-4116-B855-A431F8081EB3} = {60325579-B2CF-4B6E-A1DD-3DA40E85BC15}
-		{DA1D6168-15B8-416F-9E30-FE077C54ECB4} = {60325579-B2CF-4B6E-A1DD-3DA40E85BC15}
 		{7A95CABF-2CC7-46C4-960D-32DAC2854320} = {9FBA2317-17C4-418D-AD52-0EC6F22AC9A7}
 		{C3E8CD88-05F9-4B87-A66F-3ED405CC3C87} = {9FBA2317-17C4-418D-AD52-0EC6F22AC9A7}
 		{F1ED2D0F-4E94-4043-B09E-27273F74B8C4} = {9FBA2317-17C4-418D-AD52-0EC6F22AC9A7}
+		{B658437C-CCAF-40D0-A3DD-D09E6D2B9028} = {60325579-B2CF-4B6E-A1DD-3DA40E85BC15}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3D9D452C-6C91-423B-9356-0D298112CC59}
