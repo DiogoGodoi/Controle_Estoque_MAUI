@@ -1,4 +1,5 @@
 ﻿@page "/Saidas"
+@using Estoque.Infraestructure.Http.Interfaces
 
 @if (saidas == null)
 {
@@ -35,7 +36,7 @@ else
 
     private async Task Requisicao()
     {
-        saidas = await HttpRepositorySaidasDTO.Listar();
+        saidas = await listarProdutoSaidasDTO.ExecutarListagem();
     }
 }
 

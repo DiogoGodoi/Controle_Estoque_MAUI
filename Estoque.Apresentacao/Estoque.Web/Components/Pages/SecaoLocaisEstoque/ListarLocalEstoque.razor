@@ -1,4 +1,5 @@
 ﻿@page "/LocaisEstoque"
+@using Estoque.Infraestructure.Http.Interfaces
 
 @if (locaisEstoque == null)
 {
@@ -34,7 +35,7 @@ else
 
     private async Task Requisicao()
     {
-        locaisEstoque = await HttpRepositoryLocalEstoqueDTO.Listar();
+        locaisEstoque = await listarLocalEstoqueDTO.ExecutarListagem();
     }
 }
 

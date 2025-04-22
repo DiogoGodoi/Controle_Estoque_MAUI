@@ -1,4 +1,5 @@
 ﻿@page "/Entradas"
+@using Estoque.Infraestructure.Http.Interfaces
 
 @if (entradas == null)
 {
@@ -33,7 +34,7 @@ else
 
     private async Task Requisicao()
     {
-        entradas = await HttpRepositoryEntradasDTO.Listar();
+        entradas = await listarProdutoEntradasDTO.ExecutarListagem();
     }
 }
 

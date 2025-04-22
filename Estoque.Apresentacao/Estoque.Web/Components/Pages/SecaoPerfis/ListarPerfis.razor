@@ -1,4 +1,5 @@
 ﻿@page "/Perfis"
+@using Estoque.Infraestructure.Http.Interfaces
 
 @if (perfis == null)
 {
@@ -34,7 +35,7 @@ else
 
     private async Task Requisicao()
     {
-        perfis = await HttpRepositoryPerfilDTO.Listar();
+        perfis = await listarPerfilDTO.ExecutarListagem();
     }
 }
 

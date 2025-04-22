@@ -1,4 +1,5 @@
 ﻿@page "/Categorias"
+@using Estoque.Infraestructure.Http.Interfaces
 
 @if (categorias == null)
 {
@@ -34,7 +35,7 @@ else
 
     private async Task Requisicao()
     {
-        categorias = await HttpRepositoryCategoriaDTO.Listar();
+        categorias = await listarCategoriaDTO.ExecutarListagem();
     }
 }
 

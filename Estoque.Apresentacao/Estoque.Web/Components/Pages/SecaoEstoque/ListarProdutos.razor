@@ -1,4 +1,5 @@
 ﻿@page "/Estoque"
+@using Estoque.Infraestructure.Http.Interfaces
 
 @if (produtos == null)
 {
@@ -59,7 +60,7 @@ else
 
     private async Task Requisicao()
     {
-        produtos = await HttpRepositoryProdutosDTO.Listar();
+        produtos = await listarProdutosDTO.ExecutarListagem();
 
         produtosAux = produtos;
 
@@ -70,7 +71,7 @@ else
 
     private async Task FiltrarPorCategoria(string chave)
     {
-        produtos = await HttpRepositoryFiltroProdutoDTO.Filtro(chave);
+        produtos = await filtrarProdutoDTO.ExecutarFiltro(chave);
     }
 
     private void Pesquisar(ChangeEventArgs args)

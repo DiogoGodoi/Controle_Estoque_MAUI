@@ -1,4 +1,5 @@
 ﻿@page "/Usuarios"
+@using Estoque.Infraestructure.Http.Interfaces
 
 @if (usuarios == null)
 {
@@ -34,7 +35,7 @@ else
 
     private async Task Requisicao()
     {
-        usuarios = await HttpRepositoryUsuarioDTO.Listar();
+        usuarios = await listarUsuarioDTO.ExecutarListagem();
     }
 }
 
