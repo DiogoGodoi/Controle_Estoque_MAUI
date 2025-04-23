@@ -31,7 +31,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Estoque.Infraestructure.Api
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Estoque.Infraestructure.Http", "Estoque.Infraestructure\Estoque.Infraestructure.Http\Estoque.Infraestructure.Http.csproj", "{F1ED2D0F-4E94-4043-B09E-27273F74B8C4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Estoque.Apresentacao.Maui", "Estoque.Apresentacao\Estoque.Maui\Estoque.Apresentacao.Maui\Estoque.Apresentacao.Maui.csproj", "{B658437C-CCAF-40D0-A3DD-D09E6D2B9028}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Estoque.Apresentation.Maui", "Estoque.Apresentacao\Estoque.Maui\Estoque.Apresentacao.Maui\Estoque.Apresentation.Maui.csproj", "{B658437C-CCAF-40D0-A3DD-D09E6D2B9028}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,6 +1,6 @@
 ﻿namespace Estoque.Apresentacao.Maui
 {
-    public partial class App : Application
+    public partial class App : IApplication
     {
         public App()
         {
