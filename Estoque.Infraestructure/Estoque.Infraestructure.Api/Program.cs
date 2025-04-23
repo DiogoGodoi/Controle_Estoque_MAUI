@@ -1,5 +1,5 @@
 using Estoque.Dependencies.Services;
-using Estoque.Infraestructure.Api.ContainerDI;
+using Estoque.Infraestructure.Api.Dependencies;
 using Estoque.Infraestructure.Data.Context;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,7 +12,7 @@ builder.Services.AddSwaggerGen();
 
 // Add Services
 builder.Services.AddEFCoreSqlServer();
-builder.Services.AddRequestHttpService();
+builder.Services.AddResponseHttpService();
 
 static void GerarBanco(WebApplication app)
 {

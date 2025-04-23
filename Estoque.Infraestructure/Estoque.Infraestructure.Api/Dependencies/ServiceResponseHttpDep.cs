@@ -2,11 +2,11 @@
 using Estoque.Infraestructure.Api.Service.Abstraction;
 using Estoque.Infraestructure.Api.Service;
 
-namespace Estoque.Infraestructure.Api.ContainerDI
+namespace Estoque.Infraestructure.Api.Dependencies
 {
-    public static class ServiceRequestHttpDep
+    public static class ServiceResponseHttpDep
     {
-        public static IServiceCollection AddRequestHttpService(this IServiceCollection services)
+        public static IServiceCollection AddResponseHttpService(this IServiceCollection services)
         {
             services.AddScoped<IService<Entrada>, EntradaService>();
             services.AddScoped<IService<Saida>, SaidaService>();
