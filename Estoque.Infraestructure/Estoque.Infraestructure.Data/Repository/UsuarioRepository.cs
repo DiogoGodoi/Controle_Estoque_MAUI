@@ -9,10 +9,10 @@ namespace Estoque.Infraestructure.Data.Repository
     public class UsuarioRepository : IRepository<Usuario>
     {
 
-        private readonly EstoqueContext estoqueContext;
-        public UsuarioRepository(EstoqueContext estoqueContext)
+        private readonly ContextSqlServer ContextSqlServer;
+        public UsuarioRepository(ContextSqlServer ContextSqlServer)
         {
-            this.estoqueContext = estoqueContext;
+            this.ContextSqlServer = ContextSqlServer;
         }
         public async Task Atualizar(string id, Usuario objeto)
         {
@@ -20,7 +20,7 @@ namespace Estoque.Infraestructure.Data.Repository
             {
                 var usuariosMapping = objeto.toUsuarioEF();
 
-                var usuarioEf = await estoqueContext.usuarios.FirstOrDefaultAsync(x => x.id == Guid.Parse(id));
+                var usuarioEf = await ContextSqlServer.usuarios.FirstOrDefaultAsync(x => x.id == Guid.Parse(id));
 
                 if (usuarioEf == null)
                     throw new Exception("Usuário não encontrado");
@@ -31,9 +31,9 @@ namespace Estoque.Infraestructure.Data.Repository
                 usuarioEf.email = usuariosMapping.email;
                 usuarioEf.senha = usuariosMapping.senha;
 
-                estoqueContext.usuarios.Update(usuarioEf);
+                ContextSqlServer.usuarios.Update(usuarioEf);
 
-                await estoqueContext.SaveChangesAsync();
+                await ContextSqlServer.SaveChangesAsync();
             }
             catch (DbUpdateException)
             {
@@ -49,7 +49,7 @@ namespace Estoque.Infraestructure.Data.Repository
 
             try
             {
-                var usuario = await estoqueContext.usuarios
+                var usuario = await ContextSqlServer.usuarios
                     .Include(x => x.perfil)
                     .FirstOrDefaultAsync(x => x.id == Guid.Parse(id));
 
@@ -70,12 +70,12 @@ namespace Estoque.Infraestructure.Data.Repository
         {
             try
             {
-                var usuariosEf = await estoqueContext.usuarios.FirstOrDefaultAsync(x => x.email == objeto.email);
+                var usuariosEf = await ContextSqlServer.usuarios.FirstOrDefaultAsync(x => x.email == objeto.email);
 
                 if (usuariosEf != null)
                     throw new Exception("Usuário já cadastrado");
 
-                var perfilEf = await estoqueContext.perfis.FirstOrDefaultAsync(x => x.id == objeto.perfil.id);
+                var perfilEf = await ContextSqlServer.perfis.FirstOrDefaultAsync(x => x.id == objeto.perfil.id);
 
                 if (perfilEf == null)
                     throw new Exception("Perfil inexistente");
@@ -84,9 +84,9 @@ namespace Estoque.Infraestructure.Data.Repository
 
                 usuario.perfil = perfilEf;
 
-                estoqueContext.usuarios.Add(usuario);
+                ContextSqlServer.usuarios.Add(usuario);
 
-                await estoqueContext.SaveChangesAsync();
+                await ContextSqlServer.SaveChangesAsync();
 
             }
             catch (DbUpdateException ex)
@@ -102,14 +102,14 @@ namespace Estoque.Infraestructure.Data.Repository
         {
             try
             {
-                var usuarioEf = await estoqueContext.usuarios.FirstOrDefaultAsync(x => x.id == Guid.Parse(id));
+                var usuarioEf = await ContextSqlServer.usuarios.FirstOrDefaultAsync(x => x.id == Guid.Parse(id));
 
                 if (usuarioEf == null)
                     throw new Exception("Usuário não encontrado");
 
-                estoqueContext.usuarios.Remove(usuarioEf);
+                ContextSqlServer.usuarios.Remove(usuarioEf);
 
-                await estoqueContext.SaveChangesAsync();
+                await ContextSqlServer.SaveChangesAsync();
             }
             catch (DbUpdateException ex)
             {
@@ -124,7 +124,7 @@ namespace Estoque.Infraestructure.Data.Repository
         {
             try
             {
-                var usuarios = await estoqueContext.usuarios
+                var usuarios = await ContextSqlServer.usuarios
                                     .Include(x => x.perfil)
                                     .ToListAsync();
 

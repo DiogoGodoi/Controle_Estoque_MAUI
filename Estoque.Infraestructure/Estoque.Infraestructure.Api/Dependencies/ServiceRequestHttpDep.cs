@@ -4,9 +4,9 @@ using Estoque.Infraestructure.Api.Service;
 
 namespace Estoque.Infraestructure.Api.ContainerDI
 {
-    public static class ServiceDI
+    public static class ServiceRequestHttpDep
     {
-        public static IServiceCollection AddServiceDI(this IServiceCollection services)
+        public static IServiceCollection AddRequestHttpService(this IServiceCollection services)
         {
             services.AddScoped<IService<Entrada>, EntradaService>();
             services.AddScoped<IService<Saida>, SaidaService>();

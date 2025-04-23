@@ -9,10 +9,10 @@ namespace Estoque.Infraestructure.Data.Repository
 {
     public class EntradaRepository : IRepository<Entrada>
     {
-        private readonly EstoqueContext estoqueContext;
-        public EntradaRepository(EstoqueContext estoqueContext)
+        private readonly ContextSqlServer ContextSqlServer;
+        public EntradaRepository(ContextSqlServer ContextSqlServer)
         {
-            this.estoqueContext = estoqueContext;
+            this.ContextSqlServer = ContextSqlServer;
         }
         public async Task Atualizar(string id, Entrada objeto)
         {
@@ -20,7 +20,7 @@ namespace Estoque.Infraestructure.Data.Repository
             {
                 var EntradaMapping = objeto.toEntradaEF();
 
-                var EntradaEF = await estoqueContext.entradas.FirstOrDefaultAsync(x => x.id == Guid.Parse(id));
+                var EntradaEF = await ContextSqlServer.entradas.FirstOrDefaultAsync(x => x.id == Guid.Parse(id));
 
                 if (EntradaEF == null)
                     throw new Exception("Entrada não encontrada");
@@ -29,9 +29,9 @@ namespace Estoque.Infraestructure.Data.Repository
                 EntradaEF.quantidade = EntradaMapping.quantidade;
                 EntradaEF.fk_Usuario_id = objeto.usuario.id;
 
-                estoqueContext.entradas.Update(EntradaEF);
+                ContextSqlServer.entradas.Update(EntradaEF);
 
-                await estoqueContext.SaveChangesAsync();
+                await ContextSqlServer.SaveChangesAsync();
 
             }
             catch (Exception ex)
@@ -44,7 +44,7 @@ namespace Estoque.Infraestructure.Data.Repository
 
             try
             {
-                var entrada = await estoqueContext.entradas
+                var entrada = await ContextSqlServer.entradas
                                     .Include(x => x.produtoEntrada)
                                     .Include(x => x.usuario)
                                     .FirstOrDefaultAsync(x => x.id == Guid.Parse(id));
@@ -66,24 +66,24 @@ namespace Estoque.Infraestructure.Data.Repository
         {
             try
             {
-                var entradaEF = await estoqueContext.entradas.FirstOrDefaultAsync(x => x.id == objeto.id);
+                var entradaEF = await ContextSqlServer.entradas.FirstOrDefaultAsync(x => x.id == objeto.id);
                 if (entradaEF != null)
                     throw new Exception("Entrada já cadastrada");
 
-                var usuarioEf = await estoqueContext.usuarios.FirstOrDefaultAsync(x => x.id == objeto.usuario.id);
+                var usuarioEf = await ContextSqlServer.usuarios.FirstOrDefaultAsync(x => x.id == objeto.usuario.id);
                 if (usuarioEf == null)
                     throw new Exception("Usuário não encontrado");
 
-                var entradaProdutoEf = estoqueContext.produtoEntrada.Where(x => x.fk_Entrada_id == objeto.id).ToList();
+                var entradaProdutoEf = ContextSqlServer.produtoEntrada.Where(x => x.fk_Entrada_id == objeto.id).ToList();
 
                 var entrada = objeto.toEntradaEF();
 
                 entrada.produtoEntrada = entradaProdutoEf;
                 entrada.usuario = usuarioEf;
 
-                estoqueContext.entradas.Add(entrada);
+                ContextSqlServer.entradas.Add(entrada);
 
-                await estoqueContext.SaveChangesAsync();
+                await ContextSqlServer.SaveChangesAsync();
 
             }
             catch (Exception ex)
@@ -95,14 +95,14 @@ namespace Estoque.Infraestructure.Data.Repository
         {
             try
             {
-                var EntradaEF = await estoqueContext.entradas.FirstOrDefaultAsync(x => x.id == Guid.Parse(id));
+                var EntradaEF = await ContextSqlServer.entradas.FirstOrDefaultAsync(x => x.id == Guid.Parse(id));
 
                 if (EntradaEF == null)
                     throw new Exception("Entrada não encontrada");
 
-                estoqueContext.entradas.Remove(EntradaEF);
+                ContextSqlServer.entradas.Remove(EntradaEF);
 
-                await estoqueContext.SaveChangesAsync();
+                await ContextSqlServer.SaveChangesAsync();
             }
             catch (Exception ex)
             {
@@ -113,7 +113,7 @@ namespace Estoque.Infraestructure.Data.Repository
         {
             try
             {
-                var entradas = await estoqueContext.entradas
+                var entradas = await ContextSqlServer.entradas
                                     .Include(x => x.produtoEntrada)
                                     .Include(x => x.usuario)
                                     .ToListAsync();

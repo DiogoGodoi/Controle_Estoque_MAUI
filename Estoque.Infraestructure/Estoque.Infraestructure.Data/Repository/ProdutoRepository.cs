@@ -9,10 +9,10 @@ namespace Estoque.Infraestructure.Data.Repository
 {
     public class ProdutoRepository : IRepository<Produto>
     {
-        private readonly EstoqueContext estoqueContext;
-        public ProdutoRepository(EstoqueContext estoqueContext)
+        private readonly ContextSqlServer ContextSqlServer;
+        public ProdutoRepository(ContextSqlServer ContextSqlServer)
         {
-            this.estoqueContext = estoqueContext;
+            this.ContextSqlServer = ContextSqlServer;
         }
         public async Task Atualizar(string id, Produto objeto)
         {
@@ -20,7 +20,7 @@ namespace Estoque.Infraestructure.Data.Repository
             {
                 var ProdutoMapping = objeto.toProdutoEF();
 
-                var ProdutoEF = await estoqueContext.produtos.FirstOrDefaultAsync(x => x.id == Guid.Parse(id));
+                var ProdutoEF = await ContextSqlServer.produtos.FirstOrDefaultAsync(x => x.id == Guid.Parse(id));
 
                 if (ProdutoEF == null)
                     throw new Exception("Produto não encontrado");
@@ -42,9 +42,9 @@ namespace Estoque.Infraestructure.Data.Repository
                 ProdutoEF.fk_Usuario_id = ProdutoMapping.fk_Usuario_id;
                 ProdutoEF.fk_LocalEstoque_id = ProdutoMapping.fk_LocalEstoque_id;
 
-                estoqueContext.produtos.Update(ProdutoEF);
+                ContextSqlServer.produtos.Update(ProdutoEF);
 
-                await estoqueContext.SaveChangesAsync();
+                await ContextSqlServer.SaveChangesAsync();
 
             }
             catch (DbUpdateException)
@@ -60,7 +60,7 @@ namespace Estoque.Infraestructure.Data.Repository
         {
             try
             {
-                var produto = await estoqueContext
+                var produto = await ContextSqlServer
                                     .produtos.Include(x => x.categoria)
                                     .Include(x => x.usuario)
                                         .ThenInclude(x => x.perfil)
@@ -84,16 +84,16 @@ namespace Estoque.Infraestructure.Data.Repository
         {
             try
             {
-                var ProdutoEf = await estoqueContext.produtos.FirstOrDefaultAsync(x => x.descricao == objeto.descricao);
+                var ProdutoEf = await ContextSqlServer.produtos.FirstOrDefaultAsync(x => x.descricao == objeto.descricao);
                 if (ProdutoEf != null) throw new Exception("Produto já cadastrado");
 
-                var usuarioEf = await estoqueContext.usuarios.FirstOrDefaultAsync(x => x.id == objeto.usuario.id);
+                var usuarioEf = await ContextSqlServer.usuarios.FirstOrDefaultAsync(x => x.id == objeto.usuario.id);
                 if (usuarioEf == null) throw new Exception("Usuário não encontrado");
 
-                var categoriaEf = await estoqueContext.categorias.FirstOrDefaultAsync(x => x.id == objeto.categoria.id);
+                var categoriaEf = await ContextSqlServer.categorias.FirstOrDefaultAsync(x => x.id == objeto.categoria.id);
                 if (categoriaEf == null) throw new Exception("Categoria não encontrada");
 
-                var localEstoqueEf = await estoqueContext.locaisEstoque.FirstOrDefaultAsync(x => x.id == objeto.localEstoque.id);
+                var localEstoqueEf = await ContextSqlServer.locaisEstoque.FirstOrDefaultAsync(x => x.id == objeto.localEstoque.id);
                 if (localEstoqueEf == null) throw new Exception("Local de estoque encontrads");
 
                 var Produto = objeto.toProdutoEF();
@@ -102,8 +102,8 @@ namespace Estoque.Infraestructure.Data.Repository
                 Produto.categoria = categoriaEf;
                 Produto.localEstoque = localEstoqueEf;
 
-                estoqueContext.produtos.Add(Produto);
-                await estoqueContext.SaveChangesAsync();
+                ContextSqlServer.produtos.Add(Produto);
+                await ContextSqlServer.SaveChangesAsync();
             }
             catch (Exception ex)
             {
@@ -114,14 +114,14 @@ namespace Estoque.Infraestructure.Data.Repository
         {
             try
             {
-                var ProdutoEF = await estoqueContext.produtos.FirstOrDefaultAsync(x => x.id == Guid.Parse(id));
+                var ProdutoEF = await ContextSqlServer.produtos.FirstOrDefaultAsync(x => x.id == Guid.Parse(id));
 
                 if (ProdutoEF == null)
                     throw new Exception("Produto não encontrado");
 
-                estoqueContext.produtos.Remove(ProdutoEF);
+                ContextSqlServer.produtos.Remove(ProdutoEF);
 
-                await estoqueContext.SaveChangesAsync();
+                await ContextSqlServer.SaveChangesAsync();
             }
             catch (Exception ex)
             {
@@ -132,7 +132,7 @@ namespace Estoque.Infraestructure.Data.Repository
         {
             try
             {
-                var produtos = await estoqueContext.produtos
+                var produtos = await ContextSqlServer.produtos
                                     .Include(x => x.categoria)
                                     .Include(x => x.localEstoque)
                                     .Include(x => x.usuario)

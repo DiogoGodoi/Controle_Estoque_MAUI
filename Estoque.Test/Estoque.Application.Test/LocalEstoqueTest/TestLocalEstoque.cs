@@ -23,14 +23,14 @@ namespace Estoque.Application.Test.LocalEstoqueTest
 
         public LocalEstoque LocalEstoque;
         public Usuario usuario;
-        public EstoqueContext context;
+        public ContextSqlServer context;
 
         [SetUp]
         public void Setup()
         {
-            var options = new DbContextOptionsBuilder<EstoqueContext>()
+            var options = new DbContextOptionsBuilder<ContextSqlServer>()
                 .UseSqlServer("Server=(localdb)MSSQLLocalDB;Initial Catalog=DbEstoque;Integrated Security=true; MultipleActiveResultSets=true").Options;
-            context = new EstoqueContext(options);
+            context = new ContextSqlServer(options);
 
             repository = new LocalEstoqueRepository(context);
             repositoryUsuario = new UsuarioRepository(context);

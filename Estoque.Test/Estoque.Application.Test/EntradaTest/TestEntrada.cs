@@ -37,14 +37,14 @@ namespace Estoque.Application.Test.EntradaTest
         public Saida Saida;
         public Usuario usuario;
         public ProdutoEntrada produtoEntrada;
-        public EstoqueContext context;
+        public ContextSqlServer context;
 
         [SetUp]
         public void Setup()
         {
-            var options = new DbContextOptionsBuilder<EstoqueContext>()
+            var options = new DbContextOptionsBuilder<ContextSqlServer>()
                 .UseSqlServer("Server=(localdb)MSSQLLocalDB;Initial Catalog=DbEstoque;Integrated Security=true; MultipleActiveResultSets=true").Options;
-            context = new EstoqueContext(options);
+            context = new ContextSqlServer(options);
 
 
             repository = new EntradaRepository(context);

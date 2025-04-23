@@ -1,12 +1,3 @@
-using Estoque.Dependencies.Repositories.CategoriaDependencia;
-using Estoque.Dependencies.Repositories.EntradaDependencia;
-using Estoque.Dependencies.Repositories.LocalEstoqueDependencia;
-using Estoque.Dependencies.Repositories.PerfilDependencia;
-using Estoque.Dependencies.Repositories.ProdutoDependencia;
-using Estoque.Dependencies.Repositories.ProdutoEntradaDependencia;
-using Estoque.Dependencies.Repositories.ProdutoSaidaDependencia;
-using Estoque.Dependencies.Repositories.SaidaDependencia;
-using Estoque.Dependencies.Repositories.UsuarioDependencia;
 using Estoque.Dependencies.Services;
 using Estoque.Infraestructure.Api.ContainerDI;
 using Estoque.Infraestructure.Data.Context;
@@ -19,26 +10,15 @@ builder.Services.AddControllers();
 // swagger
 builder.Services.AddSwaggerGen();
 
-// Add Repositories
-builder.Services.AddRepositoryUsuario();
-builder.Services.AddRepositorySaida();
-builder.Services.AddRepositoryProdutoSaida();
-builder.Services.AddRepositoryProdutoEntrada();
-builder.Services.AddRepositoryProduto();
-builder.Services.AddRepositoryPerfil();
-builder.Services.AddRepositoryLocalEstoque();
-builder.Services.AddRepositoryEntrada();
-builder.Services.AddRepositoryCategoria();
-
 // Add Services
-builder.Services.AddEFCore();
-builder.Services.AddServiceDI();
+builder.Services.AddEFCoreSqlServer();
+builder.Services.AddRequestHttpService();
 
 static void GerarBanco(WebApplication app)
 {
     var scope = app.Services.CreateScope();
 
-    var service = scope.ServiceProvider.GetRequiredService<EstoqueContext>();
+    var service = scope.ServiceProvider.GetRequiredService<ContextSqlServer>();
 
     service.GerarBaseTeste();
 }

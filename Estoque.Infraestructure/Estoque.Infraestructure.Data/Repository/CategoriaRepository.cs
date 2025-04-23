@@ -9,10 +9,10 @@ namespace Estoque.Infraestructure.Data.Repository
 {
     public class CategoriaRepository : IRepository<Categoria>
     {
-        private readonly EstoqueContext estoqueContext;
-        public CategoriaRepository(EstoqueContext estoqueContext)
+        private readonly ContextSqlServer ContextSqlServer;
+        public CategoriaRepository(ContextSqlServer ContextSqlServer)
         {
-            this.estoqueContext = estoqueContext;
+            this.ContextSqlServer = ContextSqlServer;
         }
         public async Task Atualizar(string id, Categoria objeto)
         {
@@ -20,7 +20,7 @@ namespace Estoque.Infraestructure.Data.Repository
             {
                 var CategoriaMapping = objeto.toCategoriaEF();
 
-                var CategoriaEF = await estoqueContext.categorias.FirstOrDefaultAsync(x => x.id == Guid.Parse(id));
+                var CategoriaEF = await ContextSqlServer.categorias.FirstOrDefaultAsync(x => x.id == Guid.Parse(id));
 
                 if (CategoriaEF == null)
                     throw new Exception("Categoria não encontrada");
@@ -31,9 +31,9 @@ namespace Estoque.Infraestructure.Data.Repository
                 CategoriaEF.fk_Usuario_id = CategoriaMapping.fk_Usuario_id;
                 CategoriaEF.nome = CategoriaMapping.nome;
 
-                estoqueContext.categorias.Update(CategoriaEF);
+                ContextSqlServer.categorias.Update(CategoriaEF);
 
-                await estoqueContext.SaveChangesAsync();
+                await ContextSqlServer.SaveChangesAsync();
             }
             catch (DbUpdateException ex)
             {
@@ -49,7 +49,7 @@ namespace Estoque.Infraestructure.Data.Repository
 
             try
             {
-                var categoria = await estoqueContext.categorias
+                var categoria = await ContextSqlServer.categorias
                                      .Include(x => x.produto)
                                      .Include(x => x.usuario)
                                      .FirstOrDefaultAsync(x => x.id == Guid.Parse(id));
@@ -71,19 +71,19 @@ namespace Estoque.Infraestructure.Data.Repository
         {
             try
             {
-                var categoriaEf = await estoqueContext.categorias.FirstOrDefaultAsync(x => x.nome == objeto.nome);
+                var categoriaEf = await ContextSqlServer.categorias.FirstOrDefaultAsync(x => x.nome == objeto.nome);
                 if (categoriaEf != null) throw new Exception("Categoria já cadastrada");
 
-                var usuarioEF = await estoqueContext.usuarios.FirstOrDefaultAsync(x => x.id == objeto.usuario.id);
+                var usuarioEF = await ContextSqlServer.usuarios.FirstOrDefaultAsync(x => x.id == objeto.usuario.id);
                 if (usuarioEF == null) throw new Exception("Usuário não encontrado");
 
                 var categoria = objeto.toCategoriaEF();
 
                 categoria.usuario = usuarioEF;
 
-                estoqueContext.categorias.Add(categoria);
+                ContextSqlServer.categorias.Add(categoria);
 
-                await estoqueContext.SaveChangesAsync();
+                await ContextSqlServer.SaveChangesAsync();
 
             }
             catch (Exception ex)
@@ -95,14 +95,14 @@ namespace Estoque.Infraestructure.Data.Repository
         {
             try
             {
-                var CategoriaEF = await estoqueContext.categorias.FirstOrDefaultAsync(x => x.id == Guid.Parse(id));
+                var CategoriaEF = await ContextSqlServer.categorias.FirstOrDefaultAsync(x => x.id == Guid.Parse(id));
 
                 if (CategoriaEF == null)
                     throw new Exception("Categoria não encontrada");
 
-                estoqueContext.categorias.Remove(CategoriaEF);
+                ContextSqlServer.categorias.Remove(CategoriaEF);
 
-                await estoqueContext.SaveChangesAsync();
+                await ContextSqlServer.SaveChangesAsync();
             }
             catch (DbUpdateException)
             {
@@ -117,7 +117,7 @@ namespace Estoque.Infraestructure.Data.Repository
         {
             try
             {
-                var categorias = await estoqueContext.categorias
+                var categorias = await ContextSqlServer.categorias
                                      .Include(x => x.produto)
                                      .Include(x => x.usuario).ToListAsync();
 

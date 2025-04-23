@@ -9,10 +9,10 @@ namespace Estoque.Infraestructure.Data.Repository
 {
     public class LocalEstoqueRepository : IRepository<LocalEstoque>
     {
-        private readonly EstoqueContext estoqueContext;
-        public LocalEstoqueRepository(EstoqueContext estoqueContext)
+        private readonly ContextSqlServer ContextSqlServer;
+        public LocalEstoqueRepository(ContextSqlServer ContextSqlServer)
         {
-            this.estoqueContext = estoqueContext;
+            this.ContextSqlServer = ContextSqlServer;
         }
         public async Task Atualizar(string id, LocalEstoque objeto)
         {
@@ -20,7 +20,7 @@ namespace Estoque.Infraestructure.Data.Repository
             {
                 var LocalEstoqueMapping = objeto.toLocalEstoqueEF();
 
-                var LocalEstoqueEF = await estoqueContext.locaisEstoque.FirstOrDefaultAsync(x => x.id == Guid.Parse(id));
+                var LocalEstoqueEF = await ContextSqlServer.locaisEstoque.FirstOrDefaultAsync(x => x.id == Guid.Parse(id));
 
                 if (LocalEstoqueEF == null)
                     throw new Exception("Local de estoque não encontrada");
@@ -30,9 +30,9 @@ namespace Estoque.Infraestructure.Data.Repository
 
                 LocalEstoqueEF.nome = LocalEstoqueMapping.nome;
 
-                estoqueContext.locaisEstoque.Update(LocalEstoqueEF);
+                ContextSqlServer.locaisEstoque.Update(LocalEstoqueEF);
 
-                await estoqueContext.SaveChangesAsync();
+                await ContextSqlServer.SaveChangesAsync();
             }
             catch (DbUpdateException ex)
             {
@@ -47,7 +47,7 @@ namespace Estoque.Infraestructure.Data.Repository
         {
             try
             {
-                var LocalEstoque = await estoqueContext.locaisEstoque
+                var LocalEstoque = await ContextSqlServer.locaisEstoque
                                          .Include(x => x.produtos)
                                          .Include(x => x.usuario)
                                          .FirstOrDefaultAsync(x => x.id == Guid.Parse(id));
@@ -69,14 +69,14 @@ namespace Estoque.Infraestructure.Data.Repository
         {
             try
             {
-                var LocalEstoqueEf = await estoqueContext.locaisEstoque.FirstOrDefaultAsync(x => x.nome == objeto.nome);
+                var LocalEstoqueEf = await ContextSqlServer.locaisEstoque.FirstOrDefaultAsync(x => x.nome == objeto.nome);
                 if (LocalEstoqueEf != null) throw new Exception("LocalEstoque já cadastrada");
 
                 var LocalEstoque = objeto.toLocalEstoqueEF();
 
-                estoqueContext.locaisEstoque.Add(LocalEstoque);
+                ContextSqlServer.locaisEstoque.Add(LocalEstoque);
 
-                await estoqueContext.SaveChangesAsync();
+                await ContextSqlServer.SaveChangesAsync();
 
             }
             catch (Exception ex)
@@ -88,13 +88,13 @@ namespace Estoque.Infraestructure.Data.Repository
         {
             try
             {
-                var LocalEstoqueEF = await estoqueContext.locaisEstoque.FirstOrDefaultAsync(x => x.id == Guid.Parse(id));
+                var LocalEstoqueEF = await ContextSqlServer.locaisEstoque.FirstOrDefaultAsync(x => x.id == Guid.Parse(id));
                 if (LocalEstoqueEF == null)
                     throw new Exception("Local de estoque não encontrado");
 
-                estoqueContext.locaisEstoque.Remove(LocalEstoqueEF);
+                ContextSqlServer.locaisEstoque.Remove(LocalEstoqueEF);
 
-                await estoqueContext.SaveChangesAsync();
+                await ContextSqlServer.SaveChangesAsync();
             }
             catch (DbUpdateException ex)
             {
@@ -109,7 +109,7 @@ namespace Estoque.Infraestructure.Data.Repository
         {
             try
             {
-                var locais = await estoqueContext.locaisEstoque
+                var locais = await ContextSqlServer.locaisEstoque
                                    .Include(x => x.produtos)
                                    .Include(x => x.usuario)
                                    .ToListAsync();

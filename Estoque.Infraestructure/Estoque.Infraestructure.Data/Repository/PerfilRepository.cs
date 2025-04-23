@@ -9,10 +9,10 @@ namespace Estoque.Infraestructure.Data.Repository
 {
     public class PerfilRepository : IRepository<Perfil>
     {
-        private readonly EstoqueContext estoqueContext;
-        public PerfilRepository(EstoqueContext estoqueContext)
+        private readonly ContextSqlServer ContextSqlServer;
+        public PerfilRepository(ContextSqlServer ContextSqlServer)
         {
-            this.estoqueContext = estoqueContext;
+            this.ContextSqlServer = ContextSqlServer;
         }
         public async Task Atualizar(string id, Perfil objeto)
         {
@@ -20,7 +20,7 @@ namespace Estoque.Infraestructure.Data.Repository
             {
                 var PerfilMapping = objeto.toPerfilEF();
 
-                var PerfilEF = await estoqueContext.perfis.FirstOrDefaultAsync(x => x.id == Guid.Parse(id));
+                var PerfilEF = await ContextSqlServer.perfis.FirstOrDefaultAsync(x => x.id == Guid.Parse(id));
 
                 if (PerfilEF == null)
                     throw new Exception("Perfil não encontrado");
@@ -30,9 +30,9 @@ namespace Estoque.Infraestructure.Data.Repository
 
                 PerfilEF.nome = PerfilMapping.nome;
 
-                estoqueContext.perfis.Update(PerfilEF);
+                ContextSqlServer.perfis.Update(PerfilEF);
 
-                await estoqueContext.SaveChangesAsync();
+                await ContextSqlServer.SaveChangesAsync();
             }
             catch (DbUpdateException)
             {
@@ -47,7 +47,7 @@ namespace Estoque.Infraestructure.Data.Repository
         {
             try
             {
-                var Perfil = await estoqueContext.perfis
+                var Perfil = await ContextSqlServer.perfis
                                                   .Include(x => x.usuario)
                                                   .FirstOrDefaultAsync(x => x.id == Guid.Parse(id));
 
@@ -68,14 +68,14 @@ namespace Estoque.Infraestructure.Data.Repository
         {
             try
             {
-                var PerfilEf = await estoqueContext.perfis.FirstOrDefaultAsync(x => x.nome == objeto.nome);
+                var PerfilEf = await ContextSqlServer.perfis.FirstOrDefaultAsync(x => x.nome == objeto.nome);
                 if (PerfilEf != null) throw new Exception("Perfil já cadastrado");
 
                 var Perfil = objeto.toPerfilEF();
 
-                estoqueContext.perfis.Add(Perfil);
+                ContextSqlServer.perfis.Add(Perfil);
 
-                await estoqueContext.SaveChangesAsync();
+                await ContextSqlServer.SaveChangesAsync();
 
             }
             catch (Exception ex)
@@ -87,14 +87,14 @@ namespace Estoque.Infraestructure.Data.Repository
         {
             try
             {
-                var PerfilEF = await estoqueContext.perfis.FirstOrDefaultAsync(x => x.id == Guid.Parse(id));
+                var PerfilEF = await ContextSqlServer.perfis.FirstOrDefaultAsync(x => x.id == Guid.Parse(id));
 
                 if (PerfilEF == null)
                     throw new Exception("Perfil não encontrado");
 
-                estoqueContext.perfis.Remove(PerfilEF);
+                ContextSqlServer.perfis.Remove(PerfilEF);
 
-                await estoqueContext.SaveChangesAsync();
+                await ContextSqlServer.SaveChangesAsync();
             }
             catch (DbUpdateException)
             {
@@ -109,7 +109,7 @@ namespace Estoque.Infraestructure.Data.Repository
         {
             try
             {
-                var usuarios = await estoqueContext.perfis
+                var usuarios = await ContextSqlServer.perfis
                                      .Include(x => x.usuario)
                                      .ToListAsync();
 

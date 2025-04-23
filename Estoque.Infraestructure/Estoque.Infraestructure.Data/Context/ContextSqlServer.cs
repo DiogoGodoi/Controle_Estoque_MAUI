@@ -6,9 +6,9 @@ using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Estoque.Infraestructure.Data.Context
 {
-    public class EstoqueContext : DbContext
+    public class ContextSqlServer : DbContext
     {
-        public EstoqueContext(DbContextOptions<EstoqueContext> options) : base(options) { }
+        public ContextSqlServer(DbContextOptions<ContextSqlServer> options) : base(options) { }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Initial Catalog=DbEstoque; Integrated Security=true");

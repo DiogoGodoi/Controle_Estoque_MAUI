@@ -18,14 +18,14 @@ namespace Estoque.Application.Test.UsuarioTest
         public IRepository<Usuario> repository;
 
         public Usuario usuario;
-        public EstoqueContext context;
+        public ContextSqlServer context;
 
         [SetUp]
         public void Setup()
         {
-            var options = new DbContextOptionsBuilder<EstoqueContext>()
+            var options = new DbContextOptionsBuilder<ContextSqlServer>()
                 .UseSqlServer("Server=(localdb)MSSQLLocalDB;Initial Catalog=DbEstoque;Integrated Security=true; MultipleActiveResultSets=true").Options;
-            context = new EstoqueContext(options);
+            context = new ContextSqlServer(options);
 
             repository = new UsuarioRepository(context);
             cadastrarUsuario = new CadastrarUsuario(repository);
