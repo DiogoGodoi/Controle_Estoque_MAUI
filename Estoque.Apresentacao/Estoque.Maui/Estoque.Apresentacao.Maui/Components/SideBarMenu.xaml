@@ -10,7 +10,13 @@
         <pages:OptionsMenu />
     </FlyoutPage.Flyout>
     <FlyoutPage.Detail>
-        <pages:HomePage />
+
+        <NavigationPage>
+            <x:Arguments>
+                <pages:HomePage />
+            </x:Arguments>
+        </NavigationPage>
+        
     </FlyoutPage.Detail>
     
 </FlyoutPage>

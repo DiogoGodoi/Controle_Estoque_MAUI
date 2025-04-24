@@ -9,6 +9,6 @@ public partial class LoginPage : ContentPage
 
     private void Entrar(object sender, EventArgs e)
     {
-		Navigation.PushAsync(new SideBarMenu());
+		App.Current.MainPage = new SideBarMenu();
     }
 }

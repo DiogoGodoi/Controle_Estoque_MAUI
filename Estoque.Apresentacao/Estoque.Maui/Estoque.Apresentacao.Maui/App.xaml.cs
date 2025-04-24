@@ -10,7 +10,7 @@ namespace Estoque.Apresentacao.Maui
 
             App.Current.UserAppTheme = AppTheme.Light;
 
-            MainPage = new NavigationPage(new LoginPage());
+            MainPage = new LoginPage();
         }
     }
 }
