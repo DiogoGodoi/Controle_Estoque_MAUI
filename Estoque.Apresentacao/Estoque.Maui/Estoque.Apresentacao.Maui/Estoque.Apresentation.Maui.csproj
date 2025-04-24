@@ -100,14 +100,14 @@
 	<ItemGroup>
 
 		<!-- App Icon -->
-		<MauiIcon Include="Resources\AppIcon\appicon.svg"  ForegroundScale="0.4" ForegroundFile="Resources\AppIcon\appiconfg.svg" TintColor="#ffe600" />
+		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundScale="0.5" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#F2F2F2" TintColor="#0D0D0D" />
 
 		<!-- Splash Screen -->
-		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
+		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#F2F2F2" TintColor="#0D0D0D" BaseSize="128,128" />
 
 		<!-- Images -->
 		<MauiImage Include="Resources\Images\*" />
-		<MauiImage Update="Resources\Images\dotnet_bot.png" Resize="True" BaseSize="300,185" />
+		<MauiImage Update="Resources\Images\perffec.svg" Color="#0D0D0D" TintColor="#F2F2F2" Resize="True" BaseSize="300,185" />
 
 		<!-- Custom Fonts -->
 		<MauiFont Include="Resources\Fonts\*" />
@@ -128,6 +128,21 @@
 	  <ProjectReference Include="..\..\..\Estoque.Domain\Estoque.Domain.csproj" />
 	  <ProjectReference Include="..\..\..\Estoque.Infraestructure\Estoque.Infraestructure.Data\Estoque.Infraestructure.Data.csproj" />
 	  <ProjectReference Include="..\..\..\Estoque.Infraestructure\Estoque.Infraestructure.Http\Estoque.Infraestructure.Http.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Update="Components\HomePage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Components\LoginPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Components\OptionsMenu.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Components\SideBarMenu.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	</ItemGroup>
 
 </Project>

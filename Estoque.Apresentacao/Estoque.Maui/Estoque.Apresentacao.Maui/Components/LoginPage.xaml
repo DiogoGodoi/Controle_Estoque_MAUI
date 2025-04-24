@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Estoque.Apresentacao.Maui.Components.LoginPage"
+             Title="Logar"
+             NavigationPage.HasNavigationBar="False">
+
+    <VerticalStackLayout VerticalOptions="Center" Spacing="30">
+
+        <Border Stroke="Black" StrokeShape="RoundRectangle 40,40,40,40" HorizontalOptions="Center" Padding="30">
+            <VerticalStackLayout VerticalOptions="Center" Spacing="30">
+
+                <Image 
+                    Source="appiconfg.png" 
+                    HeightRequest="120"
+                    HorizontalOptions="Center" />
+
+                <Label 
+                     Text="Entrar"
+                     FontSize="Title"
+                     FontAttributes="Bold"
+                     VerticalOptions="Center" 
+                     HorizontalOptions="Center" />
+
+                <Entry 
+                    x:Name="EmailEntry"
+                    Placeholder="Email"
+                    Keyboard="Email"
+                    TextColor="Black"
+                    PlaceholderColor="Gray"
+                    WidthRequest="350"
+                    BackgroundColor="#f0f0f0" />
+
+                <Entry 
+                    x:Name="SenhaEntry"
+                    Placeholder="Senha"
+                    IsPassword="True"
+                    TextColor="Black"
+                    PlaceholderColor="Gray"
+                    WidthRequest="350"
+                    BackgroundColor="#f0f0f0" />
+
+                <Button 
+                    Text="Entrar"
+                    BackgroundColor="Black"
+                    TextColor="White"
+                    WidthRequest="100" 
+                    Clicked="Entrar"/>
+
+            </VerticalStackLayout>
+        </Border>
+
+    </VerticalStackLayout>
+
+</ContentPage>

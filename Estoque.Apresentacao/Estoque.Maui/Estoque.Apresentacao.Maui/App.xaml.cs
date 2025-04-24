@@ -1,15 +1,16 @@
-﻿namespace Estoque.Apresentacao.Maui
+﻿using Estoque.Apresentacao.Maui.Components;
+
+namespace Estoque.Apresentacao.Maui
 {
     public partial class App : IApplication
     {
         public App()
         {
             InitializeComponent();
-        }
 
-        protected override Window CreateWindow(IActivationState? activationState)
-        {
-            return new Window(new AppShell());
+            App.Current.UserAppTheme = AppTheme.Light;
+
+            MainPage = new NavigationPage(new LoginPage());
         }
     }
 }
